@@ -1,4 +1,6 @@
---
+--[[
+    Simple file for handling the save data, writes a value to a file, loads file and so on.
+]]
 
 DataHandler = {}
 

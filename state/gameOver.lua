@@ -6,7 +6,7 @@ function GameOverLoad()
     SoundHandler:StopSound("all")
     SoundHandler:PlaySound("gameOver")
     local selectedButton = 1
-    font = love.graphics.newFont("jackeyfont.ttf", 64)
+    font = love.graphics.newFont("resources/jackeyfont.ttf", 64)
     love.graphics.setFont(font)
    
     function GameOver:update()

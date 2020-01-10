@@ -218,7 +218,7 @@ function LevelHandler:playerSpawnLocation()
     y = leveldata.spawn[2]
     return x, y
 end
-
+--If leveldata contains .gravitychange then gravity can be changed
 function LevelHandler:returnGravityChange()
     if leveldata.gravityChange ~= nil then
         return leveldata.gravityChange

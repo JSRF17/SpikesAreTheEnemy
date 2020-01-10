@@ -1,4 +1,6 @@
---
+--[[
+    Handles sound files, loading, playing and stopping of said files.
+]]
 
 SoundHandler = {}
 
@@ -22,15 +24,15 @@ menuMusic:setVolume(0.3)
 
 local soundChoice = true
 local soundChoiceMusic = true
-
+--Gets called in the settingsHandler, gives soundChoice another value
 function SoundHandler:ChangeSoundChoice(choice)
     soundChoice = choice
 end
-
+--Gets called in the settingsHandler, gives soundChoiceMusic another value
 function SoundHandler:ChangeSoundChoiceMusic(choice)
     soundChoiceMusic = choice
 end
-
+--Plays a sound based on what value is given when calling the function
 function SoundHandler:PlaySound(type)
     if soundChoice == true then
         if type == "jump" then
@@ -62,7 +64,7 @@ function SoundHandler:PlaySound(type)
         end
     end
 end
-
+--Same as above but for music
 function SoundHandler:backgroundMusic(type)
     if soundChoice == true then
         if soundChoiceMusic == true then
@@ -75,7 +77,7 @@ function SoundHandler:backgroundMusic(type)
         end
     end
 end
-
+--Stops a sound depending on what value is passed when calling the function
 function SoundHandler:StopSound(type)
     if type == "typing" then
         typeSound:stop()

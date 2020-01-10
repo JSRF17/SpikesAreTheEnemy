@@ -1,4 +1,6 @@
---
+--[[
+    These functions gets called when the player makes a choice in the settings menu
+]]
 
 SettingsChanger = {}
 

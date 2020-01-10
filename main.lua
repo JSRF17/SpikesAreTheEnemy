@@ -11,7 +11,7 @@ g = love.graphics
 k = love.keyboard
 
 width = g.getWidth()
-font = g.newFont("jackeyfont.ttf", 64)
+font = g.newFont("resources/jackeyfont.ttf", 64)
 g.setFont(font)
 --Do i even need to do this?--
 math.randomseed(os.time())

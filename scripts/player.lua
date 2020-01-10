@@ -9,7 +9,7 @@ Player = {}
 
 local debug = false
 
-local imageFile = love.graphics.newImage("tex.png")
+local imageFile = love.graphics.newImage("resources/tex.png")
 local activeFrame
 local currentFrame = 1
 local frameCoordinates = {
