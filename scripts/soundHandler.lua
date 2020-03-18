@@ -16,11 +16,11 @@ typeSound = love.audio.newSource("resources/Typing.wav", "static")
 diveSound = love.audio.newSource("resources/dive.wav", "static")
 pauseSound = love.audio.newSource("resources/pause.wav", "static")
 jumpSound:setVolume(0.3) -- 30% of ordinary volume
-jumpSound:setPitch(0.6)
-typeSound:setVolume(0.5)
-music:setPitch(0.6)
-music:setVolume(0.3)
-menuMusic:setVolume(0.3)
+jumpSound:setPitch(0.6)  -- 60% of ordinary pitch
+typeSound:setVolume(0.5) -- 50% of ordinary volume
+music:setPitch(0.6)      -- 60% of ordinary pitch
+music:setVolume(0.3)     -- 30% of ordinary volume
+menuMusic:setVolume(0.3) -- 30% of ordinary volume
 
 local soundChoice = true
 local soundChoiceMusic = true
@@ -34,7 +34,7 @@ function SoundHandler:ChangeSoundChoiceMusic(choice)
 end
 --Plays a sound based on what value is given when calling the function
 function SoundHandler:PlaySound(type)
-    if soundChoice == true then
+    if soundChoice then
         if type == "jump" then
             jumpSound:play()
         end

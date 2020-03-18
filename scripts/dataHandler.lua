@@ -28,5 +28,3 @@ function DataHandler:init()
     file:write(number)
     file:close()
 end
-
-

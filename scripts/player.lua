@@ -306,7 +306,7 @@ function Player:controls(dt)
     end
     if x > 300 or x < -300 then
         runingFast = true 
-    elseif x < 300 and x > 0 or x > -300 and x < 0 then
+    elseif x < 300 and x > -300 then
         runingFast = false
     end 
     if x == 0 and y == 0 then
@@ -317,6 +317,7 @@ function Player:controls(dt)
     if type == "none" or isColliding == false then
         jump = true
     end
+    --player.b:setPosition(love.mouse.getX(),love.mouse.getY()) --GOD MODE
 end
 
 function Player:getVelocity()

@@ -12,7 +12,7 @@ function Text:init(x, y)
 end
 
 function Text:destroy()
-     textbox = nil 
+    textbox = nil 
 end
 
 function Text:draw()

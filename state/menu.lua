@@ -20,132 +20,108 @@ function loadMenu()
         {}
     }
 
-    stateButtonsText[1][1] = "start game"
-    stateButtonsText[1][2] = "settings"
-    stateButtonsText[1][3] = "about"
-    stateButtonsText[1][4] = "quit"
+    --Is it better with upper case starting character?
+    stateButtonsText[1][1] = "Start game"
+    stateButtonsText[1][2] = "Settings"
+    stateButtonsText[1][3] = "About"
+    stateButtonsText[1][4] = "Quit"
 
-    stateButtonsText[2][1] = "Level 1"
-    stateButtonsText[2][2] = "Level 2"
-    stateButtonsText[2][3] = "Level 3"
-    stateButtonsText[2][4] = "Level 4"
-    stateButtonsText[2][5] = "Level 5"
-    stateButtonsText[2][6] = "Level 6"
-    stateButtonsText[2][7] = "Level 7"
-    stateButtonsText[2][8] = "Level 8"
+    --This creates *all* 8 levels/worlds
+    local levels = 8
+    for i=1,levels,1 do
+        stateButtonsText[2][i] = "Level "..i
+    end
 
-    stateButtonsText[3][1] = "scanlines On/Off"
-    stateButtonsText[3][2] = "sound On/Off"
-    stateButtonsText[3][3] = "music On/Off"
+    stateButtonsText[3][1] = "Scanlines On/Off"
+    stateButtonsText[3][2] = "Sound On/Off"
+    stateButtonsText[3][3] = "Music On/Off"
 
-    stateButtonsText[4][1] = "A game by Oliver Kjellen 2019"
+    --No idea how you want it to be
+    stateButtonsText[4][1] = "A game by Oliver Kjellen 2019/2020"
+
     --[[Maybe this function shouldn't bee called update, however it does reflect changes as in
         when a key is pressed a change is reflected to the screen. Also changes the current state of the menu.
         Lots of if statements, I should probably look through this again if I have the time.
     ]]--
-    
     function Menu:update()
         --Handles user input while the menu is active 
-        function love.keypressed( key )
+        function love.keypressed(key)
+            if key == "down" then
+                if selectedButton > 0 then
+                    selectedButton = selectedButton + 1
+                end
+                if selectedButton > #stateButtonsText[menuState] then
+                    selectedButton = 1
+                end
+            end
+            if key == "up" then
+                if selectedButton <= #stateButtonsText[menuState] then
+                    selectedButton = selectedButton - 1
+                end
+                if selectedButton < 1 then
+                    selectedButton = #stateButtonsText[menuState]
+                end
+            end
+
             if key == "space" then
                 SoundHandler:PlaySound("select")
-            end
-
-            if key == "down" and selectedButton > 0 then
-                selectedButton = selectedButton + 1
-            end
-            if key == "down" and selectedButton > #stateButtonsText[menuState] then
-                selectedButton = 1
-            end
-            if key == "up" and selectedButton < #stateButtonsText[menuState] or key == "up" and selectedButton == #stateButtonsText[menuState] then
-                selectedButton = selectedButton - 1
-            end
-            if key == "up" and selectedButton < 1 then
-                selectedButton = #stateButtonsText[menuState]
-            end
-
-            if menuState == 2 then
-                if key == "space" and selectedButton == 1 then
-                    World = 1
-                    State:gameStart()
-                end
-                if key == "space" and selectedButton == 2 and unlockedWorld > 0 then
-                    World = 2
-                    State:gameStart()
-                end
-                if key == "space" and selectedButton == 3 and unlockedWorld > 1 then
-                    World = 3
-                    State:gameStart()
-                end
-                if key == "space" and selectedButton == 4 and unlockedWorld > 2 then
-                    World = 4
-                    State:gameStart()
-                end
-                if key == "space" and selectedButton == 5 and unlockedWorld > 3 then
-                    World = 5
-                    State:gameStart()
-                end
-                if key == "space" and selectedButton == 6 and unlockedWorld > 4 then
-                    World = 6
-                    State:gameStart()
-                end
-                if key == "space" and selectedButton == 7 and unlockedWorld > 5 then
-                    World = 7
-                    State:gameStart()
-                end
-                if key == "space" and selectedButton == 8 and unlockedWorld > 6 then
-                    World = 8
-                    State:gameStart()
-                end
-            end
-            if menuState == 1 then
-                if key == "space" and selectedButton == 1 then
-                    menuState = 2
-                end
-                if key == "space" and selectedButton == 2 then
-                    menuState = 3
-                end
-                if key == "space" and selectedButton == 3  then
-                    menuState = 4
-                end
-                if key == "space" and selectedButton == 4  then
-                    love.event.quit(0)
-                end
-            end
-            if menuState == 3 then
-                if key == "space" and selectedButton == 1 then
-                    if scanlinesChange % 2 ~= 0 then
-                        SettingsChanger:turnOffScanlines()
-                    else
-                        SettingsChanger:turnOnScanlines()
+                if menuState == 3 then
+                    if selectedButton == 1 then
+                        if scanlinesChange % 2 == 0 then
+                            SettingsChanger:turnOffScanlines()
+                        else
+                            SettingsChanger:turnOnScanlines()
+                        end
+                        scanlinesChange = scanlinesChange + 1
                     end
-                    scanlinesChange = scanlinesChange + 1
-                    
-                end
-                if key == "space" and selectedButton == 2 then
-                    if soundChange % 2 ~= 0 then
-                        SettingsChanger:turnOffSound()
-                    else
-                        SettingsChanger:turnOnSound()
+                    if selectedButton == 2 then
+                        if soundChange % 2 == 0 then
+                            SettingsChanger:turnOffSound()
+                        else
+                            SettingsChanger:turnOnSound()
+                        end
+                        soundChange = soundChange + 1
                     end
-                    soundChange = soundChange + 1
-                end
-                if key == "space" and selectedButton == 3 then
-                    if musicChange % 2 ~= 0 then
-                        SettingsChanger:turnOffSoundMusic()
-                    else
-                        SettingsChanger:turnOnSoundMusic()
+                    if selectedButton == 3 then
+                        if musicChange % 2 == 0 then
+                            SettingsChanger:turnOffSoundMusic()
+                        else
+                            SettingsChanger:turnOnSoundMusic()
+                        end
+                        musicChange = musicChange + 1
                     end
-                    musicChange = musicChange + 1
                 end
-            end
-            if menuState == 4 then
-                selectedButton = 2 
+                if menuState == 2 then
+                    --This checks for every level if it's selected and if you unlocked
+                    for i=1,levels,1 do
+                        if selectedButton == i and unlockedWorld >= selectedButton-1 then
+                            World = i
+                            State:gameStart()
+                        end
+                    end
+                end
+                if menuState == 1 then
+                    if selectedButton == 1 then
+                        menuState = 2
+                    end
+                    if selectedButton == 2 then
+                        menuState = 3
+                    end
+                    if selectedButton == 3  then
+                        menuState = 4
+                    end
+                    if selectedButton == 4  then
+                        love.event.quit(0)
+                    end
+                end
             end
             if key == "escape" then
                 selectedButton = 1
                 menuState = 1
                 SoundHandler:PlaySound("back")
+            end
+            if menuState == 4 then
+                selectedButton = 2
             end
         end
     end
@@ -159,7 +135,7 @@ function loadMenu()
         local base = 300
         --Draws the next box lower if the index is larger then 4
         for i = 4, 10, 1 do
-            if selectedButton > i or selectedButton == i then
+            if selectedButton >= i then
                 y = y - 100
                 base = base - 100
             else

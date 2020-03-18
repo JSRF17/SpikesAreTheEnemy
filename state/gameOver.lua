@@ -11,27 +11,33 @@ function GameOverLoad()
    
     function GameOver:update()
         function love.keypressed( key )
-            if key == "down" and selectedButton > -1 then
-                selectedButton = selectedButton + 1
+            if key == "down" then
+                if selectedButton > -1 then
+                    selectedButton = selectedButton + 1
+                end
+                if selectedButton > 2 then
+                    selectedButton = 1
+                end
             end
-            if key == "down" and selectedButton > 2 then
-                selectedButton = 1
+            if key == "up" then
+                if selectedButton < 3 then
+                    selectedButton = selectedButton - 1
+                end
+                if selectedButton < 1 then
+                    selectedButton = 2
+                end
             end
-            if key == "up" and selectedButton < 3 then
-                selectedButton = selectedButton - 1
-            end
-            if key == "up" and selectedButton < 1 then
-                selectedButton = 2
-            end
-            if key == "space" and selectedButton == 1 then
-                Game:dispose()
-                LevelHandler:dispose()
-                State:gameStart()
-            end
-            if key == "space" and selectedButton == 2 then
-                Game:dispose()
-                LevelHandler:dispose()
-                State:menuStart()
+            if key == "space" then
+                if selectedButton == 1 then
+                    Game:dispose()
+                    LevelHandler:dispose()
+                    State:gameStart()
+                end
+                if selectedButton == 2 then
+                    Game:dispose()
+                    LevelHandler:dispose()
+                    State:menuStart()
+                end
             end
         end
     end

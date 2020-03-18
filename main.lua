@@ -84,27 +84,29 @@ function love.draw()
 
     function love.keyreleased(key)
         if key == "f" then
-            if screenChangeValue % 2 ~= 0 then
-                love.window.setFullscreen(false, "desktop")
-            else
+            if screenChangeValue % 2 == 0 then
                 love.window.setFullscreen(true, "desktop")
+            else
+                love.window.setFullscreen(false, "desktop")
             end
             screenChangeValue = screenChangeValue + 1
         end
      end
     
     effect(function()
-        if State.game == true and State.change == false then
-            Game:draw()
-        end
-        if State.menu == true and State.change == false then
-            Menu:draw()
-        end
-        if State.paused == true and State.change == false then
-            Pause:draw()
-        end
-        if State.gameOver == true and State.change == false then
-            GameOver:draw()
+        if State.change == false then
+            if State.game then
+                Game:draw()
+            end
+            if State.menu then
+                Menu:draw()
+            end
+            if State.paused then
+                Pause:draw()
+            end
+            if State.gameOver then
+                GameOver:draw()
+            end
         end
         love.graphics.pop()    
     end)

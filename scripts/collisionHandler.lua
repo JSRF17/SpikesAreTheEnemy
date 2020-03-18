@@ -17,11 +17,17 @@ function CollisionHandler:getWorld(w)
     w = w
 end
 
+function checkCombinations(a,b,type1,type2)
+    return a:getUserData() == type1 and b:getUserData() == type2
+           or
+           a:getUserData() == type2 and b:getUserData() == type1
+end
+
 --Runs when contact between objects start
 function beginContact(a, b, coll)
     ended = false
     if Player:getStatus() == true then
-        if a:getUserData() == "spike" and b:getUserData() == "player" or b:getUserData() == "spike" and a:getUserData() == "player" then
+        if checkCombinations(a,b,"spike","player") then
             isColliding = true
             collisionType = "spike"
             touchedSpike = true
@@ -31,7 +37,7 @@ function beginContact(a, b, coll)
                 touchedSpike = false
             end)
         end
-        if a:getUserData() == "spike" and b:getUserData() == "left" or b:getUserData() == "spike" and a:getUserData() == "left" then
+        if checkCombinations(a,b,"spike","left") then
             isColliding = true
             collisionType = "spike"
             touchedSpike = true
@@ -41,7 +47,7 @@ function beginContact(a, b, coll)
                 touchedSpike = false
             end)
         end
-        if a:getUserData() == "spike" and b:getUserData() == "right" or b:getUserData() == "spike" and a:getUserData() == "right" then
+        if checkCombinations(a,b,"spike","right") then
             isColliding = true
             collisionType = "spike"
             touchedSpike = true
@@ -51,7 +57,7 @@ function beginContact(a, b, coll)
                 touchedSpike = false
             end)
         end
-        if a:getUserData() == "goal" and b:getUserData() == "player" or b:getUserData() == "goal" and a:getUserData() == "player" then
+        if checkCombinations(a,b,"goal","player") then
             isColliding = true
             collisionType = "goal"
             --Since I'm destroying the physics object player during collision it seems to persist sometimes,
@@ -61,7 +67,7 @@ function beginContact(a, b, coll)
                 collisionType = "none"
             end)
         end
-        if a:getUserData() == "goal" and b:getUserData() == "left" or b:getUserData() == "goal" and a:getUserData() == "left" then
+        if checkCombinations(a,b,"goal","left") then
             isColliding = true
             collisionType = "goal"
             Timer.script(function(wait)
@@ -69,7 +75,7 @@ function beginContact(a, b, coll)
                 collisionType = "none"
             end)
         end
-        if a:getUserData() == "goal" and b:getUserData() == "right" or b:getUserData() == "goal" and a:getUserData() == "right" then
+        if checkCombinations(a,b,"goal","right") then
             isColliding = true
             collisionType = "goal"
             Timer.script(function(wait)
@@ -77,7 +83,7 @@ function beginContact(a, b, coll)
                 collisionType = "none"
             end)
         end
-        if a:getUserData() == "goal" and b:getUserData() == "left" or b:getUserData() == "goal" and a:getUserData() == "left" then
+        if checkCombinations(a,b,"goal","left") then
             isColliding = true
             collisionType = "goal"
             Timer.script(function(wait)
@@ -85,21 +91,21 @@ function beginContact(a, b, coll)
                 collisionType = "none"
             end)
         end
-        if a:getUserData() == "goal" and b:getUserData() == "right" or b:getUserData() == "goal" and a:getUserData() == "right" then
+        if checkCombinations(a,b,"goal","right") then
             isColliding = true
             collisionType = "goal"
             Timer.script(function(wait)
                 wait(0.3)
                 collisionType = "none"
             end)
-        elseif a:getUserData() == "secret" and b:getUserData() == "player" or b:getUserData() == "secret" and a:getUserData() == "player" then
+        elseif checkCombinations(a,b,"secret","player") then
             isColliding = true
             collisionType = "secret"
             Timer.script(function(wait)
                 wait(0.3)
                 collisionType = "none"
             end)
-        elseif a:getUserData() == "secret" and b:getUserData() == "right" or b:getUserData() == "secret" and a:getUserData() == "right" then
+        elseif checkCombinations(a,b,"secret","right") then
             isColliding = true
             collisionType = "secret"
             Timer.script(function(wait)
@@ -107,17 +113,17 @@ function beginContact(a, b, coll)
                 collisionType = "none"
             end)
         end
-        if a:getUserData() == "normal" and b:getUserData() == "left" or b:getUserData() == "left" and a:getUserData() == "normal" then
+        if checkCombinations(a,b,"normal","left") then
             isColliding = true
             wallCol = true
             collisionType = "left"
         
-        elseif a:getUserData() == "normal" and b:getUserData() == "right" or b:getUserData() == "right" and a:getUserData() == "normal" then
+        elseif checkCombinations(a,b,"normal","right") then
             isColliding = true
             wallCol = true
             collisionType = "right"
         
-        elseif a:getUserData() == "normal" and b:getUserData() == "player" or b:getUserData() == "player" and a:getUserData() == "normal" then
+        elseif checkCombinations(a,b,"normal","player") then
             if wallCol == false then
                 isColliding = true
                 collisionType = "normal"

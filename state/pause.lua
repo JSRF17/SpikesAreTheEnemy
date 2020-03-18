@@ -18,23 +18,27 @@ function PauseLoad()
             if key == "down" and selectedButton > 2 then
                 selectedButton = 1
             end
-            if key == "up" and selectedButton < 3 then
-                selectedButton = selectedButton - 1
+            if key == "up" then
+                if selectedButton < 3 then
+                    selectedButton = selectedButton - 1
+                end
+                if selectedButton < 1 then
+                    selectedButton = 2
+                end
             end
-            if key == "up" and selectedButton < 1 then
-                selectedButton = 2
-            end
-            if key == "space" and selectedButton == 2 then
-                selectedButton = 3
-                Game:dispose()
-                LevelHandler:dispose()
-                State:menuStart()
-            end
-            if key == "space" and selectedButton == 1 then
-                startGame()
-                font = g.newFont(20)
-                g.setFont(font)
-                State:resume()
+            if key == "space" then
+                if selectedButton == 2 then
+                    selectedButton = 3
+                    Game:dispose()
+                    LevelHandler:dispose()
+                    State:menuStart()
+                end
+                if selectedButton == 1 then
+                    startGame()
+                    font = g.newFont(20)
+                    g.setFont(font)
+                    State:resume()
+                end
             end
         end
     end
@@ -48,15 +52,15 @@ function PauseLoad()
             {},
             {}
         }
-        pauseButtonsText[1] = "resume game"
-        pauseButtonsText[2] = "to menu"
+        pauseButtonsText[1] = "Resume game"
+        pauseButtonsText[2] = "To menu"
        
 
         love.graphics.rectangle("fill", width/2 + 60, height, 350, 80) 
         love.graphics.rectangle("line", width/2 + 60, 300, 350, 80)
         love.graphics.rectangle("line", width/2 + 60, 400, 350, 80)
 
-        Titel = love.graphics.print("paused", width/2 + 130 , 150, 0, 1)
+        Titel = love.graphics.print("Paused", width/2 + 130 , 150, 0, 1)
         for i = 1, #pauseButtonsText, 1 do
             if i == selectedButton then
                 love.graphics.setColor(0, 0, 0, 1) 
@@ -77,7 +81,6 @@ function PauseLoad()
     function Pause:draw()
         love.graphics.setColor(1,1,1, 1) 
         
-       
         if selectedButton == 1 then
             Pause:state(300)
         end
