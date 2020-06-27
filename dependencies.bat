@@ -1,3 +1,4 @@
+@echo off
 echo "Moonshine"
 rmdir /Q /S "moonshine"
 git clone https://github.com/vrld/moonshine.git
