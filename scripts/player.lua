@@ -1,6 +1,6 @@
---[[Includes logic relevant to the player. Functions for spawning the player 
+--[[Includes logic relevant to the player. Functions for spawning the player
     at specific x and y coordinates, destroying the player, drawing the player,
-    tracking the x and y coordinates of the player, spawning bubbles when dead and 
+    tracking the x and y coordinates of the player, spawning bubbles when dead and
     providing the user with methods of controling the player]]--
 
 require("scripts.collisionHandler")
@@ -27,8 +27,8 @@ local animationTimeRun = 0
 local animationTimeJump = 0
 local runing = false
 local runingFast = false
-local idle = true 
-local jumping = false 
+local idle = true
+local jumping = false
 local directionx = 2.5
 local directiony = 2.2
 local offsetx = 10
@@ -50,7 +50,11 @@ for i = 0, 6, 1 do
 end
 
 function Player:initLives()
-    lives = 10
+    if speedrunMode then 
+        lives = math.huge
+    else
+        lives = 10
+    end
 end
 
 --Used to spawn player. creates shape, physics object and so on--
@@ -58,7 +62,7 @@ function Player:init(x, y)
     self.x = x
     self.y = y
     player = {}
-    player.b = p.newBody(w, self.x, self.y, "dynamic") 
+    player.b = p.newBody(w, self.x, self.y, "dynamic")
     player.s = p.newRectangleShape(20, 23)
     player.f = p.newFixture(player.b, player.s)
     player.b:setFixedRotation( true )
@@ -83,14 +87,14 @@ function Player:destroy()
     player.f:destroy()
     player.b:destroy()
     player.b = nil
-    player.s = nil 
-    player.f = nil 
+    player.s = nil
+    player.f = nil
     player = nil
     orientation = 0
 end
 
 function Player:animation(dt)
-    if jumping == true then
+    if jumping then
         animationTimeJump = animationTimeJump + dt
         if animationTimeRun > 0.2 then
             if(currentFrame < 11) then
@@ -104,7 +108,7 @@ function Player:animation(dt)
             animationTimeJump = 0
         end
     end
-    if idle == true and jumping == false then
+    if idle and not jumping then
         animationTimeIdle = animationTimeIdle + dt
         if animationTimeIdle > 0.3 then
             if(currentFrame < 3) then
@@ -116,9 +120,9 @@ function Player:animation(dt)
             animationTimeIdle = 0
         end
     end
-    if runing == true and jumping == false then
+    if runing and not jumping then
         animationTimeRun = animationTimeRun + dt
-        if runingFast == false then
+        if not runingFast then
             if animationTimeRun > 0.1 then
                 if(currentFrame < 7) then
                     currentFrame = currentFrame + 1
@@ -129,7 +133,7 @@ function Player:animation(dt)
                 animationTimeRun = 0
             end
         end
-        if runingFast == true then
+        if runingFast then
             if animationTimeRun > 0.05 then
                 if(currentFrame < 7) then
                     currentFrame = currentFrame + 1
@@ -145,7 +149,7 @@ end
 
 function Player:draw(dt)
     g.setColor(1, 1, 1)
-    if debug == true then
+    if debug then
         for _, body in pairs(w:getBodies()) do
             for _, fixture in pairs(body:getFixtures()) do
                 local shape = fixture:getShape()
@@ -170,7 +174,7 @@ end
 
 function Player:drawLives()
     g.setColor(0.2, 0.2, 0.2, 1)
-    love.graphics.printf(tostring(lives), 1280/2 - 200, 670, 300, "center", 0, 1.25)
+    love.graphics.printf(tostring(lives), screenWidth/2 - 200, 670, 300, "center", 0, 1.25)
 end
 
 function Player:drawDead()
@@ -246,13 +250,13 @@ function Player:controls(dt)
             player.b:setLinearVelocity( -400, y )
         end
     end
-    if love.keyboard.isDown("up") == false then
+    if not love.keyboard.isDown("up") then
         JumpKeyUp = true
     end
     if type ~= "left" and type ~= "right" then
-        if isColliding == true then
-            if jump == true then
-                if love.keyboard.isDown("up") and JumpKeyUp == true then
+        if isColliding then
+            if jump then
+                if love.keyboard.isDown("up") and JumpKeyUp then
                     jump = false
                     runing = false
                     idle = false
@@ -272,7 +276,7 @@ function Player:controls(dt)
         end
     end
     if type == "left" or type == "right" then
-        if love.keyboard.isDown("up") and JumpKeyUp == true then
+        if love.keyboard.isDown("up") and JumpKeyUp then
             if y > 0.0001 or y < -0.0001 then
                 if type == "left" then
                     if orientation == 0 then
@@ -305,19 +309,21 @@ function Player:controls(dt)
         end
     end
     if x > 300 or x < -300 then
-        runingFast = true 
+        runingFast = true
     elseif x < 300 and x > -300 then
         runingFast = false
-    end 
+    end
     if x == 0 and y == 0 then
         runing = false
         idle = true
     end
     CollisionHandler:resetCollision()
-    if type == "none" or isColliding == false then
+    if type == "none" or not isColliding then
         jump = true
     end
-    --player.b:setPosition(love.mouse.getX(),love.mouse.getY()) --GOD MODE
+    if godMode then
+        player.b:setPosition(love.mouse.getX(),love.mouse.getY())
+    end
 end
 
 function Player:getVelocity()

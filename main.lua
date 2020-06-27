@@ -114,7 +114,14 @@ end
 --This is used to resize the screen filters correctly
 rw, rh, rf = love.window.getMode()
 function love.resize(rw, rh)
-    effect.disable("crt", "dmg", "pixelate", "fastgaussianblur", "scanlines") 
+    local filters = {
+        "crt",
+        "dmg",
+        "pixelate",
+        "fastgaussianblur",
+        "scanlines"
+    }
+    effect.disable(filters)
     effect.resize(rw, rh)
-    effect.enable("crt", "dmg", "pixelate", "fastgaussianblur", "scanlines")
+    effect.enable(filters)
 end

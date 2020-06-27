@@ -2,6 +2,7 @@
 moonshine/
 hump/
 mlib/
+Konami/
 
 # Compiled Lua sources
 luac.out
