@@ -5,7 +5,7 @@ CollisionHandler = {}
 local isColliding = false
 local collisionType
 local touchedSpike
-local ended 
+local ended
 local playerDestroyed
 local wallCol = false
 
@@ -26,7 +26,7 @@ end
 --Runs when contact between objects start
 function beginContact(a, b, coll)
     ended = false
-    if Player:getStatus() == true then
+    if Player:getStatus() then
         if checkCombinations(a,b,"spike","player") then
             isColliding = true
             collisionType = "spike"
@@ -117,20 +117,20 @@ function beginContact(a, b, coll)
             isColliding = true
             wallCol = true
             collisionType = "left"
-        
+
         elseif checkCombinations(a,b,"normal","right") then
             isColliding = true
             wallCol = true
             collisionType = "right"
-        
+
         elseif checkCombinations(a,b,"normal","player") then
-            if wallCol == false then
+            if not wallCol then
                 isColliding = true
                 collisionType = "normal"
             end
         end
     end
-    if Player:getStatus() == false then
+    if not Player:getStatus() then
         isColliding = false
         collisionType = "none"
     end
@@ -138,18 +138,18 @@ end
 --Gets called when a contact has ended
 function endContact(a, b, coll)
     ended = true
-    if Player:getStatus() == true then
+    if Player:getStatus() then
         x, y = Player:getVelocity()
         if collisionType ~= "spike" then
             if wallCol ~= true then
                 if y > 0.001 or y < -0.001 then
-                    persisting = 0 
+                    persisting = 0
                     isColliding = false
                     collisionType = "none"
                 end
             end
             if a:getUserData() == "left" or b:getUserData() == "left" or a:getUserData() == "right" or b:getUserData() == "right" then
-                collisionType = "special" 
+                collisionType = "special"
                 wallCol = false
             end
         end
@@ -158,7 +158,7 @@ end
 --Resets the collision type and isColliding variable when player is in the air
 function CollisionHandler:resetCollision()
     local x, y = Player:getVelocity()
-    if wallCol == false and collisionType ~= "spike" then
+    if not wallCol and collisionType ~= "spike" then
         if y > 0.001 or y < -0.001 then
             isColliding = false
             ollisionType = "none"

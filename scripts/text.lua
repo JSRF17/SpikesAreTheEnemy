@@ -12,7 +12,7 @@ function Text:init(x, y)
 end
 
 function Text:destroy()
-    textbox = nil 
+    textbox = nil
 end
 
 function Text:draw()
@@ -49,16 +49,16 @@ function Text:dialogSetup(msg)
     dialog_finished = false
 end
 
---Updating the dialog based on delta time, results in the type out effect, 
+--Updating the dialog based on delta time, results in the type out effect,
 --thanks to the Löve2d forum for some help--
 function Text:dialogUpdate(dt)
-    if levelstart == true then
+    if levelstart then
         Timer.script(function(wait)
             wait(2.0)
             levelstart = false
         end)
     end
-    if levelstart == false then
+    if not levelstart then
         elapsed = elapsed + 0.15
         letters = math.min(math.floor(elapsed), #message)
         if elapsed > #message then
@@ -70,7 +70,7 @@ function Text:dialogUpdate(dt)
         end
     end
 end
-  
+
 function Text:dialogDraw(x, y)
     g.setColor(0, 0, 0)
     love.graphics.printf(message:sub(1, letters), x, y, 300)
@@ -137,6 +137,6 @@ function Text:storylineSecret(select)
         end
     end
 end
-  
+
 
 

@@ -8,7 +8,7 @@ function GameOverLoad()
     local selectedButton = 1
     font = love.graphics.newFont("resources/jackeyfont.ttf", 64)
     love.graphics.setFont(font)
-   
+
     function GameOver:update()
         function love.keypressed( key )
             if key == "down" then
@@ -43,20 +43,20 @@ function GameOverLoad()
     end
 
     function GameOver:draw()
-        love.graphics.setColor(1,1,1, 1) 
-        
+        love.graphics.setColor(1,1,1, 1)
+
         if selectedButton == 1 then
             love.graphics.rectangle("fill", width/2 + 60, 300, 350, 80)
-            love.graphics.setColor(0,0,0, 1) 
+            love.graphics.setColor(0,0,0, 1)
             love.graphics.printf("retry", width/2 + 130, 310, 400, "center", 0, 0.5)
-            love.graphics.setColor(1,1,1, 1) 
+            love.graphics.setColor(1,1,1, 1)
             love.graphics.printf("quit", width/2 + 130, 425, 400, "center", 0, 0.5)
         end
         if selectedButton == 2 then
             love.graphics.rectangle("fill", width/2 + 60, 400, 350, 80)
-            love.graphics.setColor(0,0,0, 1) 
+            love.graphics.setColor(0,0,0, 1)
             love.graphics.printf("quit", width/2 + 130, 425, 400, "center", 0, 0.5)
-            love.graphics.setColor(1,1,1, 1) 
+            love.graphics.setColor(1,1,1, 1)
             love.graphics.printf("retry", width/2 + 130, 310, 400, "center", 0, 0.5)
         end
         love.graphics.print("game over", width/2 + 90 , 150, 0, 1)

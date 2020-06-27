@@ -2,7 +2,7 @@
     Also handles destroying levels, drawing levels and
     returning spawn coordinates for the player.
     LevelList is used to load the correct level. Active level
-    should be set to true. LevelInit table gets leveldata from 
+    should be set to true. LevelInit table gets leveldata from
     the Levels file, this data is then asigned to the Blocks table.
     ]]--
 
@@ -32,7 +32,7 @@ function LevelHandler:initBlocks()
 end
 
 function LevelHandler:loadLevels()
-    if LevelList ~= nil then 
+    if LevelList ~= nil then
         isPlaying = false
         LevelList = nil
     end
@@ -84,7 +84,7 @@ function LevelHandler:next()
     for i = 0, #LevelList, 1 do
         if matchFound then
             matchFound = false
-            LevelList[i] = true 
+            LevelList[i] = true
             break
         end
         if LevelList[i] == true then
@@ -99,39 +99,40 @@ end
 function LevelHandler:loadLevelData(leveldata)
     for i = 1, #leveldata, 1 do
         if type(leveldata[i][1]) == "number" then
-            blocks[i].b = p.newBody(w, leveldata[i][1], leveldata[i][2], "static") 
+            blocks[i].b = p.newBody(w, leveldata[i][1], leveldata[i][2], "static")
             blocks[i].s = p.newRectangleShape(leveldata[i][3], leveldata[i][4])
             blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s)
             blocks[i].f:setUserData("normal")
         elseif type(leveldata[i][1]) == "string" then
-            blocks[i].b = p.newBody(w, leveldata[i][2], leveldata[i][3], "kinematic") 
+            blocks[i].b = p.newBody(w, leveldata[i][2], leveldata[i][3], "kinematic")
             if leveldata[i][1] == "spike" then
                 blocks[i].s = p.newPolygonShape(leveldata[i][4])
-                blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s) 
+                blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s)
                 blocks[i].f:setUserData("spike")
             elseif leveldata[i][1] == "goal" then
                 blocks[i].s = p.newRectangleShape(leveldata[i][4], leveldata[i][5])
-                blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s) 
+                blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s)
                 blocks[i].f:setUserData("goal")
             elseif leveldata[i][1] == "secret" then
                 blocks[i].s = p.newRectangleShape(leveldata[i][4], leveldata[i][5])
-                blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s) 
+                blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s)
                 blocks[i].f:setUserData("secret")
             else
                 blocks[i].s = p.newRectangleShape(leveldata[i][4], leveldata[i][5])
-                blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s) 
+                blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s)
             end
         end
     end
     currentSpawn = leveldata.spawn
-end 
+end
 --Loads the current level depending on LevelList value--
 function LevelHandler:loadCurrentLevel(secret)
     LevelHandler:initBlocks()
     p.setMeter(100)
-    w = p.newWorld(0, 12.8*p.getMeter(), true) 
+    w = p.newWorld(0, 12.8*p.getMeter(), true)
     w:setCallbacks(beginContact, endContact)
     persisting = 0
+
     for i = 0, #LevelList, 1 do
         if LevelList[i] == true then
             if i == 1 then
@@ -187,8 +188,8 @@ function LevelHandler:loadCurrentLevel(secret)
             break
         end
     end
-   
-    if isPlaying == false then
+
+    if not isPlaying then
         Player:init(LevelHandler:playerSpawnLocation())
     end
 end

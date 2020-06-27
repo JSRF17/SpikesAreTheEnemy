@@ -44,7 +44,7 @@ function loadMenu()
         Lots of if statements, I should probably look through this again if I have the time.
     ]]--
     function Menu:update()
-        --Handles user input while the menu is active 
+        --Handles user input while the menu is active
         function love.keypressed(key)
             if key == "down" then
                 if selectedButton > 0 then
@@ -67,28 +67,28 @@ function loadMenu()
                 SoundHandler:PlaySound("select")
                 if menuState == 3 then
                     if selectedButton == 1 then
-                        if scanlinesChange % 2 == 0 then
+                        if scanlinesChange then
                             SettingsChanger:turnOffScanlines()
                         else
                             SettingsChanger:turnOnScanlines()
                         end
-                        scanlinesChange = scanlinesChange + 1
+                        scanlinesChange = not scanlinesChange
                     end
                     if selectedButton == 2 then
-                        if soundChange % 2 == 0 then
+                        if soundChange then
                             SettingsChanger:turnOffSound()
                         else
                             SettingsChanger:turnOnSound()
                         end
-                        soundChange = soundChange + 1
+                        soundChange = not soundChange
                     end
                     if selectedButton == 3 then
-                        if musicChange % 2 == 0 then
+                        if musicChange then
                             SettingsChanger:turnOffSoundMusic()
                         else
                             SettingsChanger:turnOnSoundMusic()
                         end
-                        musicChange = musicChange + 1
+                        musicChange = not musicChange
                     end
                 end
                 if menuState == 2 then
@@ -143,7 +143,7 @@ function loadMenu()
             end
         end
         if menuState ~= 4 then
-            love.graphics.rectangle("fill", width/2 + 60, height, 350, 80) 
+            love.graphics.rectangle("fill", width/2 + 60, height, 350, 80)
         end
         --Creates a rectangle for each word in stateButtonsText[menustate][number of words] depending on active menustate
         for i = 1, #stateButtonsText[menuState], 1 do
@@ -163,84 +163,84 @@ function loadMenu()
             Titel = love.graphics.print("5/10", width/2 + 160 , y - 150, 0, 1)
             for i = 1, #stateButtonsText[1], 1 do
                 if i == selectedButton then
-                    love.graphics.setColor(0, 0, 0, 1) 
-                end        
+                    love.graphics.setColor(0, 0, 0, 1)
+                end
                 love.graphics.printf(stateButtonsText[1][i], width/2 + 130, y, 400, "center", 0, 0.5)
                 y = y + 100
-                love.graphics.setColor(1,1,1, 1) 
+                love.graphics.setColor(1,1,1, 1)
             end
         end
         if menuState == 2 then
             for i = 1, #stateButtonsText[2], 1 do
                 if i == selectedButton then
-                    love.graphics.setColor(0, 0, 0, 1) 
-                end     
+                    love.graphics.setColor(0, 0, 0, 1)
+                end
                 if unlockedWorld == 0 then
                     if i > 1 then
-                        love.graphics.setColor(0.3, 0.3, 0.3, 1) 
+                        love.graphics.setColor(0.3, 0.3, 0.3, 1)
                     end
                 end
                 if unlockedWorld == 1 then
                     if i > 2 then
-                        love.graphics.setColor(0.3, 0.3, 0.3, 1) 
+                        love.graphics.setColor(0.3, 0.3, 0.3, 1)
                     end
                 end
                 if unlockedWorld == 2 then
                     if i > 3 then
-                        love.graphics.setColor(0.3, 0.3, 0.3, 1) 
+                        love.graphics.setColor(0.3, 0.3, 0.3, 1)
                     end
                 end
                 if unlockedWorld == 3 then
                     if i > 4 then
-                        love.graphics.setColor(0.3, 0.3, 0.3, 1) 
+                        love.graphics.setColor(0.3, 0.3, 0.3, 1)
                     end
                 end
                 if unlockedWorld == 4 then
                     if i > 5 then
-                        love.graphics.setColor(0.3, 0.3, 0.3, 1) 
+                        love.graphics.setColor(0.3, 0.3, 0.3, 1)
                     end
                 end
                 if unlockedWorld == 5 then
                     if i > 6 then
-                        love.graphics.setColor(0.3, 0.3, 0.3, 1) 
+                        love.graphics.setColor(0.3, 0.3, 0.3, 1)
                     end
                 end
                 if unlockedWorld == 6 then
                     if i > 7 then
-                        love.graphics.setColor(0.3, 0.3, 0.3, 1) 
+                        love.graphics.setColor(0.3, 0.3, 0.3, 1)
                     end
                 end
                 love.graphics.printf(stateButtonsText[2][i], width/2 + 130, y, 400, "center", 0, 0.5)
                 y = y + 100
-                love.graphics.setColor(1,1,1, 1) 
+                love.graphics.setColor(1,1,1, 1)
             end
         end
         if menuState == 3 then
             y = y - 20
             for i = 1, #stateButtonsText[3], 1 do
                 if i == selectedButton then
-                    love.graphics.setColor(0, 0, 0, 1) 
-                end       
+                    love.graphics.setColor(0, 0, 0, 1)
+                end
                 love.graphics.printf(stateButtonsText[3][i], width/2 + 130, y, 400, "center", 0, 0.5)
                 y = y + 100
-                love.graphics.setColor(1,1,1, 1) 
+                love.graphics.setColor(1,1,1, 1)
             end
         end
         if menuState == 4 then
             y = y - 20
             for i = 1, #stateButtonsText[4], 1 do
                 if i == selectedButton then
-                    love.graphics.setColor(0, 0, 0, 1) 
-                end       
+                    love.graphics.setColor(0, 0, 0, 1)
+                end
                 love.graphics.printf(stateButtonsText[4][i], width/2 + 130, y, 400, "center", 0, 0.5)
                 y = y + 100
-                love.graphics.setColor(1,1,1, 1) 
+                love.graphics.setColor(1,1,1, 1)
             end
         end
     end
     --This function gets called in the main love.draw call
     function Menu:draw()
-        love.graphics.setColor(1,1,1, 1)     
+        love.graphics.setColor(1,1,1, 1)
         if selectedButton == 1 then
             Menu:state(300)
         end
@@ -252,7 +252,7 @@ function loadMenu()
         end
         if selectedButton > 3 then
             Menu:state(500)
-        end    
+        end
     end
 end
 

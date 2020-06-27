@@ -1,9 +1,11 @@
- --[[
-        Copyright Oliver Kjellén 2019
-    ]]
+--[[
+    Copyright Oliver Kjellén 2019
+]]
 
---[[Entry point for the program. Requiring various files, setting a few global variables,
-    setting screen resolution, effects and so on]]--
+--[[
+    Entry point for the program. Requiring various files, setting a few global variables,
+    setting screen resolution, effects and so on
+]]--
 
 --Shortening some keywords--
 p = love.physics
@@ -17,26 +19,36 @@ g.setFont(font)
 math.randomseed(os.time())
 
 --Requiring modules--
-require("state.stateHandler")
-require("state.menu")
-require("state.game")
-require("state.pause")
-require("state.gameOver")
-require("scripts.soundHandler")
-require("scripts.player")
-require("scripts.curtain")
-require("scripts.settingsChanger")
-require("scripts.text")
-require("scripts.dataHandler")
-require("Levels.LevelHandler")
+konami = require("Konami.konami")
 --Great library, using it for timers and tweening--
 Timer = require("hump.timer")
---[[Great library, using it as I haven't learned any shader coding yet
-    Includes lots of shaders free to use]]--
+--[[
+    Great library, using it as I haven't learned any shader coding yet
+    Includes lots of shaders free to use
+]]--
 local moonshine = require ("moonshine")
+
+require("state.stateHandler")
+require("state.pause")
+require("state.menu")
+require("state.gameOver")
+require("state.game")
+require("scripts.text")
+require("scripts.soundHandler")
+require("scripts.settingsChanger")
+require("scripts.player")
+require("scripts.dataHandler")
+require("scripts.curtain")
+require("Levels.LevelHandler")
+require("misc.konamicodes")
+
 --End of requiring modules--
 
-love.window.setMode( 1280, 720, {
+--Window Resolutions--
+screenWidth = 1280
+screenHeight = 720
+
+love.window.setMode( screenWidth, screenHeight, {
     fullscreen = false,
     resizable = false,
     vsync = true,
@@ -76,25 +88,25 @@ local screenChangeValue = 0
 --Main draw function--
 function love.draw()
     local w, h, f = love.window.getMode()
-    s = love.graphics.getHeight() / 720
-    leftOffset = (w - (1280 * s)) / 2
-    topOffset = (h - (720 * s)) / 2  
+    s = love.graphics.getHeight() / screenHeight
+    leftOffset = (w - (screenWidth * s)) / 2
+    topOffset = (h - (screenHeight * s)) / 2
     love.graphics.push(love.graphics.translate(leftOffset, topOffset))
     love.graphics.scale(s)
 
     function love.keyreleased(key)
         if key == "f" then
-            if screenChangeValue % 2 == 0 then
+            if screenChangeValue then
                 love.window.setFullscreen(true, "desktop")
             else
                 love.window.setFullscreen(false, "desktop")
             end
-            screenChangeValue = screenChangeValue + 1
+            screenChangeValue = not screenChangeValue
         end
      end
-    
+
     effect(function()
-        if State.change == false then
+        if not State.change then
             if State.game then
                 Game:draw()
             end
@@ -108,7 +120,7 @@ function love.draw()
                 GameOver:draw()
             end
         end
-        love.graphics.pop()    
+        love.graphics.pop()
     end)
 end
 --This is used to resize the screen filters correctly

@@ -6,11 +6,11 @@ SettingsChanger = {}
 
 
 function SettingsChanger:turnOffScanlines()
-    effect.disable("scanlines") 
+    effect.disable("scanlines")
 end
 
 function SettingsChanger:turnOnScanlines()
-    effect.enable("scanlines") 
+    effect.enable("scanlines")
 end
 
 function SettingsChanger:turnOffSound()

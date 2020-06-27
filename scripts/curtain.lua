@@ -11,11 +11,11 @@ curtain[1] = {rad = 1000, x = 2500, y = 300}
 function Curtain:init(x, y)
     self.x = x
     self.y = y
-    
+
 end
 
 function Curtain:destroy()
-     
+
 end
 
 function Curtain:draw()
@@ -26,7 +26,7 @@ end
 function Curtain:move()
     local function move()
         Timer.tween(4.5, curtain[1], {x = -2000}, 'in-out-quad')
-        
+
         Timer.script(function(wait)
             wait(5)
             Timer.tween(0, curtain[1], {x = 2500}, 'in-out-quad')
@@ -39,11 +39,11 @@ function Curtain:moveFromLeft()
     curtain[1] = {rad = 1000, x = -2000, y = 300}
     local function move()
         Timer.tween(4, curtain[1], {x = 3000}, 'in-out-quad')
-        
+
         Timer.script(function(wait)
             wait(5)
             Timer.tween(0, curtain[1], {x = 2500}, 'in-out-quad')
-            
+
         end)
     end
     move()
@@ -53,7 +53,7 @@ function Curtain:moveUp()
     curtain[1] = {rad = 1200, x = 650, y = 2100}
     local function move()
         Timer.tween(5, curtain[1], {y = -2000}, 'in-out-quad')
-        
+
         Timer.script(function(wait)
             wait(5)
             Timer.tween(0, curtain[1], {x = 2500, y = 300}, 'in-out-quad')
