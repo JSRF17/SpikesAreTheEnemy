@@ -18,22 +18,22 @@ g.setFont(font)
 --Do i even need to do this?--
 math.randomseed(os.time())
 
---Requiring modules--
+--Requiring external modules--
+--Great library, using it for cheatcodes on pause
 konami = require("Konami.konami")
---Great library, using it for timers and tweening--
+--Great library, using it for timers and tweening
 Timer = require("hump.timer")
---[[
-    Great library, using it as I haven't learned any shader coding yet
-    Includes lots of shaders free to use
-]]--
-local moonshine = require ("moonshine")
+--Great library, using it for shaders
+moonshine = require ("moonshine")
 
+--Requiring internal modules--
 require("state.stateHandler")
 require("state.pause")
 require("state.menu")
 require("state.gameOver")
 require("state.game")
 require("scripts.text")
+require("scripts.speedrun")
 require("scripts.soundHandler")
 require("scripts.settingsChanger")
 require("scripts.player")
@@ -133,7 +133,7 @@ function love.resize(rw, rh)
         "fastgaussianblur",
         "scanlines"
     }
-    effect.disable(filters)
+    effect.disable(unpack(filters))
     effect.resize(rw, rh)
-    effect.enable(filters)
+    effect.enable(unpack(filters))
 end

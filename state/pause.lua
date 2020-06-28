@@ -91,6 +91,7 @@ function PauseLoad()
             Pause:state(500)
         end
 
+        Speedrun:drawTime()
     end
 end
 

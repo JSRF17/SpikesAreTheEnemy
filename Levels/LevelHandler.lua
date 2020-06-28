@@ -137,6 +137,9 @@ function LevelHandler:loadCurrentLevel(secret)
         if LevelList[i] == true then
             if i == 1 then
                 effect.dmg.palette = "stark_bw"
+                if speedrunMode then
+                    speedrunTimerStart = love.timer.getTime()
+                end
             end
             if i == 6 then
                 effect.dmg.palette = "orange"

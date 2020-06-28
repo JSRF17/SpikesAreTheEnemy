@@ -172,5 +172,6 @@ function startGame()
         Curtain:draw()
         Player:drawDead()
         Player:drawLives()
+        Speedrun:drawTime()
     end
 end

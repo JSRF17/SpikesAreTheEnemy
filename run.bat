@@ -1,3 +1,3 @@
 @echo off
-love .
+lovec .
 pause
