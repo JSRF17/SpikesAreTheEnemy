@@ -37,6 +37,7 @@ require("scripts.speedrun")
 require("scripts.soundHandler")
 require("scripts.settingsChanger")
 require("scripts.player")
+require("scripts.moonshineFilters")
 require("scripts.dataHandler")
 require("scripts.curtain")
 require("scripts.cheatCodes")
@@ -45,10 +46,10 @@ require("Levels.LevelHandler")
 --End of requiring modules--
 
 --Window Resolutions--
-screenWidth = 1280
-screenHeight = 720
+windowWidth = 1280
+windowHeight = 720
 
-love.window.setMode( screenWidth, screenHeight, {
+love.window.setMode( windowWidth, windowHeight, {
     fullscreen = false,
     resizable = false,
     vsync = true,
@@ -88,9 +89,9 @@ local screenChangeValue = 0
 --Main draw function--
 function love.draw()
     local w, h, f = love.window.getMode()
-    s = love.graphics.getHeight() / screenHeight
-    leftOffset = (w - (screenWidth * s)) / 2
-    topOffset = (h - (screenHeight * s)) / 2
+    s = love.graphics.getHeight() / windowHeight
+    leftOffset = (w - (windowWidth * s)) / 2
+    topOffset = (h - (windowHeight * s)) / 2
     love.graphics.push(love.graphics.translate(leftOffset, topOffset))
     love.graphics.scale(s)
 
@@ -126,14 +127,9 @@ end
 --This is used to resize the screen filters correctly
 rw, rh, rf = love.window.getMode()
 function love.resize(rw, rh)
-    local filters = {
-        "crt",
-        "dmg",
-        "pixelate",
-        "fastgaussianblur",
-        "scanlines"
-    }
-    effect.disable(unpack(filters))
-    effect.resize(rw, rh)
-    effect.enable(unpack(filters))
+    if not noEffects then
+        effect.disable(unpack(moonshineFilters))
+        effect.resize(rw, rh)
+        effect.enable(unpack(moonshineFilters))
+    end
 end

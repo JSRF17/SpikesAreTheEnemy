@@ -1,6 +1,7 @@
 godMode = false
 speedrunMode = false
 infiniteLives = false
+noEffects = false
 
 konami.setWaitTime(0)
 
@@ -32,5 +33,21 @@ konami.newCode(
         godMode = false
         speedrunMode = false
         infiniteLives = false
+    end
+)
+
+konami.newCode(
+    {"e","f","f","o","f","f"},
+    function()
+        noEffects = true
+        effect.disable(unpack(moonshineFilters))
+    end
+)
+
+konami.newCode(
+    {"e","f","f","o","n"},
+    function()
+        noEffects = false
+        effect.enable(unpack(moonshineFilters))
     end
 )

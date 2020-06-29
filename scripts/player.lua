@@ -174,7 +174,7 @@ end
 
 function Player:drawLives()
     g.setColor(0.2, 0.2, 0.2, 1)
-    love.graphics.printf(tostring(lives), screenWidth/2 - 200, 670, 300, "center", 0, 1.25)
+    love.graphics.printf(tostring(lives), windowWidth/2 - 200, 670, 300, "center", 0, 1.25)
 end
 
 function Player:drawDead()
