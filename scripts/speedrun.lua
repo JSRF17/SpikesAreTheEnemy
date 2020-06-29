@@ -17,7 +17,7 @@ function Speedrun:drawTime()
                 hrs = string.format("%02d", hrs)
                 speedrunTime = speedrunTime..hrs..":"
             end
-            if min > 0 then
+            if min > 0 or hrs > 0 then
                 min = string.format("%02d", min)
                 speedrunTime = speedrunTime..min..":"
             end

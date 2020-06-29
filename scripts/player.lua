@@ -50,7 +50,7 @@ for i = 0, 6, 1 do
 end
 
 function Player:initLives()
-    if speedrunMode then 
+    if infiniteLives then 
         lives = math.huge
     else
         lives = 10

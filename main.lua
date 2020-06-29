@@ -39,8 +39,8 @@ require("scripts.settingsChanger")
 require("scripts.player")
 require("scripts.dataHandler")
 require("scripts.curtain")
+require("scripts.cheatCodes")
 require("Levels.LevelHandler")
-require("misc.konamicodes")
 
 --End of requiring modules--
 
