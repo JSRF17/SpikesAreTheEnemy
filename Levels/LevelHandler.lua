@@ -19,6 +19,9 @@ Levelinit = {}
 for i = 1, #Levels, 1 do
     Levelinit[i] = Levels[i]
 end
+
+currentLevel = 0
+
 --Maybe not set as a global variable? Think about that--
 World = 0
 local isPlaying = false
@@ -175,6 +178,7 @@ function LevelHandler:loadCurrentLevel(secret)
                 effect.dmg.palette = "light_yellow"
                 Player:initLives()
             end
+            currentLevel = i
             Text:moveDown()
             if secret ~= nil then
                 leveldata = Levelinit[i].s

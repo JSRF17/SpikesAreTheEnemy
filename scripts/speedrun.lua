@@ -2,7 +2,7 @@ Speedrun = {}
 speedrunTime = 0
 
 function Speedrun:update()
-    if speedrunTimerStart ~= nil and true then --"and is not the last level"
+    if speedrunTimerStart ~= nil and currentLevel ~= 40 then
         speedrunTime = math.floor((love.timer.getTime() - speedrunTimerStart) * 1000)
     end
 end
@@ -33,10 +33,14 @@ function Speedrun:drawTime()
 
             local limit = 0
             local xpos = 0
+            local ypos = 20
             if State.game then
                 love.graphics.setColor(0,0,0, 1)
                 xpos = windowWidth/2 - 200
                 limit = 300
+                if currentLevel == 40 then
+                    ypos = windowHeight/2 - 100
+                end
             end
             if State.paused then
                 love.graphics.setColor(1,1,1, 1)
@@ -44,7 +48,7 @@ function Speedrun:drawTime()
                 limit = 700
             end
             
-            love.graphics.printf(string, xpos , 20, limit, "center", 0, 1.25)
+            love.graphics.printf(string, xpos , ypos, limit, "center", 0, 1.25)
         end
     end
 end
