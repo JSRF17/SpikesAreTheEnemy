@@ -20,7 +20,7 @@ local gravityChangeKeyPress
 --[[This function runs when the state changes to game]]--
 function startGame()
     SoundHandler:StopSound("all")
-    function love.keypressed( key )
+    function love.keypressed(key)
     end
     --[[Initilize game values]]--
     function Game:load()
@@ -76,11 +76,11 @@ function startGame()
                 gravityChangeKeyPress = false
                 if gravityChange then
                     Player:pushPlayer("down")
-                    w:setGravity( 0, -1280 )
+                    w:setGravity(0, -1280)
                     gravityChange = false
                 elseif not gravityChange then
                     Player:pushPlayer("up")
-                    w:setGravity( 0, 1280 )
+                    w:setGravity(0, 1280)
                     gravityChange = true
                 end
                 SoundHandler:PlaySound("jump")
@@ -100,7 +100,7 @@ function startGame()
             died = true
             Player:destroy()
             Player:lostLife()
-            w:setGravity( 0, 1280 )
+            w:setGravity(0, 1280)
             Timer.script(function(wait)
                 wait(0.2)
                 died = false
@@ -110,9 +110,9 @@ function startGame()
             SoundHandler:StopSound("all1")
             Text:moveUp()
             Text:reset()
-            if LevelList[9]  then
+            if LevelList[9] then
                 Curtain:moveUp()
-            elseif LevelList[15]  or LevelList[22]  or LevelList[23]  or LevelList[28]  or LevelList[38]  then
+            elseif LevelList[15] or LevelList[22] or LevelList[23] or LevelList[28] or LevelList[38] then
                 Curtain:moveFromLeft()
             else
                 Curtain:move()
@@ -129,9 +129,9 @@ function startGame()
         elseif not LevelChange and CollisionHandler:getType() == "secret" then
             Text:moveUp()
             Text:reset()
-            if LevelList[9]  then
+            if LevelList[9] then
                 Curtain:moveUp()
-            elseif LevelList[15]  then
+            elseif LevelList[15] then
                 Curtain:moveFromLeft()
             else
                 Curtain:move()

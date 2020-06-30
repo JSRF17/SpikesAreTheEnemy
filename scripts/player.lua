@@ -65,17 +65,17 @@ function Player:init(x, y)
     player.b = p.newBody(w, self.x, self.y, "dynamic")
     player.s = p.newRectangleShape(20, 23)
     player.f = p.newFixture(player.b, player.s)
-    player.b:setFixedRotation( true )
+    player.b:setFixedRotation(true)
     player.f:setUserData("player")
 
-    player.leftSide = love.physics.newRectangleShape( -10, 0, 5 , 5, 0)
+    player.leftSide = love.physics.newRectangleShape(-10, 0, 5 , 5, 0)
     player.leftSide = love.physics.newFixture(player.b, player.leftSide, 1)
     player.leftSide:setUserData("left")
 
-    player.rightSide = love.physics.newRectangleShape( 10, 0, 5 , 5, 0)
+    player.rightSide = love.physics.newRectangleShape(10, 0, 5 , 5, 0)
     player.rightSide = love.physics.newFixture(player.b, player.rightSide, 1)
     player.rightSide:setUserData("right")
-    player.b:setBullet( true )
+    player.b:setBullet(true)
 end
 
 --Destroys the player and stores the last x and y values--
@@ -223,7 +223,7 @@ function Player:controls(dt)
     local isColliding = CollisionHandler:getStatus()
     local x, y = player.b:getLinearVelocity()
 
-    if love.keyboard.isDown("right") then
+    if love.keyboard.isDown("right") and not love.keyboard.isDown("left") then
         offsetx = 10
         offsety = 8
         directiony = 2.2
@@ -234,9 +234,9 @@ function Player:controls(dt)
         idle = false
         player.b:applyForce(40, 0)
         if x > 400 then
-            player.b:setLinearVelocity( 400, y )
+            player.b:setLinearVelocity(400, y)
         end
-    elseif love.keyboard.isDown("left") then
+    elseif love.keyboard.isDown("left") and not love.keyboard.isDown("right") then
         offsetx = -26
         offsety = 8
         directiony = 2.2
@@ -247,7 +247,7 @@ function Player:controls(dt)
         idle = false
         player.b:applyForce(-40, 0)
         if x < -400 then
-            player.b:setLinearVelocity( -400, y )
+            player.b:setLinearVelocity(-400, y)
         end
     end
     if not love.keyboard.isDown("up") then
@@ -263,9 +263,9 @@ function Player:controls(dt)
                     jumping = true
                     JumpKeyUp = false
                     if orientation == 0 then
-                        player.b:setLinearVelocity( x, -600 )
+                        player.b:setLinearVelocity(x, -600)
                     elseif orientation ~= 0 then
-                        player.b:setLinearVelocity( x, 600 )
+                        player.b:setLinearVelocity(x, 600)
                     end
                 end
                 Timer.script(function(wait)
@@ -280,22 +280,22 @@ function Player:controls(dt)
             if y > 0.0001 or y < -0.0001 then
                 if type == "left" then
                     if orientation == 0 then
-                        player.b:setLinearVelocity( 210, -500 )
+                        player.b:setLinearVelocity(210, -500)
                     elseif orientation ~= 0 then
-                        player.b:setLinearVelocity( 210, 500 )
+                        player.b:setLinearVelocity(210, 500)
                     end
                 elseif type == "right" then
                     if orientation == 0 then
-                        player.b:setLinearVelocity( -210, -500 )
+                        player.b:setLinearVelocity(-210, -500)
                     elseif orientation ~= 0 then
-                        player.b:setLinearVelocity( -210, 500 )
+                        player.b:setLinearVelocity(-210, 500)
                     end
                 end
             else
                 if orientation == 0 then
-                    player.b:setLinearVelocity( x, -550 )
+                    player.b:setLinearVelocity(x, -550)
                 elseif orientation ~= 0 then
-                    player.b:setLinearVelocity( x, 550 )
+                    player.b:setLinearVelocity(x, 550)
                 end
             end
             JumpKeyUp = false

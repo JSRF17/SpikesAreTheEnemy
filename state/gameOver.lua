@@ -10,7 +10,7 @@ function GameOverLoad()
     love.graphics.setFont(font)
 
     function GameOver:update()
-        function love.keypressed( key )
+        function love.keypressed(key)
             if key == "down" then
                 if selectedButton > -1 then
                     selectedButton = selectedButton + 1

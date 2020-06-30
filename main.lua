@@ -49,12 +49,12 @@ require("Levels.LevelHandler")
 windowWidth = 1280
 windowHeight = 720
 
-love.window.setMode( windowWidth, windowHeight, {
+love.window.setMode(windowWidth, windowHeight, {
     fullscreen = false,
     resizable = false,
     vsync = true,
     highdpi = true
-} )
+})
 
 --If playing for the first time init a save file--
 if DataHandler:loadGame() == nil then
