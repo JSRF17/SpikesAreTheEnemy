@@ -1,0 +1,12 @@
+[submodule "moonshine"]
+	path = moonshine
+	url = https://github.com/vrld/moonshine.git
+[submodule "hump"]
+	path = hump
+	url = https://github.com/vrld/hump.git
+[submodule "mlib"]
+	path = mlib
+	url = https://github.com/davisdude/mlib.git
+[submodule "Konami"]
+	path = Konami
+	url = https://github.com/Tjakka5/Konami.git
