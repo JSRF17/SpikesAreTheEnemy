@@ -1,6 +1,6 @@
 [submodule "moonshine"]
 	path = moonshine
-	url = https://github.com/vrld/moonshine.git
+	url = https://github.com/SpeckyYT/moonshine.git
 [submodule "hump"]
 	path = hump
 	url = https://github.com/vrld/hump.git
