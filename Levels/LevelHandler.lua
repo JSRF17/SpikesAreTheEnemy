@@ -145,32 +145,32 @@ function LevelHandler:loadCurrentLevel(secret)
                 end
             end
             if i == 6 then
-                effect.dmg.palette = "dark_yellow" --orange
+                effect.dmg.palette = "orange"
                 Player:initLives()
                 DataHandler:saveGame(1)
             end
             if i == 11 then
-                effect.dmg.palette = "light_yellow" --pink
+                effect.dmg.palette = "pink"
                 Player:initLives()
                 DataHandler:saveGame(2)
             end
             if i == 16 then
-                effect.dmg.palette = "green" --blue
+                effect.dmg.palette = "blue"
                 Player:initLives()
                 DataHandler:saveGame(3)
             end
             if i == 21 then
-                effect.dmg.palette = "greyscale" --red
+                effect.dmg.palette = "red"
                 Player:initLives()
                 DataHandler:saveGame(4)
             end
             if i == 26 then
-                effect.dmg.palette = "pocket" --LimeGreen
+                effect.dmg.palette = "LimeGreen"
                 Player:initLives()
                 DataHandler:saveGame(5)
             end
             if i == 31 then
-                effect.dmg.palette = "dark_yellow" --turqoise
+                effect.dmg.palette = "turqoise"
                 Player:initLives()
                 DataHandler:saveGame(6)
             end
