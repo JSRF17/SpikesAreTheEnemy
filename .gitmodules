@@ -1,16 +1,13 @@
 [submodule "moonshine"]
 	path = moonshine
 	url = https://github.com/SpeckyYT/moonshine.git
-	ignore = dirty
+	branch = master
 [submodule "hump"]
 	path = hump
 	url = https://github.com/vrld/hump.git
-	ignore = dirty
 [submodule "mlib"]
 	path = mlib
 	url = https://github.com/davisdude/mlib.git
-	ignore = dirty
 [submodule "Konami"]
 	path = Konami
 	url = https://github.com/Tjakka5/Konami.git
-	ignore = dirty
