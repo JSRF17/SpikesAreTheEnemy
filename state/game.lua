@@ -160,6 +160,7 @@ function startGame()
             end)
         end
         LevelHandler:drawLevel()
+        LevelHandler:drawGravityIcon()
         if Alive then
             Player:draw()
         end

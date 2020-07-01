@@ -22,6 +22,8 @@ end
 
 currentLevel = 0
 
+local upsideDownIcon = love.graphics.newImage("resources/upsidedown.png")
+
 --Maybe not set as a global variable? Think about that--
 World = 0
 local isPlaying = false
@@ -232,5 +234,12 @@ function LevelHandler:returnGravityChange()
         return leveldata.gravityChange
     else
         return false
+    end
+end
+--If gravity change is active, then draw "upsideDown" icon
+function LevelHandler:drawGravityIcon()
+    if LevelHandler:returnGravityChange() then
+        love.graphics.setColor(1,1,1,0.9)
+        love.graphics.draw(upsideDownIcon,330,20)
     end
 end

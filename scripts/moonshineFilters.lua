@@ -5,3 +5,4 @@ moonshineFilters = {
     "fastgaussianblur",
     "scanlines"
 }
+activeMoonshineFilters = moonshineFilters

@@ -127,9 +127,7 @@ end
 --This is used to resize the screen filters correctly
 rw, rh, rf = love.window.getMode()
 function love.resize(rw, rh)
-    if not noEffects then
-        effect.disable(unpack(moonshineFilters))
-        effect.resize(rw, rh)
-        effect.enable(unpack(moonshineFilters))
-    end
+    effect.disable(unpack(activeMoonshineFilters))
+    effect.resize(rw, rh)
+    effect.enable(unpack(activeMoonshineFilters))
 end
