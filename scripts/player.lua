@@ -50,7 +50,7 @@ for i = 0, 6, 1 do
 end
 
 function Player:initLives()
-    if infiniteLives then 
+    if CheatCodes:getInfiniteLives() then 
         lives = math.huge
     else
         lives = 10
@@ -321,7 +321,7 @@ function Player:controls(dt)
     if type == "none" or not isColliding then
         jump = true
     end
-    if godMode then
+    if CheatCodes:getGodMode() then
         player.b:setPosition(love.mouse.getX(),love.mouse.getY())
     end
 end

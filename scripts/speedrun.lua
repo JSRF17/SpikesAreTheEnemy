@@ -1,5 +1,6 @@
 Speedrun = {}
-speedrunTime = 0
+local speedrunTime = 0
+local speedrunTimerStart
 
 function Speedrun:update()
     if speedrunTimerStart ~= nil and currentLevel ~= 40 then
@@ -7,8 +8,22 @@ function Speedrun:update()
     end
 end
 
+function Speedrun:init()
+    if CheatCodes:getSpeedrunMode() then
+        speedrunTimerStart = love.timer.getTime()
+    else
+        Speedrun:destroy()
+    end
+end
+
+function Speedrun:destroy()
+    speedrunTimerStart = nil
+    speedrunTime = 0
+    CheatCodes:setSpeedrunMode(false)
+end
+
 function Speedrun:drawTime()
-    if speedrunMode then
+    if CheatCodes:getSpeedrunMode() then
         local diff = speedrunTime
         Speedrun:update()
         if diff > 0 then

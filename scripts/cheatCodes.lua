@@ -1,6 +1,6 @@
-godMode = false
-speedrunMode = false
-infiniteLives = false
+local godMode = false
+local speedrunMode = false
+local infiniteLives = false
 
 konami.setWaitTime(0)
 
@@ -30,7 +30,7 @@ konami.newCode(
     {"s","t","o","p"},
     function()
         godMode = false
-        speedrunMode = false
+        Speedrun:destroy()
         infiniteLives = false
     end
 )
@@ -51,3 +51,21 @@ konami.newCode(
         effect.enable(unpack(activeMoonshineFilters))
     end
 )
+
+CheatCodes = {}
+
+function CheatCodes:getGodMode()
+    return godMode
+end
+
+function CheatCodes:getSpeedrunMode()
+    return speedrunMode
+end
+
+function CheatCodes:setSpeedrunMode(v)
+    speedrunMode = v
+end
+
+function CheatCodes:getInfiniteLives()
+    return infiniteLives
+end

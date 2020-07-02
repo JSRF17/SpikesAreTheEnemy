@@ -1,13 +1,20 @@
-# 10_5
+# 10/5
 
 10/5 is a hardcore platformer programmed in lua using the Love2d framework.
 It features 40 challenges spread out over 8 separate levels.
 
 To play the game download Love2d and run the .love file.
 
+# FAQ
 
-In case you want to run the actual source code, you will need to install following packages:
-- git clone https://github.com/vrld/moonshine.git
-- git clone https://github.com/vrld/hump.git
-- git clone https://github.com/davisdude/mlib.git
-- git clone https://github.com/Tjakka5/Konami.git
+## How can I run the game from the source code?
+You can run the game from source code by double-clicking on `run.bat`
+
+## How can I update the `Game.love` file?
+You can update the `Game.love` file by executing `compile.bat` (requires 7zip CLI)
+
+## How can I update the git submodules?
+You can update the git submodules by running `dependencies.bat`
+
+## When will the game be released
+¯\\\_(ツ)_/¯
