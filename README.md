@@ -8,13 +8,13 @@ To play the game download Love2d and run the .love file.
 # FAQ
 
 ## How can I run the game from the source code?
-You can run the game from source code by double-clicking on `run.bat`
+You can run the game from source code by double-clicking on `run.bat` (requires Love2D CLI)
 
 ## How can I update the `Game.love` file?
 You can update the `Game.love` file by executing `compile.bat` (requires 7zip CLI)
 
-## How can I update the git submodules?
-You can update the git submodules by running `dependencies.bat`
+## How can I update the submodules?
+You can update the submodules by running `dependencies.bat` (requires git CLI)
 
 ## When will the game be released
 ¯\\\_(ツ)_/¯
