@@ -355,5 +355,12 @@ function Player:pushPlayer(direction)
     end
 end
 
-
-
+function Player:setLifes(v)
+    if type(v) == "number" then
+        lives = v
+    elseif CheatCodes:getInfiniteLives() then
+        Player:initLives()   
+    elseif lives > 10 then
+        lives = 10
+    end
+end

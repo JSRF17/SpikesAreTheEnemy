@@ -3,7 +3,7 @@ local speedrunTime = 0
 local speedrunTimerStart
 
 function Speedrun:update()
-    if speedrunTimerStart ~= nil and currentLevel ~= 40 then
+    if speedrunTimerStart ~= nil and LevelHandler:getCurrentLevel() ~= 40 then
         speedrunTime = math.floor((love.timer.getTime() - speedrunTimerStart) * 1000)
     end
 end
@@ -34,17 +34,12 @@ function Speedrun:drawTime()
             local string = ""
 
             if hrs > 0 then
-                hrs = string.format("%02d", hrs)
-                string = string..hrs..":"
+                string = string..string.format("%02d", hrs)..":"
             end
             if min > 0 or hrs > 0 then
-                min = string.format("%02d", min)
-                string = string..min..":"
+                string = string..string.format("%02d", min)..":"
             end
-
-            sec = string.format("%02d", sec)
-            mil = string.format("%03d", mil)
-            string = string..sec.."."..mil
+            string = string..string.format("%02d", sec).."."..string.format("%03d", mil)
 
             local limit = 0
             local xpos = 0
@@ -53,7 +48,7 @@ function Speedrun:drawTime()
                 love.graphics.setColor(0,0,0, 1)
                 xpos = windowWidth/2 - 200
                 limit = 300
-                if currentLevel == 40 then
+                if LevelHandler:getCurrentLevel() == 40 then
                     ypos = windowHeight/2 - 100
                 end
             end

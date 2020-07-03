@@ -20,7 +20,7 @@ for i = 1, #Levels, 1 do
     Levelinit[i] = Levels[i]
 end
 
-currentLevel = 0
+local currentLevel = 0
 
 local upsideDownIcon = love.graphics.newImage("resources/upsidedown.png")
 
@@ -240,4 +240,8 @@ function LevelHandler:drawGravityIcon()
         love.graphics.setColor(1,1,1,0.9)
         love.graphics.draw(upsideDownIcon,330,20)
     end
+end
+
+function LevelHandler:getCurrentLevel()
+    return currentLevel
 end
