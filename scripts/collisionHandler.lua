@@ -17,17 +17,16 @@ function CollisionHandler:getWorld(w)
     w = w
 end
 
-function checkCombinations(a,b,type1,type2)
-    return a:getUserData() == type1 and b:getUserData() == type2
-           or
-           a:getUserData() == type2 and b:getUserData() == type1
-end
-
 --Runs when contact between objects start
 function beginContact(a, b, coll)
     ended = false
     if Player:getStatus() then
-        if checkCombinations(a,b,"spike","player") then
+        function checkCombinations(type1,type2)
+            return a:getUserData() == type1 and b:getUserData() == type2
+                   or
+                   a:getUserData() == type2 and b:getUserData() == type1
+        end
+        if checkCombinations("spike","player") then
             isColliding = true
             collisionType = "spike"
             touchedSpike = true
@@ -37,7 +36,7 @@ function beginContact(a, b, coll)
                 touchedSpike = false
             end)
         end
-        if checkCombinations(a,b,"spike","left") then
+        if checkCombinations("spike","left") then
             isColliding = true
             collisionType = "spike"
             touchedSpike = true
@@ -47,7 +46,7 @@ function beginContact(a, b, coll)
                 touchedSpike = false
             end)
         end
-        if checkCombinations(a,b,"spike","right") then
+        if checkCombinations("spike","right") then
             isColliding = true
             collisionType = "spike"
             touchedSpike = true
@@ -57,7 +56,7 @@ function beginContact(a, b, coll)
                 touchedSpike = false
             end)
         end
-        if checkCombinations(a,b,"goal","player") then
+        if checkCombinations("goal","player") then
             isColliding = true
             collisionType = "goal"
             --Since I'm destroying the physics object player during collision it seems to persist sometimes,
@@ -67,7 +66,7 @@ function beginContact(a, b, coll)
                 collisionType = "none"
             end)
         end
-        if checkCombinations(a,b,"goal","left") then
+        if checkCombinations("goal","left") then
             isColliding = true
             collisionType = "goal"
             Timer.script(function(wait)
@@ -75,7 +74,7 @@ function beginContact(a, b, coll)
                 collisionType = "none"
             end)
         end
-        if checkCombinations(a,b,"goal","right") then
+        if checkCombinations("goal","right") then
             isColliding = true
             collisionType = "goal"
             Timer.script(function(wait)
@@ -83,7 +82,7 @@ function beginContact(a, b, coll)
                 collisionType = "none"
             end)
         end
-        if checkCombinations(a,b,"goal","left") then
+        if checkCombinations("goal","left") then
             isColliding = true
             collisionType = "goal"
             Timer.script(function(wait)
@@ -91,21 +90,21 @@ function beginContact(a, b, coll)
                 collisionType = "none"
             end)
         end
-        if checkCombinations(a,b,"goal","right") then
+        if checkCombinations("goal","right") then
             isColliding = true
             collisionType = "goal"
             Timer.script(function(wait)
                 wait(0.3)
                 collisionType = "none"
             end)
-        elseif checkCombinations(a,b,"secret","player") then
+        elseif checkCombinations("secret","player") then
             isColliding = true
             collisionType = "secret"
             Timer.script(function(wait)
                 wait(0.3)
                 collisionType = "none"
             end)
-        elseif checkCombinations(a,b,"secret","right") then
+        elseif checkCombinations("secret","right") then
             isColliding = true
             collisionType = "secret"
             Timer.script(function(wait)
@@ -113,17 +112,17 @@ function beginContact(a, b, coll)
                 collisionType = "none"
             end)
         end
-        if checkCombinations(a,b,"normal","left") then
+        if checkCombinations("normal","left") then
             isColliding = true
             wallCol = true
             collisionType = "left"
 
-        elseif checkCombinations(a,b,"normal","right") then
+        elseif checkCombinations("normal","right") then
             isColliding = true
             wallCol = true
             collisionType = "right"
 
-        elseif checkCombinations(a,b,"normal","player") then
+        elseif checkCombinations("normal","player") then
             if not wallCol then
                 isColliding = true
                 collisionType = "normal"

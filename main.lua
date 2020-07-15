@@ -56,6 +56,9 @@ love.window.setMode(windowWidth, windowHeight, {
     highdpi = true
 })
 
+--Sets the game icon--
+love.window.setIcon(love.image.newImageData("resources/icon.png"))
+
 --If playing for the first time init a save file--
 if DataHandler:loadGame() == nil then
     DataHandler:init()

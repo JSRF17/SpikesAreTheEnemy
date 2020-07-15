@@ -254,25 +254,23 @@ function Player:controls(dt)
         JumpKeyUp = true
     end
     if type ~= "left" and type ~= "right" then
-        if isColliding then
-            if jump then
-                if love.keyboard.isDown("up") and JumpKeyUp then
-                    jump = false
-                    runing = false
-                    idle = false
-                    jumping = true
-                    JumpKeyUp = false
-                    if orientation == 0 then
-                        player.b:setLinearVelocity(x, -600)
-                    elseif orientation ~= 0 then
-                        player.b:setLinearVelocity(x, 600)
-                    end
+        if isColliding and jump then
+            if love.keyboard.isDown("up") and JumpKeyUp then
+                jump = false
+                runing = false
+                idle = false
+                jumping = true
+                JumpKeyUp = false
+                if orientation == 0 then
+                    player.b:setLinearVelocity(x, -600)
+                elseif orientation ~= 0 then
+                    player.b:setLinearVelocity(x, 600)
                 end
-                Timer.script(function(wait)
-                    wait(0.8)
-                    jumping = false
-                end)
             end
+            Timer.script(function(wait)
+                wait(0.8)
+                jumping = false
+            end)
         end
     end
     if type == "left" or type == "right" then

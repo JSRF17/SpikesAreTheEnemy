@@ -82,3 +82,31 @@ konami.newCode(
         effect.enable(unpack(activeMoonshineFilters))
     end
 )
+
+local originalMusicPitch = music:getPitch()
+
+konami.newCode(
+    {"b","u","l","l","s","h","i","t"},
+    function()
+        if music:getPitch() > originalMusicPitch then
+            music:setPitch(originalMusicPitch)
+        else
+            music:setPitch(1.7)
+        end
+    end
+)
+
+konami.newCode(
+    {"c","r","a","s","h"},
+    function()
+        local numb = 1
+        while true do
+            ::start::
+            numb = numb+1
+            for i=2, math.floor(math.sqrt(numb)), 1 do
+                if (numb % i) == 0 then goto start end
+            end
+            print(numb)
+        end
+    end
+)
