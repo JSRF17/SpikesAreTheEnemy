@@ -1,10 +1,11 @@
---[[Used to load current level, next level and so on.
+--[[
+    Used to load current level, next level and so on.
     Also handles destroying levels, drawing levels and
     returning spawn coordinates for the player.
     LevelList is used to load the correct level. Active level
     should be set to true. LevelInit table gets leveldata from
     the Levels file, this data is then asigned to the Blocks table.
-    ]]--
+]]--
 
 
 require("Levels.Levels")
@@ -27,13 +28,8 @@ local upsideDownIcon = love.graphics.newImage("resources/upsidedown.png")
 local world = 0
 local isPlaying = false
 local leveldata
+local blocks = {}
 --Initializes all "blocks" (where each level stores data such as physics bodies, fixtures and shapes)--
-function LevelHandler:initBlocks()
-    blocks = {}
-    for i = 0, 150, 1 do
-        blocks[i] = {}
-    end
-end
 
 function LevelHandler:loadLevels()
     if LevelList ~= nil then
@@ -101,7 +97,9 @@ end
 
 --Loads the level data and assigns data to the blocks
 function LevelHandler:loadLevelData(leveldata)
+    blocks = {}
     for i = 1, #leveldata, 1 do
+        blocks[i] = {}
         if type(leveldata[i][1]) == "number" then
             blocks[i].b = p.newBody(w, leveldata[i][1], leveldata[i][2], "static")
             blocks[i].s = p.newRectangleShape(leveldata[i][3], leveldata[i][4])
@@ -131,7 +129,6 @@ function LevelHandler:loadLevelData(leveldata)
 end
 --Loads the current level depending on LevelList value--
 function LevelHandler:loadCurrentLevel(secret)
-    LevelHandler:initBlocks()
     p.setMeter(100)
     w = p.newWorld(0, 12.8*p.getMeter(), true)
     w:setCallbacks(beginContact, endContact)
