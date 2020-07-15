@@ -24,8 +24,7 @@ local currentLevel = 0
 
 local upsideDownIcon = love.graphics.newImage("resources/upsidedown.png")
 
---Maybe not set as a global variable? Think about that--
-World = 0
+local world = 0
 local isPlaying = false
 local leveldata
 --Initializes all "blocks" (where each level stores data such as physics bodies, fixtures and shapes)--
@@ -45,28 +44,28 @@ function LevelHandler:loadLevels()
     for i = 0, 100, 1 do
         LevelList[i] = {}
     end
-    if World == 1 then
+    if world == 1 then
         LevelList[1] = true
     end
-    if World == 2 then
+    if world == 2 then
         LevelList[6] = true
     end
-    if World == 3 then
+    if world == 3 then
         LevelList[11] = true
     end
-    if World == 4 then
+    if world == 4 then
         LevelList[16] = true
     end
-    if World == 5 then
+    if world == 5 then
         LevelList[21] = true
     end
-    if World == 6 then
+    if world == 6 then
         LevelList[26] = true
     end
-    if World == 7 then
+    if world == 7 then
         LevelList[31] = true
     end
-    if World == 8 then
+    if world == 8 then
         LevelList[36] = true
     end
     return LevelList
@@ -241,7 +240,15 @@ function LevelHandler:drawGravityIcon()
         love.graphics.draw(upsideDownIcon,330,20)
     end
 end
-
+--Returns the current level
 function LevelHandler:getCurrentLevel()
     return currentLevel
+end
+--Replaces the current world's value
+function LevelHandler:setWorld(i)
+    world = i
+end
+--Returns the current world
+function LevelHandler:getWorld()
+    return world
 end

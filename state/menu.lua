@@ -95,7 +95,7 @@ function loadMenu()
                     --This checks for every level if it's selected and if you unlocked
                     for i=1,levels,1 do
                         if selectedButton == i and unlockedWorld >= selectedButton-1 then
-                            World = i
+                            LevelHandler:setWorld(i)
                             State:gameStart()
                         end
                     end
