@@ -1,5 +1,6 @@
 local godMode = false
 local speedrunMode = false
+local speedrunWorld = 0
 local infiniteLives = false
 
 CheatCodes = {}
@@ -27,6 +28,17 @@ end
 
 function CheatCodes:setSpeedrunMode(v)
     speedrunMode = v
+    if not speedrunMode then
+        speedrunWorld = 0
+    end
+end
+
+function CheatCodes:getSpeedrunWorld()
+    return speedrunWorld
+end
+
+function CheatCodes:setSpeedrunWorld(v)
+    speedrunWorld = v
 end
 
 function CheatCodes:getInfiniteLives()

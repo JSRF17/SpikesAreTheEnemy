@@ -83,13 +83,15 @@ end
 function Player:destroy()
     storedX = self.x
     storedY = self.y
-    player.leftSide:destroy()
-    player.rightSide:destroy()
-    player.f:destroy()
-    player.b:destroy()
-    player.b = nil
-    player.s = nil
-    player.f = nil
+    if type(player) == "table" then
+        player.leftSide:destroy()
+        player.rightSide:destroy()
+        player.f:destroy()
+        player.b:destroy()
+        player.b = nil
+        player.s = nil
+        player.f = nil
+    end
     player = nil
     orientation = 0
 end

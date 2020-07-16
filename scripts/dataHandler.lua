@@ -7,14 +7,20 @@ DataHandler = {}
 local file = love.filesystem.newFile("datan.sav")
 
 function DataHandler:loadGame()
-    file:open("r")
-    data = file:read()
-    file:close()
-    return data
+    if not CheatCodes:getSpeedrunMode() then
+        file:open("r")
+        data = file:read()
+        file:close()
+        return data
+    else
+        return CheatCodes:getSpeedrunWorld()
+    end
 end
 
-function DataHandler:saveGame(num)
-    world = num
+function DataHandler:saveGame(world)
+    if CheatCodes:getSpeedrunMode() and CheatCodes:getSpeedrunWorld() < world then
+        return CheatCodes:setSpeedrunWorld(world)
+    end
     if tonumber(DataHandler:loadGame()) < world then
         file:open("w")
         file:write(world)
