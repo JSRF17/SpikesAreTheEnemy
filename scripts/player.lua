@@ -43,9 +43,10 @@ local orientation = 0
 --Used when spawing bubbles as the self.x and self.y will be nill once the player is destroyed--
 storedX = -500
 storedY = -500
+
 --Circles that spawn when player dies--
 die = {}
-for i = 0, 6, 1 do
+for i = 0, 20, 1 do
     die[i] = {rad = 5, x = -500, y = 100}
 end
 
@@ -197,21 +198,18 @@ function Player:die(dt)
         die[i].x = storedX
         die[i].y = storedY
     end
-    function move()
-        Timer.tween(0.2, die[1], {x = storedX - 10, y = storedY - 10}, 'in-out-quad')
-        Timer.tween(0.2, die[2], {x = storedX + 10, y = storedY + 10}, 'in-out-quad')
-        Timer.tween(0.2, die[3], {x = storedX - 5, y = storedY + 5}, 'in-out-quad')
-        Timer.tween(0.2, die[4], {x = storedX + 5, y = storedY - 5}, 'in-out-quad')
-        Timer.tween(0.2, die[5], {x = storedX - 10, y = storedY - 5}, 'in-out-quad')
-        Timer.tween(0.2, die[6], {x = storedX + 10, y = storedY + 5}, 'in-out-quad')
-        Timer.script(function(wait)
-            wait(0.2)
-            for i = 0, #die, 1 do
-                Timer.tween(0, die[i], {x = -500, y = -500}, 'in-out-quad')
-            end
-        end)
+    function randomDistance(val)
+        return {x = storedX + love.math.random(-val, val), y = storedY + love.math.random(-val, val)}
     end
-    move()
+    for i = 0, #die, 1 do
+        Timer.tween(0.2, die[i], randomDistance(i*((20+#die)/#die)+10), 'in-out-quad')
+    end
+    Timer.script(function(wait)
+        wait(0.2)
+        for i = 0, #die, 1 do
+            Timer.tween(0, die[i], {x = -500, y = -500}, 'in-out-quad')
+        end
+    end)
 end
 
 --Handles user input for player controls***Fix walljump issue***--

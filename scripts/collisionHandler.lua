@@ -26,91 +26,58 @@ function beginContact(a, b, coll)
                    or
                    a:getUserData() == type2 and b:getUserData() == type1
         end
+        function waitF(time, spike)
+            return function(wait)
+                wait(time)
+                collisionType = "none"
+                if spike ~= nil then
+                    touchedSpike = spike
+                end
+            end
+        end
         if checkCombinations("spike","player") then
             isColliding = true
             collisionType = "spike"
             touchedSpike = true
-            Timer.script(function(wait)
-                wait(0.2)
-                collisionType = "none"
-                touchedSpike = false
-            end)
+            Timer.script(waitF(0.2, true))
         end
         if checkCombinations("spike","left") then
             isColliding = true
             collisionType = "spike"
             touchedSpike = true
-            Timer.script(function(wait)
-                wait(0.2)
-                collisionType = "none"
-                touchedSpike = false
-            end)
+            Timer.script(waitF(0.2, true))
         end
         if checkCombinations("spike","right") then
             isColliding = true
             collisionType = "spike"
             touchedSpike = true
-            Timer.script(function(wait)
-                wait(0.2)
-                collisionType = "none"
-                touchedSpike = false
-            end)
+            Timer.script(waitF(0.2, false))
         end
         if checkCombinations("goal","player") then
             isColliding = true
             collisionType = "goal"
             --Since I'm destroying the physics object player during collision it seems to persist sometimes,
             --this fixes it.
-            Timer.script(function(wait)
-                wait(0.3)
-                collisionType = "none"
-            end)
+            Timer.script(waitF(0.3))
         end
         if checkCombinations("goal","left") then
             isColliding = true
             collisionType = "goal"
-            Timer.script(function(wait)
-                wait(0.3)
-                collisionType = "none"
-            end)
+            Timer.script(waitF(0.3))
         end
         if checkCombinations("goal","right") then
             isColliding = true
             collisionType = "goal"
-            Timer.script(function(wait)
-                wait(0.3)
-                collisionType = "none"
-            end)
+            Timer.script(waitF(0.3))
         end
-        if checkCombinations("goal","left") then
-            isColliding = true
-            collisionType = "goal"
-            Timer.script(function(wait)
-                wait(0.3)
-                collisionType = "none"
-            end)
-        end
-        if checkCombinations("goal","right") then
-            isColliding = true
-            collisionType = "goal"
-            Timer.script(function(wait)
-                wait(0.3)
-                collisionType = "none"
-            end)
-        elseif checkCombinations("secret","player") then
+        if checkCombinations("secret","player") then
             isColliding = true
             collisionType = "secret"
-            Timer.script(function(wait)
-                wait(0.3)
-                collisionType = "none"
-            end)
+            Timer.script(waitF(0.3))
         elseif checkCombinations("secret","right") then
             isColliding = true
             collisionType = "secret"
-            Timer.script(function(wait)
-                wait(0.3)
-                collisionType = "none"
-            end)
+            Timer.script(waitF(0.3))
         end
         if checkCombinations("normal","left") then
             isColliding = true
