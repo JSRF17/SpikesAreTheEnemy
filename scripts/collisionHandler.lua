@@ -39,13 +39,13 @@ function beginContact(a, b, coll)
             isColliding = true
             collisionType = "spike"
             touchedSpike = true
-            Timer.script(waitF(0.2, true))
+            Timer.script(waitF(0.2, false))
         end
         if checkCombinations("spike","left") then
             isColliding = true
             collisionType = "spike"
             touchedSpike = true
-            Timer.script(waitF(0.2, true))
+            Timer.script(waitF(0.2, false))
         end
         if checkCombinations("spike","right") then
             isColliding = true
