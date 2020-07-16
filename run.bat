@@ -1,3 +1,2 @@
 @echo off
 lovec .
-pause

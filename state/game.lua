@@ -91,7 +91,7 @@ function startGame()
             end
         end
 
-        if Player:checkLives() == 0 then
+        if Player:checkLives() < 1 then
             State:gameover()
         end
 

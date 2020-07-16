@@ -15,11 +15,7 @@ LevelHandler = {}
 
 local Levels = Levels:getLevels()
 
-Levelinit = {}
-
-for i = 1, #Levels, 1 do
-    Levelinit[i] = Levels[i]
-end
+Levelinit = Levels
 
 local currentLevel = 0
 

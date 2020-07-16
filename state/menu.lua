@@ -28,7 +28,7 @@ function loadMenu()
 
     --This creates *all* 8 levels/worlds
     local levels = 8
-    for i=1,levels,1 do
+    for i = 1, levels, 1 do
         stateButtonsText[2][i] = "Level "..i
     end
 
@@ -93,7 +93,7 @@ function loadMenu()
                 end
                 if menuState == 2 then
                     --This checks for every level if it's selected and if you unlocked
-                    for i=1,levels,1 do
+                    for i = 1, levels, 1 do
                         if selectedButton == i and unlockedWorld >= selectedButton-1 then
                             LevelHandler:setWorld(i)
                             State:gameStart()
