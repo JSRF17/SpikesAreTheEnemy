@@ -275,7 +275,7 @@ function Player:controls(dt)
     end
     if type == "left" or type == "right" then
         if love.keyboard.isDown("up") and JumpKeyUp then
-            if y > 0.0001 or y < -0.0001 then
+            if util:notZero(y) then
                 if type == "left" then
                     if orientation == 0 then
                         player.b:setLinearVelocity(210, -500)

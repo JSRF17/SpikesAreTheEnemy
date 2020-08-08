@@ -2,7 +2,15 @@
     Game, Menu, Pause, Resume. Using booleans to handle state changes. If one
     state is active the other ones are false and so on. State.change is used
     when a state is changing]]--
-State = { game = false, change = false, menu = false, game2 = false, paused = false, gameOver = false, isPlaying = false}
+State = {
+    game = false,
+    change = false,
+    menu = false,
+    game2 = false,
+    paused = false,
+    gameOver = false,
+    isPlaying = false
+}
 
 function State:gameStart()
     State.menu = false

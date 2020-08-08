@@ -10,6 +10,7 @@ end
 
 function Speedrun:init()
     if CheatCodes:getSpeedrunMode() then
+        CheatCodes:setSpeedrunWorld(0)
         speedrunTimerStart = love.timer.getTime()
     else
         Speedrun:destroy()

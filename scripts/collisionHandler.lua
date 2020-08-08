@@ -108,7 +108,7 @@ function endContact(a, b, coll)
         x, y = Player:getVelocity()
         if collisionType ~= "spike" then
             if wallCol ~= true then
-                if y > 0.001 or y < -0.001 then
+                if util:notZero(y) then
                     persisting = 0
                     isColliding = false
                     collisionType = "none"
@@ -125,7 +125,7 @@ end
 function CollisionHandler:resetCollision()
     local x, y = Player:getVelocity()
     if not wallCol and collisionType ~= "spike" then
-        if y > 0.001 or y < -0.001 then
+        if util:notZero(y) then
             isColliding = false
             ollisionType = "none"
             return true
