@@ -187,14 +187,6 @@ function Player:drawLives()
     love.graphics.printf(tostring(lives), 1280/2 - 200, 670, 300, "center", 0, 1.25)
 end
 
-function Player:drawDead()
-    for i = 0, #die, 1 do
-        g.setColor(0.8,0.8,0.8)
-        g.circle("fill", die[i].x, die[i].y, die[i].rad)
-        g.setColor(1,1,1)
-    end
-end
-
 function Player:track()
     local cx, cy = player.b:getWorldPoints(player.s:getPoints())
     self.x = cx

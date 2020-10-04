@@ -170,7 +170,6 @@ function startGame()
             love.graphics.print(tostring(CollisionHandler:getType()), 100, 400, 0, 1)
             love.graphics.print(tostring(CollisionHandler:getStatus()), 300, 400, 0, 1)
         end
-        Player:drawDead()
         Curtain:draw()
         Text:draw()
         Text:dialogDraw()
