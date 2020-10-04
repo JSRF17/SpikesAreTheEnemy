@@ -14,6 +14,7 @@ local died
 local LevelChange
 local debug
 local gravityChangeKeyPress
+local paused = false
 
 --[[This function runs when the state changes to game]]--
 function startGame()
@@ -30,7 +31,8 @@ function startGame()
         debug = false
         gravityChange = true
         gravityChangeKeyPress = true
-        Text:init(0, -300)
+        paused = false
+        Text:init(-200, 2050)
         LevelHandler:loadCurrentLevel()
         Player:pushPlayer("justUp")
     end
@@ -42,32 +44,37 @@ function startGame()
         debug = nil
         Player:destroy()
     end
-        
     --[[Updates various things depending on which level is active. Uses the collisionhandler to
         update certain things depending on collisions in the world. Also uses input functions from the player
         file, also updates text dialogs and more]]--
     function Game:update(dt)
         SoundHandler:backgroundMusic("game")
         w:update(dt)
-        if Alive == true then
+        if Alive then
             Player:controls(dt)
             Player:track(dt)
             Text:dialogUpdate(dt)
             Player:animation(dt)
         end
-       
         if Alive == false and LevelChange == false then
-            Player:die(dt)
+            --Player:die(dt)
             Player:init(LevelHandler:playerSpawnLocation())
             Alive = true
         end
-        
-        if love.keyboard.isDown( "escape" ) and LevelChange == false then
-            SoundHandler:PlaySound("pause")
-            State:pause()
-            SoundHandler:StopSound("all")
+        if love.keyboard.isDown( "escape" ) and LevelChange == false or TouchControls:getEvent("P") == "pause" and LevelChange == false then
+            if paused == false then
+                SoundHandler:PlaySound("pause")
+                Transition:init()
+                Transition:activate()                            
+                Timer.script(function(wait)
+                    wait(1.5)
+                    State:pause()
+                    paused = false
+                end)
+            end
+            paused = true
         end
-        if LevelHandler:returnGravityChange() and love.keyboard.isDown("space") and CollisionHandler:getStatus() and CollisionHandler:getType() ~= "left" and CollisionHandler:getType() ~= "right" then
+        if LevelHandler:returnGravityChange() and love.keyboard.isDown("space") and CollisionHandler:getStatus() and CollisionHandler:getType() ~= "left" and CollisionHandler:getType() ~= "right" or LevelHandler:returnGravityChange() and TouchControls:getEvent("invert") == true and CollisionHandler:getStatus() and CollisionHandler:getType() ~= "left" and CollisionHandler:getType() ~= "right" then
             if gravityChangeKeyPress then
                 gravityChangeKeyPress = false
                 if gravityChange == true then
@@ -86,11 +93,9 @@ function startGame()
                 end)
             end
         end
-        
         if Player:checkLives() == 0 then
             State:gameover()
         end
-
         if died == false and CollisionHandler:getSpikeTouch() then
             Alive = false
             died = true
@@ -102,10 +107,11 @@ function startGame()
                 died = false
             end)
             SoundHandler:PlaySound("dead")
+            Text:dialogSetup1("Lives:"..Player:checkLives())
         elseif LevelChange == false and CollisionHandler:getType() == "goal" then
             SoundHandler:StopSound("all1")
-            Text:moveUp()
             Text:reset()
+            Text:moveAway()
             if LevelList[9] == true then
                 Curtain:moveUp()
             elseif LevelList[15] == true or LevelList[22] == true or LevelList[23] == true or LevelList[28] == true or LevelList[38] == true then
@@ -123,8 +129,8 @@ function startGame()
             end)
             SoundHandler:PlaySound("next")
         elseif LevelChange == false and CollisionHandler:getType() == "secret" then
-            Text:moveUp()
             Text:reset()
+            Text:moveAway()
             if LevelList[9] == true then
                 Curtain:moveUp()
             elseif LevelList[15] == true then
@@ -159,14 +165,17 @@ function startGame()
         if Alive == true then
             Player:draw()
         end
-        Text:dialogDraw(20, 20)
-        Text:draw()
+        --TouchControls:draw()
         if debug == true then
             love.graphics.print(tostring(CollisionHandler:getType()), 100, 400, 0, 1)
             love.graphics.print(tostring(CollisionHandler:getStatus()), 300, 400, 0, 1)
         end
-        Curtain:draw()
         Player:drawDead()
-        Player:drawLives()
+        Curtain:draw()
+        Text:draw()
+        Text:dialogDraw()
+    end
+    function Game:isLevelChange()
+        return LevelChange
     end
 end

@@ -1,77 +1,77 @@
---[[Handles the logic for different states. This gamw has four (three) states 
+--[[
+    Handles the logic for different states. This gamw has four (three) states
     Game, Menu, Pause, Resume. Using booleans to handle state changes. If one
-    state is active the other ones are false and so on. State.change is used 
-    when a state is changing]]-- 
-State = { game = false, change = false, menu = false, game2 = false, paused = false, gameOver = false, isPlaying = false}
+    state is active the other ones are false and so on. State.change is used
+    when a state is changing
+]]--
+
+State = {}
+States = {game = false, change = false, menu = false, game2 = false, paused = false, gameOver = false, isPlaying = false}
+local function changeState(state)
+   local bool = false
+   for i,v in pairs(States) do
+        States[i] = false
+    end
+end
+
+function State:allFalse()
+    changeState()
+end
 
 function State:gameStart()
-    State.menu = false 
-    State.gameOver = false
-    State.game = true
-    State.change = true
-    State.isPlaying = true
+    changeState()
+    States.game = true
+    States.change = true
+    States.isPlaying = true
 end
 
 function State:menuStart()
-    State.paused = false
-    State.gameOver = false
-    State.game = false
-    State.isPlaying = false
-    State.menu = true
-    State.change = true
+    changeState()
+    States.menu = true
+    States.change = true
 end
 
 function State:pause()
-    State.menu = false 
-    State.game = false
-    State.paused = true
-    State.change = true
+    changeState()
+    States.change = true
+    States.paused = true
 end
 
 function State:resume()
-    State.menu = false 
-    State.change = false
-    State.paused = false
-    State.game = true
+    changeState()
+    States.game = true
 end
 
 function State:gameover()
-    State.menu = false 
-    State.game = false
-    State.change = true
-    State.isPlaying = false
-    State.gameOver = true
+    changeState()
+    States.change = true
+    States.gameOver = true
 end
 --Different states run depending on the value of before mentioned booleans--
 function State:stateChanger(dt)
-    if State.menu == true and State.change == true then
-        loadMenu()
-        State.change = false
-    end
-    if State.game == true and State.change == true then
-        startGame()
-        Game:load()
-        State.change = false
-    end
-    if State.menu == true and State.change == false then
-        Menu:update(dt)
-    end
-    if State.game == true and State.change == false then
-        Game:update(dt)
-    end
-    if State.paused == true and State.change == true then
-        PauseLoad()
-        State.change = false
-    end
-    if State.paused == true and State.change == false then
-        Pause:update(dt)
-    end
-    if State.gameOver == true and State.change == true then
-        GameOverLoad()
-        State.change = false
-    end
-    if State.gameOver == true and State.change == false then
-        GameOver:update(dt)
-    end
+	if States.change then
+        if States.menu == true then
+            Menu:loadMenu()
+        elseif States.game == true then
+            startGame()
+            Game:load()
+        elseif States.paused == true then
+            Pause:loadMenu()
+        elseif States.gameOver == true then
+            GameOver:loadMenu()
+        end
+        States.change = false
+	end
+    if States.change == false then
+        if States.paused == true then
+            Pause:update(dt)
+        elseif States.gameOver == true then
+            GameOver:update(dt)
+        elseif States.menu == true then
+            Menu:update(dt)
+        elseif States.game == true then
+            TouchControls:update()
+            Game:update(dt)
+        end
+	end
 end
-

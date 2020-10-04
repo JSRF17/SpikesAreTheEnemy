@@ -16,22 +16,45 @@ function Text:destroy()
 end
 
 function Text:draw()
-    g.setColor(0.8,0.8,0.8, 0.5)
+    if LevelHandler:textboxColor() ~= nil then
+        g.setColor(LevelHandler:textboxColor())
+    else
+        g.setColor(0.5,0.5,0.5, 0.8)
+    end
     g.rectangle("fill", textbox[1].x, textbox[1].y, textbox[1].width, textbox[1].height)
+    g.setColor(0.5,0.5,0.5, 0.8)
 end
 
 function Text:moveDown()
     function move()
-        Timer.tween(2, textbox[1], {y = 0}, 'in-out-quad')
+        Timer.tween(2, textbox[1], {y = 900}, 'in-out-quad')
     end
     move()
 end
 
-function Text:moveUp()
+function Text:moveTo(x, y)
+    local X = x
+    local Y = y
     function move()
-        Timer.tween(2, textbox[1], {y = -300}, 'in-out-quad')
+        Timer.tween(2, textbox[1], {y = Y}, 'in-out-quad')
     end
     move()
+    function move2()
+        Timer.tween(2, textbox[1], {x = X}, 'in-out-quad')
+    end
+    move2()
+end
+
+function Text:moveAway()
+    function move()
+        --Timer.tween(0, textbox[1], {y = 2000}, 'in-out-quad')
+        textbox[1].y = 2000
+    end
+    move()
+    function move2()
+        Timer.tween(2, textbox[1], {x = 100}, 'in-out-quad')
+    end
+    move2()
 end
 
 function Text:reset()
@@ -49,6 +72,15 @@ function Text:dialogSetup(msg)
     dialog_finished = false
 end
 
+function Text:dialogSetup1(msg)
+    font = g.newFont(20)
+    g.setFont(font)
+    message1 = msg
+    elapsed1 = 0
+    letters1 = 0
+    dialog_finished1 = false
+end
+
 --Updating the dialog based on delta time, results in the type out effect, 
 --thanks to the Löve2d forum for some help--
 function Text:dialogUpdate(dt)
@@ -59,7 +91,7 @@ function Text:dialogUpdate(dt)
         end)
     end
     if levelstart == false then
-        elapsed = elapsed + 0.15
+        elapsed = elapsed + 0.14
         letters = math.min(math.floor(elapsed), #message)
         if elapsed > #message then
             dialog_finished = true
@@ -68,12 +100,38 @@ function Text:dialogUpdate(dt)
         if dialog_finished ~= true then
             SoundHandler:PlaySound("typing")
         end
+        elapsed1 = elapsed1 + 0.14
+        letters1 = math.min(math.floor(elapsed1), #message1)
+        if elapsed1 > #message1 then
+            dialog_finished1 = true
+            if dialog_finished == true then
+                SoundHandler:StopSound("typing")
+            end
+        end
+        if dialog_finished1 ~= true then
+            SoundHandler:PlaySound("typing")
+        end
     end
 end
-  
-function Text:dialogDraw(x, y)
-    g.setColor(0, 0, 0)
-    love.graphics.printf(message:sub(1, letters), x, y, 300)
+
+function Text:dialogUpdateIntro(dt)
+    elapsed = elapsed + 0.09
+    letters = math.min(math.floor(elapsed), #message)
+    if elapsed > #message then
+        dialog_finished = true
+        SoundHandler:StopSound("typing")
+    end
+    if dialog_finished ~= true then
+        SoundHandler:PlaySound("typing")
+    end
+end
+
+function Text:dialogDraw()
+    g.setColor(0.0, 0.0, 0.0)
+    if message1 ~= nil then
+        g.printf(message1:sub(1, letters1), textbox[1].x + 5, textbox[1].y + 200, 300)
+    end
+    g.printf(message:sub(1, letters), textbox[1].x + 5, textbox[1].y + 5, 300)
 end
 
 --Takes input value depending on active level then returns the message relevant to that level--
@@ -116,9 +174,15 @@ function Text:storyline(select)
         "Level_7-5 loaded.",
         "Level_8-1 loaded. GravityChange = active.",
         "Level_8-2 loaded.",
-        "Level_8-3 loaded.",
+        "Level_8-3 loaded. GravityChange = active.",
         "Level_8-4 loaded.",
-        "End. Thanks for playing! More levels might eventually at some point in the future actually get created if I feel like I have the time to create those levels and if I feel like actually creating the levels as well, bye!",
+        "You have completed all base levels!! Mucho gracias for playing......Now move on and complete the long levels coming up!",
+        "Level_9 loaded. Reach the top, avoid the spikes. Simple enough",
+        "Level_10 loaded. Test your balance in this level.",
+        "Level_11 loaded. GravityChange = active. Lots of spikes, like usual, avoid them.",
+        "Level_12 loaded. This one requires precision, don't get nervous",
+        "Level_13 loaded. This one should not be too difficult.",
+        "Level_14 loaded. This one requires precision and focus. This is the last level. After this one ther is no more levels. However you will unlock the speed running mode once this level is completed.", 
     }
     for i = 1, #texts, 1 do
         if select == i then
@@ -136,6 +200,14 @@ function Text:storylineSecret(select)
             return texts[i]
         end
     end
+end
+
+function Text:intro(select)
+    texts = {
+        "This is Dave. He can run, jump, dive......and die. Luckily he got 10 lives....more than most of us. Make these 10 lives last, you'll need them. Good luck! Press anywhere on the screen to continue.",
+    }
+    
+    return texts[1]
 end
   
 

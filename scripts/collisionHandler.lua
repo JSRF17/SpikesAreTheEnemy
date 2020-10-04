@@ -1,4 +1,6 @@
---
+--[[
+    Handles collsion in the physics world, using love.physics and different callback functions
+]]--
 
 CollisionHandler = {}
 
@@ -8,6 +10,8 @@ local touchedSpike
 local ended 
 local playerDestroyed
 local wallCol = false
+local print, print2
+local playerTouchGround = true
 
 function CollisionHandler:getPlayerStatus()
     playerDestroyed = Player:getStatus()
@@ -19,39 +23,11 @@ end
 
 --Runs when contact between objects start
 function beginContact(a, b, coll)
-    ended = false
+    local ended = false
     if Player:getStatus() == true then
-        if a:getUserData() == "spike" and b:getUserData() == "player" or b:getUserData() == "spike" and a:getUserData() == "player" then
-            isColliding = true
-            collisionType = "spike"
-            touchedSpike = true
-            Timer.script(function(wait)
-                wait(0.2)
-                collisionType = "none"
-                touchedSpike = false
-            end)
-        end
-        if a:getUserData() == "spike" and b:getUserData() == "left" or b:getUserData() == "spike" and a:getUserData() == "left" then
-            isColliding = true
-            collisionType = "spike"
-            touchedSpike = true
-            Timer.script(function(wait)
-                wait(0.2)
-                collisionType = "none"
-                touchedSpike = false
-            end)
-        end
-        if a:getUserData() == "spike" and b:getUserData() == "right" or b:getUserData() == "spike" and a:getUserData() == "right" then
-            isColliding = true
-            collisionType = "spike"
-            touchedSpike = true
-            Timer.script(function(wait)
-                wait(0.2)
-                collisionType = "none"
-                touchedSpike = false
-            end)
-        end
-        if a:getUserData() == "goal" and b:getUserData() == "player" or b:getUserData() == "goal" and a:getUserData() == "player" then
+        if a:getUserData() == "goal" and b:getUserData() == "player" or b:getUserData() == "goal" and a:getUserData() == "player" 
+        or a:getUserData() == "goal" and b:getUserData() == "left" or b:getUserData() == "goal" and a:getUserData() == "left" 
+        or a:getUserData() == "goal" and b:getUserData() == "right" or b:getUserData() == "goal" and a:getUserData() == "right" then
             isColliding = true
             collisionType = "goal"
             --Since I'm destroying the physics object player during collision it seems to persist sometimes,
@@ -60,46 +36,9 @@ function beginContact(a, b, coll)
                 wait(0.3)
                 collisionType = "none"
             end)
-        end
-        if a:getUserData() == "goal" and b:getUserData() == "left" or b:getUserData() == "goal" and a:getUserData() == "left" then
-            isColliding = true
-            collisionType = "goal"
-            Timer.script(function(wait)
-                wait(0.3)
-                collisionType = "none"
-            end)
-        end
-        if a:getUserData() == "goal" and b:getUserData() == "right" or b:getUserData() == "goal" and a:getUserData() == "right" then
-            isColliding = true
-            collisionType = "goal"
-            Timer.script(function(wait)
-                wait(0.3)
-                collisionType = "none"
-            end)
-        end
-        if a:getUserData() == "goal" and b:getUserData() == "left" or b:getUserData() == "goal" and a:getUserData() == "left" then
-            isColliding = true
-            collisionType = "goal"
-            Timer.script(function(wait)
-                wait(0.3)
-                collisionType = "none"
-            end)
-        end
-        if a:getUserData() == "goal" and b:getUserData() == "right" or b:getUserData() == "goal" and a:getUserData() == "right" then
-            isColliding = true
-            collisionType = "goal"
-            Timer.script(function(wait)
-                wait(0.3)
-                collisionType = "none"
-            end)
-        elseif a:getUserData() == "secret" and b:getUserData() == "player" or b:getUserData() == "secret" and a:getUserData() == "player" then
-            isColliding = true
-            collisionType = "secret"
-            Timer.script(function(wait)
-                wait(0.3)
-                collisionType = "none"
-            end)
-        elseif a:getUserData() == "secret" and b:getUserData() == "right" or b:getUserData() == "secret" and a:getUserData() == "right" then
+        elseif a:getUserData() == "secret" and b:getUserData() == "player" or b:getUserData() == "secret" and a:getUserData() == "player" 
+        or a:getUserData() == "secret" and b:getUserData() == "right" or b:getUserData() == "secret" and a:getUserData() == "right" 
+        or a:getUserData() == "secret" and b:getUserData() == "left" or b:getUserData() == "secret" and a:getUserData() == "left" then
             isColliding = true
             collisionType = "secret"
             Timer.script(function(wait)
@@ -107,34 +46,58 @@ function beginContact(a, b, coll)
                 collisionType = "none"
             end)
         end
-        if a:getUserData() == "normal" and b:getUserData() == "left" or b:getUserData() == "left" and a:getUserData() == "normal" then
+        if a:getUserData() == "spike" and b:getUserData() == "player" or b:getUserData() == "spike" and a:getUserData() == "player" 
+        or a:getUserData() == "spike" and b:getUserData() == "left" or b:getUserData() == "spike" and a:getUserData() == "left" 
+        or a:getUserData() == "spike" and b:getUserData() == "right" or b:getUserData() == "spike" and a:getUserData() == "right" then
             isColliding = true
-            wallCol = true
-            collisionType = "left"
-        
-        elseif a:getUserData() == "normal" and b:getUserData() == "right" or b:getUserData() == "right" and a:getUserData() == "normal" then
-            isColliding = true
-            wallCol = true
-            collisionType = "right"
-        
-        elseif a:getUserData() == "normal" and b:getUserData() == "player" or b:getUserData() == "player" and a:getUserData() == "normal" then
+            collisionType = "spike"
+            touchedSpike = true
+            Timer.script(function(wait)
+                wait(0.2)
+                collisionType = "none"
+                touchedSpike = false
+            end)
+        end
+        if a:getUserData() == "normal" and b:getUserData() == "player" or b:getUserData() == "player" and a:getUserData() == "normal" then
             if wallCol == false then
                 isColliding = true
                 collisionType = "normal"
             end
+            playerTouchGround = true
+        elseif a:getUserData() == "normal" and b:getUserData() == "left" or b:getUserData() == "left" and a:getUserData() == "normal" then
+            isColliding = true
+            wallCol = true
+            collisionType = "left"
+        elseif a:getUserData() == "normal" and b:getUserData() == "right" or b:getUserData() == "right" and a:getUserData() == "normal" then
+            isColliding = true
+            wallCol = true
+            collisionType = "right"
         end
     end
     if Player:getStatus() == false then
         isColliding = false
         collisionType = "none"
     end
+    print = a:getUserData()
+    print2 = b:getUserData()
+end
+
+function CollisionHandler:print(tt)
+    if tt == 1 then
+        return collisionType
+    else
+        return print2
+    end
 end
 --Gets called when a contact has ended
 function endContact(a, b, coll)
     ended = true
     if Player:getStatus() == true then
+        if a:getUserData() == "player" or b:getUserData() == "player" then
+            playerTouchGround = false 
+        end
         x, y = Player:getVelocity()
-        if collisionType ~= "spike" then
+        if collisionType ~= "spike" and collisionType ~= "goal" then
             if wallCol ~= true then
                 if y > 0.001 or y < -0.001 then
                     persisting = 0 
@@ -146,16 +109,16 @@ function endContact(a, b, coll)
                 collisionType = "special" 
                 wallCol = false
             end
-        end
+        end 
     end
 end
 --Resets the collision type and isColliding variable when player is in the air
 function CollisionHandler:resetCollision()
     local x, y = Player:getVelocity()
-    if wallCol == false and collisionType ~= "spike" then
+    if wallCol == false and collisionType ~= "spike" and collisionType ~= "goal" then
         if y > 0.001 or y < -0.001 then
             isColliding = false
-            ollisionType = "none"
+            collisionType = "none"
             return true
         end
     end
@@ -171,6 +134,10 @@ end
 
 function CollisionHandler:getSpikeTouch()
     return touchedSpike
+end
+
+function CollisionHandler:checkIfPlayerTouchGround()
+    return playerTouchGround
 end
 
 

@@ -32,11 +32,11 @@ local jumping = false
 local directionx = 2.5
 local directiony = 2.2
 local offsetx = 10
-local offsety = 8
+local offsety = 10
 local directionx2 = 2.5
 local directiony2 = 2.2
 local offsetx2 = -8
-local offsety2 = -31
+local offsety2 = -33
 local lives = 0
 local orientation = 0
 
@@ -49,29 +49,38 @@ for i = 0, 6, 1 do
     die[i] = {rad = 5, x = -500, y = 100}
 end
 
-function Player:initLives()
-    lives = 10
+function Player:initLives(speedrun)
+    if speedrun then
+        lives = 1000 
+    else
+        lives = 10
+    end
 end
 
 --Used to spawn player. creates shape, physics object and so on--
-function Player:init(x, y)
-    self.x = x
-    self.y = y
-    player = {}
-    player.b = p.newBody(w, self.x, self.y, "dynamic") 
-    player.s = p.newRectangleShape(20, 23)
-    player.f = p.newFixture(player.b, player.s)
-    player.b:setFixedRotation( true )
-    player.f:setUserData("player")
+function Player:init(x, y, tutorial)
+    if tutorial then
+        self.x = x
+        self.y = y
+    else
+        self.x = x
+        self.y = y
+        player = {}
+        player.b = p.newBody(w, self.x, self.y, "dynamic") 
+        player.s = p.newRectangleShape(20, 23)
+        player.f = p.newFixture(player.b, player.s)
+        player.b:setFixedRotation( true )
+        player.f:setUserData("player")
 
-    player.leftSide = love.physics.newRectangleShape( -10, 0, 5 , 5, 0)
-    player.leftSide = love.physics.newFixture(player.b, player.leftSide, 1)
-    player.leftSide:setUserData("left")
+        player.leftSide = love.physics.newRectangleShape( -10, 0, 5 , 5, 0)
+        player.leftSide = love.physics.newFixture(player.b, player.leftSide, 1)
+        player.leftSide:setUserData("left")
 
-    player.rightSide = love.physics.newRectangleShape( 10, 0, 5 , 5, 0)
-    player.rightSide = love.physics.newFixture(player.b, player.rightSide, 1)
-    player.rightSide:setUserData("right")
-    player.b:setBullet( true )
+        player.rightSide = love.physics.newRectangleShape( 10, 0, 5 , 5, 0)
+        player.rightSide = love.physics.newFixture(player.b, player.rightSide, 1)
+        player.rightSide:setUserData("right")
+        player.b:setBullet( true )
+    end
 end
 
 --Destroys the player and stores the last x and y values--
@@ -144,7 +153,11 @@ function Player:animation(dt)
 end
 
 function Player:draw(dt)
-    g.setColor(1, 1, 1)
+    if LevelHandler:colors(1) ~= nil then
+        g.setColor(LevelHandler:colors(1))
+    else
+        g.setColor(1, 1, 1)
+    end
     if debug == true then
         for _, body in pairs(w:getBodies()) do
             for _, fixture in pairs(body:getFixtures()) do
@@ -158,6 +171,7 @@ function Player:draw(dt)
     elseif orientation ~= 0 then
         love.graphics.draw(imageFile, activeFrame, self.x + offsetx2, self.y - offsety2, 160.2, directionx2, directiony2)
     end
+    g.setColor(1, 1, 1)
 end
 
 function Player:lostLife()
@@ -187,6 +201,23 @@ function Player:track()
     self.y = cy
 end
 
+function Player:getPositionX()
+    if player ~= nil then
+        local x = self.x
+        return x 
+    else
+        return nil
+    end
+end
+
+function Player:getPositionY()
+    if player ~= nil then
+        local y = self.y
+        return y
+    else
+        return nil
+    end
+end
 --Tweens the bubbles when player dies--
 function Player:die(dt)
     for i = 0, #die, 1 do
@@ -209,19 +240,16 @@ function Player:die(dt)
     end
     move()
 end
-
 --Handles user input for player controls***Fix walljump issue***--
 local JumpKeyUp = true
 local jump = true
 function Player:controls(dt)
-
     local type = CollisionHandler:getType()
     local isColliding = CollisionHandler:getStatus()
     local x, y = player.b:getLinearVelocity()
-
-    if love.keyboard.isDown("right") then
+    if love.keyboard.isDown("right") or TouchControls:getEvent("X") == "right" then
         offsetx = 10
-        offsety = 8
+        offsety = 10
         directiony = 2.2
         directionx = 2.5
         offsetx2 = -8
@@ -232,9 +260,9 @@ function Player:controls(dt)
         if x > 400 then
             player.b:setLinearVelocity( 400, y )
         end
-    elseif love.keyboard.isDown("left") then
+    elseif love.keyboard.isDown("left") or TouchControls:getEvent("X") == "left" then
         offsetx = -26
-        offsety = 8
+        offsety = 10
         directiony = 2.2
         directionx = -2.5
         offsetx2 = 26
@@ -246,13 +274,13 @@ function Player:controls(dt)
             player.b:setLinearVelocity( -400, y )
         end
     end
-    if love.keyboard.isDown("up") == false then
+    if love.keyboard.isDown("up") == false and TouchControls:getEvent("Y") == "" then
         JumpKeyUp = true
     end
     if type ~= "left" and type ~= "right" then
         if isColliding == true then
             if jump == true then
-                if love.keyboard.isDown("up") and JumpKeyUp == true then
+                if love.keyboard.isDown("up") and JumpKeyUp == true or TouchControls:getEvent("Y") == "up" and JumpKeyUp == true then
                     jump = false
                     runing = false
                     idle = false
@@ -272,8 +300,8 @@ function Player:controls(dt)
         end
     end
     if type == "left" or type == "right" then
-        if love.keyboard.isDown("up") and JumpKeyUp == true then
-            if y > 0.0001 or y < -0.0001 then
+        if love.keyboard.isDown("up") and JumpKeyUp == true or TouchControls:getEvent("Y")== "up" and JumpKeyUp == true then
+            if CollisionHandler:checkIfPlayerTouchGround() == false then
                 if type == "left" then
                     if orientation == 0 then
                         player.b:setLinearVelocity( 210, -500 )
@@ -297,7 +325,7 @@ function Player:controls(dt)
             JumpKeyUp = false
         end
     end
-    if love.keyboard.isDown("down") then
+    if love.keyboard.isDown("down") or TouchControls:getEvent("Y") == "down" then
         if orientation == 0 then
             player.b:applyForce(0, 300)
         elseif orientation ~= 0 then
@@ -327,11 +355,12 @@ function Player:getVelocity()
     return nil
 end
 
-function Player:getStatus()
-    if player == nil then
+function Player:getStatus(get)
+    if get == true then
+        return player.be
+    elseif player == nil then
         return false
-    end
-    if player.b ~= nil then
+    elseif player.b ~= nil then
         return true
     end
 end
