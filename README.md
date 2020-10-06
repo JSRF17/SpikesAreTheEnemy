@@ -10,3 +10,5 @@ To play the game download Love2d and run the .love file. Feedback is appriciated
 
 
 ![alt text](https://github.com/OliverKjellen/10_5/blob/master/Screenshots/Screenshot%202020-10-06%20at%2021.13.32.png)
+![alt text](https://github.com/OliverKjellen/10_5/blob/master/Screenshots/Screenshot%202020-10-06%20at%2021.13.49.png)
+![alt text](https://github.com/OliverKjellen/10_5/blob/master/Screenshots/Screenshot%202020-10-06%20at%2021.14.24.png)
