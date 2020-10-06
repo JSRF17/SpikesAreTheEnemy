@@ -49,7 +49,7 @@ Timer = require("hump.timer")
 Camera = require "gamera"
 --[[Great library, using it as I haven't learned any shader coding yet
     Includes lots of shaders free to use]]--
-local moonshine = require ("moonshines")
+local moonshine = require ("moonshine")
 
 --If playing for the first time init a save file--
 if DataHandler:loadGame() == nil then
