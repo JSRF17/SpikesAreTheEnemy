@@ -240,7 +240,7 @@ function LevelHandler:drawLevel()
             g.rectangle("fill", Levels.borders2[i][1], Levels.borders2[i][2], Levels.borders2[i][3], Levels.borders2[i][4])
         elseif levelType == "high" then
             g.rectangle("fill", Levels.borders1[i][1], Levels.borders1[i][2], Levels.borders1[i][3], Levels.borders1[i][4])
-        else
+        elseif levelType == "normal" then
             g.rectangle("fill", Levels.borders[i][1], Levels.borders[i][2], Levels.borders[i][3], Levels.borders[i][4])
         end
     end

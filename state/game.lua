@@ -57,7 +57,6 @@ function startGame()
             Player:animation(dt)
         end
         if Alive == false and LevelChange == false then
-            --Player:die(dt)
             Player:init(LevelHandler:playerSpawnLocation())
             Alive = true
         end
@@ -112,13 +111,7 @@ function startGame()
             SoundHandler:StopSound("all1")
             Text:reset()
             Text:moveAway()
-            if LevelList[9] == true then
-                Curtain:moveUp()
-            elseif LevelList[15] == true or LevelList[22] == true or LevelList[23] == true or LevelList[28] == true or LevelList[38] == true then
-                Curtain:moveFromLeft()
-            else
-                Curtain:move()
-            end
+            Transition:activate(true)
             Alive = false
             LevelChange = true
             Player:destroy()
@@ -131,13 +124,7 @@ function startGame()
         elseif LevelChange == false and CollisionHandler:getType() == "secret" then
             Text:reset()
             Text:moveAway()
-            if LevelList[9] == true then
-                Curtain:moveUp()
-            elseif LevelList[15] == true then
-                Curtain:moveFromLeft()
-            else
-                Curtain:move()
-            end
+            Transition:activate(true)
             Alive = false
             LevelChange = true
             Player:destroy()
@@ -170,7 +157,6 @@ function startGame()
             love.graphics.print(tostring(CollisionHandler:getType()), 100, 400, 0, 1)
             love.graphics.print(tostring(CollisionHandler:getStatus()), 300, 400, 0, 1)
         end
-        Curtain:draw()
         Text:draw()
         Text:dialogDraw()
     end

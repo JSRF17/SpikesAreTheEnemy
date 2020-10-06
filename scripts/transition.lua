@@ -4,6 +4,7 @@
 ]]--
 
 Transition = {}
+local color = ""
 
 local curtain1 = {}
 curtain1[1] = {x = 0, y = 1200} 
@@ -14,10 +15,20 @@ end
 
 function Transition:draw()
     g.setColor(1, 1, 1)
+    if color == "" then
+        g.setColor(1, 1, 1)
+    else
+        g.setColor(LevelHandler:colors(1))
+    end
     g.rectangle("fill", curtain1[1].x, curtain1[1].y, 2000, 720)
 end
 
-function Transition:activate()
+function Transition:activate(choice)
+    if choice then
+        color = "asLevel"
+    else
+        color = ""
+    end
     local function move()
         Timer.tween(1.3, curtain1[1], {y = 0}, 'in-out-quad')
         Timer.script(function(wait)

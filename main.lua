@@ -27,7 +27,7 @@ local screenWidth, screenHeight = love.window.getDesktopDimensions()
 local dpi_scale = love.window.getDPIScale()
 screenWidth = screenWidth/dpi_scale
 screenHeight = screenHeight/dpi_scale
-push:setupScreen(gameWidth, gameHeight, screenWidth, screenHeight, {fullscreen = true, resizable = false, canvas = false, pixelperfect = false, highdpi = true, stretched = true})
+push:setupScreen(gameWidth, gameHeight, screenWidth, screenHeight, {fullscreen = true, resizable = true, canvas = false, pixelperfect = false, highdpi = true, stretched = true})
 --Requiring modules--
 require("scripts.player")
 require("scripts.transition")
@@ -38,7 +38,6 @@ require("state.game")
 require("state.pause")
 require("state.gameOver")
 require("scripts.soundHandler")
-require("scripts.curtain")
 require("scripts.touchControls")
 require("scripts.settingsChanger")
 require("scripts.text")
@@ -69,12 +68,12 @@ function love.load()
         effect.fastgaussianblur.taps = 3
         effect.fastgaussianblur.offset = 0.5
     else
-        effect.chromasep.radius = 3
+        effect.chromasep.radius = 2
         effect.fastgaussianblur.taps = 5
         effect.fastgaussianblur.offset = 0.7
     end
     camera = Camera()
-    camera.scale = 1.3
+    camera.scale = 1.20
     camera:setFollowStyle('PLATFORMER')
 end
 
@@ -86,7 +85,7 @@ function love.update(dt)
     camera:update(dt)
     if Player:getPositionX() ~= nil then
         if osString == "Android" or osString == "iOS" then
-            camera:follow(Player:getPositionX() - 200 , Player:getPositionY() - 200)
+            camera:follow(Player:getPositionX() - 200 , Player:getPositionY() - 180)
         else
             camera:follow(Player:getPositionX(), Player:getPositionY())
         end
@@ -121,9 +120,9 @@ function love.draw()
 end
 --This is used to resize the screen filters correctly
 function love.resize(rw, rh)
-    effect.disable("crt", "dmg", "pixelate", "glow", "gaussianblur")
+    effect.disable("crt", "chromasep", "fastgaussianblur")
     effect.resize(rw, rh)
-    effect.enable("crt", "dmg", "pixelate", "glow", "gaussianblur")
+    effect.enable("crt", "chromasep", "fastgaussianblur")
     push:resize(rw, rh)
 end
 

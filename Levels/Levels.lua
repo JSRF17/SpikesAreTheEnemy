@@ -17,8 +17,9 @@ level[1] = {
 }
 level[1].spawn = {50, 610}
 level[1].textboxLocation = {-310, 420}
-level[1].color = { 1, 1, 1}
-level[1].bgcolor = { 0.4, 0.4, 0.4}
+level[1].textboxColor = {0.702, 0.682, 0.0706}
+level[1].color = { 0.863, 0.863, 0.106}
+level[1].bgcolor = { 0.416, 0.424, 0.153}
 
 level[2] = {
     {640, 700, 1280, 100},{10, 400, 20, 800},{1270, 320, 20, 500},
@@ -43,8 +44,9 @@ level[2] = {
 }
 level[2].spawn = {50, 460}
 level[2].textboxLocation = {-310, 420}
-level[2].color = { 1, 1, 1}
-level[2].bgcolor = { 0.4, 0.4, 0.4}
+level[2].textboxColor = {0.702, 0.682, 0.0706}
+level[2].color = { 0.863, 0.863, 0.106}
+level[2].bgcolor = { 0.416, 0.424, 0.153}
 
 level[3] = {
     {640, 700, 1280, 100},{10, 400, 20, 800},{1270, 320, 20, 500},
@@ -55,8 +57,9 @@ level[3] = {
 }
 level[3].spawn = {50, 610}
 level[3].textboxLocation = {-310, 420}
-level[3].color = { 1, 1, 1}
-level[3].bgcolor = { 0.4, 0.4, 0.4}
+level[3].textboxColor = {0.702, 0.682, 0.0706}
+level[3].color = { 0.863, 0.863, 0.106}
+level[3].bgcolor = { 0.416, 0.424, 0.153}
 
 level[4] = {
     {640, 700, 1280, 100},
@@ -67,8 +70,9 @@ level[4] = {
 }
 level[4].spawn = {50, 610}
 level[4].textboxLocation = {-310, 420}
-level[4].color = { 1, 1, 1}
-level[4].bgcolor = { 0.4, 0.4, 0.4}
+level[4].textboxColor = {0.702, 0.682, 0.0706}
+level[4].color = { 0.863, 0.863, 0.106}
+level[4].bgcolor = { 0.416, 0.424, 0.153}
 
 level[5] = {
     {640, 700, 1280, 100},{10, 400, 20, 800},{1270, 450, 20, 700},
@@ -87,8 +91,9 @@ level[5] = {
 }
 level[5].spawn = {50, 610}
 level[5].textboxLocation = {-310, 420}
-level[5].color = { 1, 1, 1}
-level[5].bgcolor = { 0.4, 0.4, 0.4}
+level[5].textboxColor = {0.702, 0.682, 0.0706}
+level[5].color = { 0.863, 0.863, 0.106}
+level[5].bgcolor = { 0.416, 0.424, 0.153}
 
 level[6] = {
     {640, 700, 1280, 100},{10, 400, 20, 800},{1270, 450, 20, 700},
@@ -108,9 +113,9 @@ level[6] = {
 }
 level[6].spawn = {50, 610}
 level[6].textboxLocation = {-310, 420}
-level[6].textboxColor = {0.698, 0.392, 0.031}
-level[6].color = { 0.9, 0.53, 0.06}
-level[6].bgcolor = { 0.41, 0.07, 0.07}
+level[6].textboxColor = {0.702, 0.388, 0.0706}
+level[6].color = { 0.863, 0.486, 0.106}
+level[6].bgcolor = { 0.424, 0.29, 0.153}
 
 level[7] = {
     {640, 700, 1280, 100},{10, 400, 20, 800},{1270, 210, 20, 700},
@@ -152,9 +157,9 @@ level[7] = {
 }
 level[7].spawn = {50, 610}
 level[7].textboxLocation = {-310, 420}
-level[7].textboxColor = {0.698, 0.392, 0.031}
-level[7].color = { 0.9, 0.53, 0.06}
-level[7].bgcolor = { 0.41, 0.07, 0.07}
+level[7].textboxColor = {0.702, 0.388, 0.0706}
+level[7].color = { 0.863, 0.486, 0.106}
+level[7].bgcolor = { 0.424, 0.29, 0.153}
 
 level[8] = {
     {640, 700, 1280, 100},{10, 400, 20, 800},{1270, 210, 20, 700},
@@ -174,9 +179,9 @@ level[8] = {
 }
 level[8].spawn = {1230, 110}
 level[8].textboxLocation = {1260, 20}
-level[8].textboxColor = {0.698, 0.392, 0.031}
-level[8].color = { 0.9, 0.53, 0.06}
-level[8].bgcolor = { 0.41, 0.07, 0.07}
+level[8].textboxColor = {0.702, 0.388, 0.0706}
+level[8].color = { 0.863, 0.486, 0.106}
+level[8].bgcolor = { 0.424, 0.29, 0.153}
 
 level[9] = {
     {-20, 700, 640, 100},
@@ -224,9 +229,9 @@ level[9] = {
 }
 level[9].spawn = {50, 610}
 level[9].textboxLocation = {-310, 420}
-level[9].textboxColor = {0.698, 0.392, 0.031}
-level[9].color = { 0.9, 0.53, 0.06}
-level[9].bgcolor = { 0.41, 0.07, 0.07}
+level[9].textboxColor = {0.702, 0.388, 0.0706}
+level[9].color = { 0.863, 0.486, 0.106}
+level[9].bgcolor = { 0.424, 0.29, 0.153}
 
 level[10] = {
     {640, 700, 1280, 100},{10, 400, 20, 800},{1270, 450, 20, 700},
@@ -246,9 +251,9 @@ level[10] = {
 }
 level[10].spawn = {50, 610}
 level[10].textboxLocation = {-310, 420}
-level[10].textboxColor = {0.698, 0.392, 0.031}
-level[10].color = { 0.901, 0.533, 0.06}
-level[10].bgcolor = { 0.41, 0.07, 0.07}
+level[10].textboxColor = {0.702, 0.388, 0.0706}
+level[10].color = { 0.863, 0.486, 0.106}
+level[10].bgcolor = { 0.424, 0.29, 0.153}
 
 level[11] = {
     {640, 700, 1280, 100},{10, 400, 20, 800},{1270, 450, 20, 700},
@@ -1375,9 +1380,9 @@ level[41] = {
 }
 level[41].spawn = {1220, 610}
 level[41].textboxLocation = {1260, 420}
-level[41].textboxColor = {0.815, 0.819, 0.368}
-level[41].color = { 1, 1, 0.552}
-level[41].bgcolor = { 0.58, 0.584, 0.223}
+level[41].textboxColor = {0.702, 0.682, 0.0706}
+level[41].color = { 0.863, 0.863, 0.106}
+level[41].bgcolor = { 0.416, 0.424, 0.153}
 level[41].levelType = "high"
 
 level[42] = {
@@ -1457,9 +1462,9 @@ level[42] = {
 }
 level[42].spawn = {1210, 610}
 level[42].textboxLocation = {1260, 420}
-level[42].textboxColor = {0.815, 0.819, 0.368}
-level[42].color = { 1, 1, 0.552}
-level[42].bgcolor = { 0.58, 0.584, 0.223}
+level[42].textboxColor = {0.702, 0.0706, 0.49}
+level[42].color = { 0.839, 0.106, 0.863}
+level[42].bgcolor = { 0.424, 0.153, 0.424}
 level[42].levelType = "long"
 
 level[43] = {
@@ -1596,9 +1601,9 @@ level[43] = {
 }
 level[43].spawn = {1160, 610}
 level[43].textboxLocation = {1260, 420}
-level[43].textboxColor = {0.815, 0.819, 0.368}
-level[43].color = { 1, 1, 0.552}
-level[43].bgcolor = { 0.58, 0.584, 0.223}
+level[43].textboxColor = {0.345, 0.702, 0.0706}
+level[43].color = { 0.459, 0.863, 0.106}
+level[43].bgcolor = { 0.278, 0.424, 0.153}
 level[43].gravityChange = true
 level[43].levelType = "high"
 
@@ -1647,9 +1652,9 @@ level[44] = {
 }
 level[44].spawn = {1170, 610}
 level[44].textboxLocation = {1260, 420}
-level[44].textboxColor = {0.815, 0.819, 0.368}
-level[44].color = { 1, 1, 0.552}
-level[44].bgcolor = { 0.58, 0.584, 0.223}
+level[44].textboxColor = {0.776, 0.392, 0.541}
+level[44].color = { 0.94, 0.53, 0.62}
+level[44].bgcolor = { 0.45, 0.16, 0.219}
 level[44].levelType = "high"
 
 level[45] = {
@@ -1731,9 +1736,9 @@ level[45] = {
 }
 level[45].spawn = {1210, 610}
 level[45].textboxLocation = {1260, 420}
-level[45].textboxColor = {0.815, 0.819, 0.368}
-level[45].color = { 1, 1, 0.552}
-level[45].bgcolor = { 0.58, 0.584, 0.223}
+level[45].textboxColor = {0.0706, 0.596, 0.702}
+level[45].color = { 0.106, 0.714, 0.863}
+level[45].bgcolor = { 0.153, 0.361, 0.424}
 level[45].levelType = "long"
 
 level[46] = {
@@ -1780,15 +1785,21 @@ level[46] = {
 }
 level[46].spawn = {1210, 610}
 level[46].textboxLocation = {1260, 420}
-level[46].textboxColor = {0.815, 0.819, 0.368}
-level[46].color = { 1, 1, 0.552}
-level[46].bgcolor = { 0.58, 0.584, 0.223}
+level[46].textboxColor = {0.702, 0.302, 0.0706}
+level[46].color = { 0.863, 0.408, 0.106}
+level[46].bgcolor = { 0.424, 0.251, 0.153}
 level[46].levelType = "long"
+
+for i = 1, #level, 1 do
+    if i < 41 then
+        level[i].levelType = "normal"
+    end
+end
 
 -----------------------------left--------------------right-----------------bottom----------------------top---------------------------
 level.borders1 = {{-500, -1200, 500, 7000}, {1280, -1200, 500, 5000}, {-100, 750, 5000, 500}, {-500, -1450, 5000, 400}} ---High level
 level.borders2 = {{-3500, -250, 500, 5000}, {1280, 0, 500, 5000}, {-3000, 750, 10000, 500}, {-3000, -380, 10000, 400}} ---Long level
-level.borders = {{-500, 0, 500, 5000}, {1280, 0, 500, 5000}, {-100, 750, 5000, 500}, {-500, -380, 5000, 400}} ---Normal level
+level.borders = {{-700, 0, 700, 5000}, {1280, 0, 500, 5000}, {-100, 750, 5000, 500}, {-500, -380, 5000, 400}} ---Normal level
 
 function Levels:getLevels()
     return level

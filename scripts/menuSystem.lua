@@ -135,7 +135,7 @@ function MenuSystem:update()
                                                         end
                                                     end
                                                 end
-                                                if World == 1 and tonumber(DataHandler:loadGame()) == "1" then
+                                                if World == 1 and tonumber(DataHandler:loadGame()) == 0 then
                                                     Timer.clear()
                                                     Transition:activate()
                                                     State:allFalse()
@@ -305,7 +305,7 @@ function MenuSystem:draw()
                     if menuState == 2 and worldtable[y] ~= true and y ~= 1 then
                         love.graphics.setColor(0.5, 0.5, 0.5, 0.8)      
                     end
-                    if menuState == 5 and worldtable[y] ~= true and y == 1 then
+                    if menuState == 5 and worldtable[9] ~= true and y == 1 then
                         love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
                     elseif menuState == 5 and worldtable[10] ~= true and y == 2 then
                         love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
@@ -431,12 +431,15 @@ function MenuSystem:Animate()
 end 
 
 function AnimateNonDT()
+    if buttonsToTween.header.x > 650 or buttonsToTween.header.x < 150 then
+        buttonsToTween.header.x = 500
+    end
     Timer.every(2, function()
-        if NonDTANIM == "yas" then
-            Timer.tween(2, buttonsToTween.header, {x = 700}, 'in-out-quad')
+        if NonDTANIM == "yas" and headerTweened == true then
+            Timer.tween(2, buttonsToTween.header, {x = 500}, 'in-out-quad')
             NonDTANIM = "nas"
-        else
-            Timer.tween(2, buttonsToTween.header, {x = 100}, 'in-out-quad')
+        elseif NonDTANIM == "nas" and headerTweened == true then 
+            Timer.tween(2, buttonsToTween.header, {x = 300}, 'in-out-quad')
             NonDTANIM = "yas"
         end
     end)
