@@ -16,7 +16,7 @@ It features 40 challenges spread out over 8 separate levels.
 
 To play the game download Love2d and run the .love file.
 
-![alt text](https://github.com/OliverKjellen/10_5/blob/master/Screenshots/Screenshot%2020-10-10%at%18.31.46.png)
+![alt text](https://github.com/OliverKjellen/10_5/blob/master/Screenshots/Screenshot%202020-10-10%20at%2018.31.46.png)
 ![alt text](https://github.com/OliverKjellen/10_5/blob/master/Screenshots/Screenshot%202020-10-06%20at%2021.13.49.png)
 ![alt text](https://github.com/OliverKjellen/10_5/blob/master/Screenshots/Screenshot%202020-10-06%20at%2021.14.24.png)
 
