@@ -210,28 +210,6 @@ function Player:getPositionY()
         return nil
     end
 end
---Tweens the bubbles when player dies--
-function Player:die(dt)
-    for i = 0, #die, 1 do
-        die[i].x = storedX
-        die[i].y = storedY
-    end
-    function move()
-        Timer.tween(0.2, die[1], {x = storedX - 10, y = storedY - 10}, 'in-out-quad')
-        Timer.tween(0.2, die[2], {x = storedX + 10, y = storedY + 10}, 'in-out-quad')
-        Timer.tween(0.2, die[3], {x = storedX - 5, y = storedY + 5}, 'in-out-quad')
-        Timer.tween(0.2, die[4], {x = storedX + 5, y = storedY - 5}, 'in-out-quad')
-        Timer.tween(0.2, die[5], {x = storedX - 10, y = storedY - 5}, 'in-out-quad')
-        Timer.tween(0.2, die[6], {x = storedX + 10, y = storedY + 5}, 'in-out-quad')
-        Timer.script(function(wait)
-            wait(0.2)
-            for i = 0, #die, 1 do
-                Timer.tween(0, die[i], {x = -500, y = -500}, 'in-out-quad')
-            end
-        end)
-    end
-    move()
-end
 --Handles user input for player controls***Fix walljump issue***--
 local JumpKeyUp = true
 local jump = true
@@ -357,12 +335,15 @@ function Player:getStatus(get)
     end
 end
 
-function Player:pushPlayer(direction)
+function Player:pushPlayer(direction, first)
     if direction == "up" then
         player.b:applyForce(0, -30)
         orientation = 0
     elseif direction == "down" then
         player.b:applyForce(0, 30)
+        if first then
+            offsetx2 = 26
+        end
         orientation = 90
     elseif direction == "justUp" then
         player.b:applyForce(0, -20)

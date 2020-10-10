@@ -228,7 +228,7 @@ function LevelHandler:drawLevel()
                 if blocks[i].f:getUserData() == "goal" then
                     g.setColor(1.0, 1.0, 1.0, 0.0)
                 elseif blocks[i].f:getUserData() == "secret" then
-                    g.setColor(1.0, 1.0, 1.0, 0.5)
+                    g.setColor(1.0, 1.0, 1.0, 0.0)
                 end
             end
             g.polygon("fill", blocks[i].b:getWorldPoints(blocks[i].s:getPoints()))
