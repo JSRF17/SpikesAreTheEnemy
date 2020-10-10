@@ -7,6 +7,7 @@ SoundHandler = {}
 music = love.audio.newSource("resources/backgroudMusic.mp3", "static")
 menuMusic = love.audio.newSource("resources/menuMusic.mp3", "static")
 jumpSound = love.audio.newSource("resources/jump.wav", "static")
+invertSound = love.audio.newSource("resources/jump.wav", "static")
 nextSound = love.audio.newSource("resources/nextLevel.wav", "static")
 selectSound = love.audio.newSource("resources/buttonSelect.wav", "static")
 gameOverSound = love.audio.newSource("resources/gameOver.wav", "static")
@@ -15,12 +16,15 @@ dieSound = love.audio.newSource("resources/dead.wav", "static")
 typeSound = love.audio.newSource("resources/Typing.wav", "static")
 diveSound = love.audio.newSource("resources/dive.wav", "static")
 pauseSound = love.audio.newSource("resources/pause.wav", "static")
-jumpSound:setVolume(0.3) -- 30% of ordinary volume
+jumpSound:setVolume(0.3)
 jumpSound:setPitch(0.6)
-typeSound:setVolume(0.5)
+invertSound:setVolume(0.3) 
+invertSound:setPitch(0.3)
+typeSound:setVolume(0.6)
 music:setPitch(0.6)
-music:setVolume(0.3)
-menuMusic:setVolume(0.3)
+music:setVolume(0.6)
+menuMusic:setVolume(0.6)
+nextSound:setVolume(0.4)
 
 local soundChoice = true
 local soundChoiceMusic = true
@@ -37,6 +41,9 @@ function SoundHandler:PlaySound(type)
     if soundChoice == true then
         if type == "jump" then
             jumpSound:play()
+        end
+        if type == "invert" then
+            invertSound:play()
         end
         if type == "next" then
             nextSound:play()
@@ -85,7 +92,6 @@ function SoundHandler:StopSound(type)
     end
     if type == "all" then
         typeSound:stop()
-        
     end
     if type == "all1" then
         typeSound:stop()

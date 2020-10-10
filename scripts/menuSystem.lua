@@ -15,7 +15,7 @@ local vissibleControls = SettingsChanger:getSettings("vissibleControls")
 --------------------------------------------------
 
 function MenuSystem:init(selectedMenu)
-    SoundHandler:StopSound("all")
+    SoundHandler:StopSound("all1")
     SoundHandler:backgroundMusic("menu")
     activeMenu = selectedMenu
     menuState = 1
@@ -51,7 +51,7 @@ function MenuSystem:init(selectedMenu)
                 {{"Level 9", "Level 10", "Level 11", "Level 12", "Level 13", "Level 14"}}
             }
         end
-        menu.header = {"Retro_Dave (5/10)"}
+        menu.header = {"SUPER_Retro Dave"}
     elseif activeMenu == 2 then
         menu = {
             {{"resume game", "to menu"}}
@@ -312,7 +312,6 @@ function MenuSystem:draw()
                     rectangleFill = "line"
                     love.graphics.setColor(0.8,0.8,0.8)  
                 end
-                g.printf(SettingsChanger:print(), 100 + 50, 100 + 25, 400, "center", 0, 0.5)
             end
         end
     end

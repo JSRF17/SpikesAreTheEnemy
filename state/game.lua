@@ -20,7 +20,7 @@ local firstGravityChange = true
 
 --This function runs when the state changes to game--
 function startGame()
-    SoundHandler:StopSound("all")
+    SoundHandler:StopSound("all1")
     function love.keypressed( key )
     end
     --Initilize game values--
@@ -104,7 +104,7 @@ function startGame()
                     w:setGravity( 0, 1280 )
                     gravityChange = true
                 end
-                SoundHandler:PlaySound("jump")
+                SoundHandler:PlaySound("invert")
                 Timer.script(function(wait)
                     wait(0.03)
                     gravityChangeKeyPress = true
@@ -129,7 +129,7 @@ function startGame()
             SoundHandler:PlaySound("dead")
             Text:dialogSetup1("Lives:"..Player:checkLives())
         elseif LevelChange == false and CollisionHandler:getType() == "goal" then
-            SoundHandler:StopSound("all1")
+            --SoundHandler:StopSound("all1")
             Text:reset()
             Text:moveAway()
             Transition:activate(true)
@@ -192,7 +192,7 @@ function startGame()
         Text:dialogDraw()
 
     end
-    
+
     function Game:isLevelChange()
         return LevelChange
     end
