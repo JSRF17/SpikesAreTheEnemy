@@ -5,33 +5,15 @@
 MenuSystem = {}
 
 local activeMenu, selectedButton, menuState, unlockedWorld, stateButtonsText, buttons, baseX, baseY, buttonsToTween, lenghtReached, rectangelFill, darkText
-local sound = 0
-local music = 0
-local dPad = 0
-local vissibleControls = 0
-local currentSettings = DataHandler:loadSettings()
-for i = 1, #currentSettings, 1 do
-    if currentSettings[i] == "music" then
-        SettingsChanger:turnOffSoundMusic()
-        music = 1
-    end
-    if currentSettings[i] == "sound" then
-        SettingsChanger:turnOffSound()
-        sound = 1
-    end
-    if currentSettings[i] == "dPad" then
-        SettingsChanger:changeControls2()
-        dPad = 1
-    else
-        SettingsChanger:changeControls()
-    end
-    if currentSettings[i] == "vissibleControls" then
-        SettingsChanger:vissibleControlsOff()
-        vissibleControls = 1
-    else
-        SettingsChanger:vissibleControlsOn()
-    end
-end
+
+--Loading current settings based on saved file---
+SettingsChanger:loadSettings()
+local sound = SettingsChanger:getSettings("sound")
+local music = SettingsChanger:getSettings("music")
+local dPad = SettingsChanger:getSettings("dPad")
+local vissibleControls = SettingsChanger:getSettings("vissibleControls")
+--------------------------------------------------
+
 function MenuSystem:init(selectedMenu)
     SoundHandler:StopSound("all")
     SoundHandler:backgroundMusic("menu")
@@ -57,7 +39,7 @@ function MenuSystem:init(selectedMenu)
                 {{"start game", "settings", "about", "quit"}},
                 {{"Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7", "Level 8"}},
                 {{"sound", "music", "dPad", "invissible controls"}},
-                {{"A game by Oliver Kjellen 2020"}},
+                {{"Use the on screen controls to control Dave and complete the levels.\nWatch out for spikes and don't waste those lives\n\nA game by Oliver Kjellen 2020\nSpecial thanks to SpeckyYT for support and testing"}},
                 {{"Level 9", "Level 10", "Level 11", "Level 12", "Level 13", "Level 14"}}
             }
         else
@@ -65,7 +47,7 @@ function MenuSystem:init(selectedMenu)
                 {{"start game", "settings", "about", "quit"}},
                 {{"Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7", "Level 8"}},
                 {{"sound", "music"}},
-                {{"A game by Oliver Kjellen 2020"}},
+                {{"Use the arrow keys to control Dave and complete the levels.\nWatch out for spikes and don't waste those lives\n\nA game by Oliver Kjellen 2020\nSpecial thanks to SpeckyYT for support and testing"}},
                 {{"Level 9", "Level 10", "Level 11", "Level 12", "Level 13", "Level 14"}}
             }
         end
@@ -190,41 +172,17 @@ function MenuSystem:update()
                                     end
                                 elseif menuState == 3 then
                                     if i == 1 then
-                                        if sound == 0 then
-                                            SettingsChanger:turnOffSound()
-                                            DataHandler:saveSetting("sound")
-                                            sound = 1
-                                        else
-                                            SettingsChanger:turnOnSound()
-                                            sound = 0
-                                        end
+                                        SettingsChanger:turnOnOffSound()
+                                        sound = SettingsChanger:getSettings("sound")
                                     elseif i == 2 then
-                                        if music == 0 then
-                                            SettingsChanger:turnOffSoundMusic()
-                                            DataHandler:saveSetting("music")
-                                            music = 1
-                                        else
-                                            SettingsChanger:turnOnSoundMusic()
-                                            music = 0
-                                        end
+                                        SettingsChanger:turnOnOffMusic()
+                                        music = SettingsChanger:getSettings("music")
                                     elseif i == 3 then
-                                        if dPad == 0 then
-                                            SettingsChanger:changeControls2()
-                                            DataHandler:saveSetting("dPad")
-                                            dPad = 1
-                                        else
-                                            SettingsChanger:changeControls()
-                                            dPad = 0
-                                        end
+                                        SettingsChanger:changeControls()
+                                        dPad = SettingsChanger:getSettings("dPad")
                                     elseif i == 4 then
-                                        if vissibleControls == 0 then
-                                            SettingsChanger:vissibleControlsOff()
-                                            DataHandler:saveSetting("vissibleControls")
-                                            vissibleControls = 1
-                                        else
-                                            SettingsChanger:vissibleControlsOn()
-                                            vissibleControls = 0
-                                        end
+                                        SettingsChanger:vissibleControlsOff()
+                                        vissibleControls = SettingsChanger:getSettings("vissibleControls")
                                     end
                                 end
                             elseif activeMenu == 2 then
@@ -322,19 +280,19 @@ function MenuSystem:draw()
                     elseif menuState == 5 and worldtable[16] ~= true and y == 8 then
                         love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
                     end
-                    if menuState == 3 and sound == 1 and y == 1 then
+                    if menuState == 3 and sound == "off" and y == 1 or menuState == 3 and sound == "firstTime" and y == 1 then
                         rectangleFill = "fill"
                         darkText = true
                     end
-                    if menuState == 3 and music == 1 and y == 2 then
+                    if menuState == 3 and music == "off" and y == 2 or menuState == 3 and music == "firstTime" and y == 2 then
                         rectangleFill = "fill"
                         darkText = true
                     end
-                    if menuState == 3 and dPad == 1 and y == 3 then
+                    if menuState == 3 and dPad == "off" and y == 3 or menuState == 3 and dPad == "firstTime" and y == 3 then
                         rectangleFill = "fill"
                         darkText = true
                     end
-                    if menuState == 3 and vissibleControls == 1 and y == 4 then
+                    if menuState == 3 and vissibleControls == "off" and y == 4 or menuState == 3 and vissibleControls == "firstTime" and y == 4 then
                         rectangleFill = "fill"
                         darkText = true
                     end
@@ -344,12 +302,17 @@ function MenuSystem:draw()
                             love.graphics.setColor(0.2, 0.2, 0.2, 0.8)
                             darkText = false
                         end   
-                        g.printf(menu[i][v][y], buttonsToTween[y].x + 50, buttonsToTween[y].y + 25, 400, "center", 0, 0.5)
+                        if y == 1 and menuState == 4 then
+                            g.printf(menu[i][v][y], buttonsToTween[y].x + 50, buttonsToTween[y].y + 25, 1000, "center", 0, 0.5)
+                        else
+                            g.printf(menu[i][v][y], buttonsToTween[y].x + 50, buttonsToTween[y].y + 25, 400, "center", 0, 0.5)
+                        end
                         buttons[y] = {x = buttonsToTween[y].x, y = buttonsToTween[y].y, width = buttonsToTween[y].width, height = buttonsToTween[y].height, id = y}
                     end
                     rectangleFill = "line"
                     love.graphics.setColor(0.8,0.8,0.8)  
                 end
+                g.printf(SettingsChanger:print(), 100 + 50, 100 + 25, 400, "center", 0, 0.5)
             end
         end
     end
@@ -386,7 +349,11 @@ function MenuSystem:menuStateChange()
     allTweened = false
     headerTweened = false
     for i = 1, 8, 1 do
-        buttonsToTween[i] = {x = -300, y = -210, width = 300, height = 100}
+        if menuState == 4 then
+            buttonsToTween[i] = {x = -300, y = -210, width = 620, height = 350}
+        else
+            buttonsToTween[i] = {x = -300, y = -210, width = 300, height = 100}
+        end
     end
     buttonsToTween.back = {x = -300, y = -540, width = 110, height = 70}
     buttonsToTween.next = {x = 1400, y = -540, width = 110, height = 70}
@@ -431,7 +398,7 @@ function MenuSystem:Animate()
 end 
 
 function AnimateNonDT()
-    if buttonsToTween.header.x > 650 or buttonsToTween.header.x < 150 then
+    --[[if buttonsToTween.header.x > 650 or buttonsToTween.header.x < 150 then
         buttonsToTween.header.x = 500
     end
     Timer.every(2, function()
@@ -442,5 +409,5 @@ function AnimateNonDT()
             Timer.tween(2, buttonsToTween.header, {x = 300}, 'in-out-quad')
             NonDTANIM = "yas"
         end
-    end)
+    end)]]--
 end

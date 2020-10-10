@@ -10,7 +10,7 @@ local fileSetttingMusic = love.filesystem.newFile("settingMusic.sav")
 local fileSetttingControl = love.filesystem.newFile("settingControl.sav")
 local fileSetttingControlV = love.filesystem.newFile("settingControlV.sav")
 
-function DataHandler:loadSettings()
+function DataHandler:loadSettings(choice)
     fileSetttingSound:open("r")
     fileSetttingMusic:open("r")
     fileSetttingControl:open("r")
@@ -22,6 +22,7 @@ function DataHandler:loadSettings()
     data[3] = tostring(fileSetttingControl:read())
     data[4] = tostring(fileSetttingControlV:read())
 
+    fileSetttingSound:close()
     fileSetttingSound:close()
     fileSetttingMusic:close()
     fileSetttingControl:close()
@@ -46,25 +47,26 @@ function DataHandler:saveGame(num)
     end
 end
 
-function DataHandler:saveSetting(setting)
-    fileSetttingSound:open("w")
-    fileSetttingMusic:open("w")
-    fileSetttingControl:open("w")
-    fileSetttingControlV:open("w")
-    if setting == "sound" then
+function DataHandler:saveSetting(setting, type)
+    local setting = setting
+    local type = type
+    if type == "sound" then
+        fileSetttingSound:open("w")
         fileSetttingSound:write(setting)
-    elseif setting == "music" then
+        fileSetttingSound:close()
+    elseif type == "music" then
+        fileSetttingMusic:open("w")
         fileSetttingMusic:write(setting)
-    elseif setting == "dPad" then
+        fileSetttingMusic:close()
+    elseif type == "dPad" then
+        fileSetttingControl:open("w")
         fileSetttingControl:write(setting)
-    elseif setting == "vissibleControls" then
+        fileSetttingControl:close()
+    elseif type == "vissibleControls" then
+        fileSetttingControlV:open("w")
         fileSetttingControlV:write(setting)
+        fileSetttingControlV:close()
     end
-
-    fileSetttingSound:close()
-    fileSetttingMusic:close()
-    fileSetttingControl:close()
-    fileSetttingControlV:close()
 end
 
 function DataHandler:init()

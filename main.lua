@@ -6,20 +6,24 @@
 p = love.physics
 g = love.graphics
 k = love.keyboard
+
 --Setting font
 font = g.newFont("resources/jackeyfont.ttf", 64)
 g.setFont(font)
---Global variables
+
+--Global variables--
 mouseMoved = false
 mouseX = 0
 mouseY = 0
 mouseDown = false
 width = g.getWidth()
 osString = love.system.getOS()
---Local variables
+
+--Local variables--
 local screenChangeValue = 0
 local rw, rh, rf = love.window.getMode()
---Great library for handling scaling and letterboxing
+
+--Great library for handling scaling for different screen sizes (desktop, mobile and so on)
 push = require "TLFres"
 -----------------Push setup------------------------------------------------------
 local gameWidth, gameHeight = 1280, 720
@@ -28,6 +32,8 @@ local dpi_scale = love.window.getDPIScale()
 screenWidth = screenWidth/dpi_scale
 screenHeight = screenHeight/dpi_scale
 push:setupScreen(gameWidth, gameHeight, screenWidth, screenHeight, {fullscreen = true, resizable = true, canvas = false, pixelperfect = false, highdpi = true, stretched = true})
+---------------Push setup end-----------------------------------------------------
+
 --Requiring modules--
 require("scripts.player")
 require("scripts.transition")
@@ -39,14 +45,16 @@ require("state.pause")
 require("state.gameOver")
 require("scripts.soundHandler")
 require("scripts.touchControls")
-require("scripts.settingsChanger")
 require("scripts.text")
 require("scripts.dataHandler")
+require("scripts.settingsChanger")
 require("Levels.LevelHandler")
 require("scripts.menuSystem")
 --Great library, using it for timers and tweening--
 Timer = require("hump.timer")
+--Great library to handle camera emulation--
 Camera = require "gamera"
+
 --[[Great library, using it as I haven't learned any shader coding yet
     Includes lots of shaders free to use]]--
 local moonshine = require ("moonshine")
@@ -56,6 +64,7 @@ if DataHandler:loadGame() == nil then
     DataHandler:init()
     DataHandler:initSettings()
 end
+
 --Start at the menu state--
 States.menu = true
 State:menuStart()
@@ -118,6 +127,7 @@ function love.draw()
         push:finish()
     end)
 end
+
 --This is used to resize the screen filters correctly
 function love.resize(rw, rh)
     effect.disable("crt", "chromasep", "fastgaussianblur")
@@ -126,6 +136,7 @@ function love.resize(rw, rh)
     push:resize(rw, rh)
 end
 
+--Change from fullscreen to windowed mode on desktop--
 function love.keyreleased(key)
     if key == "f" then
         if screenChangeValue % 2 ~= 0 then

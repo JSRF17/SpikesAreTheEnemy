@@ -66,14 +66,12 @@ function SoundHandler:PlaySound(type)
 end
 --Same as above but for music
 function SoundHandler:backgroundMusic(type)
-    if soundChoice == true then
-        if soundChoiceMusic == true then
-            if type == "game" and music:isPlaying() == false then
-                music:play()
-            end
-            if type == "menu" and menuMusic:isPlaying() == false then
-                menuMusic:play()
-            end
+    if soundChoiceMusic == true then
+        if type == "game" and music:isPlaying() == false then
+            music:play()
+        end
+        if type == "menu" and menuMusic:isPlaying() == false then
+            menuMusic:play()
         end
     end
 end
@@ -87,11 +85,13 @@ function SoundHandler:StopSound(type)
     end
     if type == "all" then
         typeSound:stop()
-        music:stop()
-        menuMusic:stop()
+        
     end
     if type == "all1" then
         typeSound:stop()
+        typeSound:stop()
+        music:stop()
+        menuMusic:stop()
     end
 end
 
