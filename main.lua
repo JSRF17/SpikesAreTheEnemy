@@ -50,6 +50,7 @@ require("scripts.dataHandler")
 require("scripts.settingsChanger")
 require("Levels.LevelHandler")
 require("scripts.menuSystem")
+require("scripts.diamonds")
 --Great library, using it for timers and tweening--
 Timer = require("hump.timer")
 --Great library to handle camera emulation--
@@ -121,6 +122,7 @@ function love.draw()
         end
         if States.game == true and Game:isLevelChange() == false then
             TouchControls:draw()
+            Diamonds:drawCount()
         end
         IntroTutorial:draw()
         Transition:draw()

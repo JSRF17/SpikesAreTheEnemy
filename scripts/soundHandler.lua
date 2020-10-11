@@ -10,6 +10,7 @@ jumpSound = love.audio.newSource("resources/jump.wav", "static")
 invertSound = love.audio.newSource("resources/jump.wav", "static")
 nextSound = love.audio.newSource("resources/nextLevel.wav", "static")
 selectSound = love.audio.newSource("resources/buttonSelect.wav", "static")
+coinSound = love.audio.newSource("resources/buttonSelect.wav", "static")
 gameOverSound = love.audio.newSource("resources/gameOver.wav", "static")
 backSound = love.audio.newSource("resources/buttonBack.wav", "static")
 dieSound = love.audio.newSource("resources/dead.wav", "static")
@@ -25,6 +26,8 @@ music:setPitch(0.6)
 music:setVolume(0.6)
 menuMusic:setVolume(0.6)
 nextSound:setVolume(0.4)
+coinSound:setPitch(0.7)
+coinSound:setVolume(0.6)
 
 local soundChoice = true
 local soundChoiceMusic = true
@@ -68,6 +71,9 @@ function SoundHandler:PlaySound(type)
         end
         if type == "gameOver" then
             gameOverSound:play()
+        end
+        if type == "coin" then
+            coinSound:play()
         end
     end
 end

@@ -115,7 +115,7 @@ function Text:dialogUpdate(dt)
 end
 
 function Text:dialogUpdateIntro(dt)
-    elapsed = elapsed + 0.09
+    elapsed = elapsed + 0.14
     letters = math.min(math.floor(elapsed), #message)
     if elapsed > #message then
         dialog_finished = true
@@ -127,6 +127,8 @@ function Text:dialogUpdateIntro(dt)
 end
 
 function Text:dialogDraw()
+    font = g.newFont(20)
+    g.setFont(font)
     g.setColor(0.0, 0.0, 0.0)
     if message1 ~= nil then
         g.printf(message1:sub(1, letters1), textbox[1].x + 5, textbox[1].y + 200, 300)
@@ -142,47 +144,48 @@ function Text:storyline(select)
         "Level_1-3 loaded. Wall jumping is certainly possible, just jump again when touching a wall to initialize a walljump.",
         "Level_1-4 loaded. Tip: You can press the down arrow while in mid air to dive",
         "Level_1-5 loaded.",
-        "Level_2-1 loaded. You've reached Level 2, good work!",
+        "Level_2-1 loaded. Lives initialized. You've reached Level 2, good work!",
         "Level_2-2 loaded. You'll need to dive to avoid those spikes.",
         "Level_2-3 loaded.",
         "Level_2-4 loaded.",
         "Level_2-5 loaded. You made it! Don't die now and you'll reach level 3.",
-        "Level_3-1 loaded. You've reached Level 3, that's more than Level 2",
+        "Level_3-1 loaded. Lives initialized. You've reached Level 3, that's more than Level 2",
         "Level_3-2 loaded. Those spikes leave no room for error",
         "Level_3-3 loaded.",
         "Level_3-4 loaded. This level is easy! You can't possibly fail now",
         "Level_3-5 loaded. That's a lot of spikes! Don't step on them",
-        "Level_4-1 loaded.You've reached Level 4, that's more than Level 3. Just walljump and you'll be good",
+        "Level_4-1 loaded. Lives initialized. You've reached Level 4, that's more than Level 3. Just walljump and you'll be good",
         "Level_4-2 loaded. Do you want to know a secret?",
         "Level_4-3 loaded. Jump and dive, jump and dive",
         "Level_4-4 loaded. How long can you jump?",
         "Level_4-5 loaded. I like wall jumping, do you?",
-        "Level_5-1 loaded. You've reached Level 5, that's more than Level 4",
+        "Level_5-1 loaded. Lives initialized. You've reached Level 5, that's more than Level 4",
         "Level_5-2 loaded.",
         "Level_5-3 loaded.",
         "Level_5-4 loaded.",
         "Level_5-5 loaded.",
-        "Level_6-1 loaded. GravityChange = active. Press the spacebar to change your local gravity",
+        "Level_6-1 loaded. Lives initialized. GravityChange = active. Press the spacebar to change your local gravity",
         "Level_6-2 loaded. GravityChange = active.",
         "Level_6-3 loaded. GravityChange = active.",
         "Level_6-4 loaded. GravityChange = active.",
         "Level_6-5 loaded. GravityChange = active.",
-        "Level_7-1 loaded.",
+        "Level_7-1 loaded. Lives initialized.",
         "Level_7-2 loaded. GravityChange = active.",
         "Level_7-3 loaded.",
         "Level_7-4 loaded. GravityChange = active.",
         "Level_7-5 loaded.",
-        "Level_8-1 loaded. GravityChange = active.",
+        "Level_8-1 loaded. Lives initialized. GravityChange = active.",
         "Level_8-2 loaded.",
         "Level_8-3 loaded. GravityChange = active.",
         "Level_8-4 loaded.",
         "You have completed all base levels!! Mucho gracias for playing......Now move on and complete the long levels coming up!",
-        "Level_9 loaded. Reach the top, avoid the spikes. Simple enough",
-        "Level_10 loaded. Test your balance in this level.",
-        "Level_11 loaded. GravityChange = active. Lots of spikes, like usual, avoid them.",
-        "Level_12 loaded. This one requires precision, don't get nervous",
-        "Level_13 loaded. This one should not be too difficult.",
-        "Level_14 loaded. This one requires precision and focus. This is the last level. After this one ther is no more levels. However you will unlock the speed running mode once this level is completed.", 
+        "Level_9-1 loaded. Lives initialized. Reach the top, avoid the spikes. Simple enough",
+        "Level_9-2 loaded. Test your balance in this level.",
+        "Level_10-1 loaded. Lives initialized. GravityChange = active. Lots of spikes, like usual, avoid them.",
+        "Level_10-2 loaded. This one requires precision, don't get nervous",
+        "Level_11-1 loaded. Lives initialized. This one should not be too difficult.",
+        "Level_11-2 loaded. This one requires precision and focus.", 
+        "Level 12 loaded. Lives initialized. This is the last level. After this one ther is no more levels. However you will unlock the speed running mode once this level is completed.",
     }
     for i = 1, #texts, 1 do
         if select == i then

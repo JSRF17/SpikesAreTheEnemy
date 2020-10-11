@@ -40,7 +40,7 @@ function MenuSystem:init(selectedMenu)
                 {{"Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7", "Level 8"}},
                 {{"sound", "music", "dPad", "invissible controls"}},
                 {{"Use the on screen controls to control Dave and complete the levels.\nWatch out for spikes and don't waste those lives\n\nA game by Oliver Kjellen 2020\nSpecial thanks to SpeckyYT for support and testing"}},
-                {{"Level 9", "Level 10", "Level 11", "Level 12", "Level 13", "Level 14"}}
+                {{"Level 9", "Level 10", "Level 11", "Level 12"}}
             }
         else
             menu = {
@@ -48,7 +48,7 @@ function MenuSystem:init(selectedMenu)
                 {{"Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7", "Level 8"}},
                 {{"sound", "music"}},
                 {{"Use the arrow keys to control Dave and complete the levels.\nWatch out for spikes and don't waste those lives\n\nA game by Oliver Kjellen 2020\nSpecial thanks to SpeckyYT for support and testing"}},
-                {{"Level 9", "Level 10", "Level 11", "Level 12", "Level 13", "Level 14"}}
+                {{"Level 9", "Level 10", "Level 11", "Level 12"}}
             }
         end
         menu.header = {"SUPER_Retro Dave"}
@@ -124,6 +124,7 @@ function MenuSystem:update()
                                                     Timer.script(function(wait)
                                                         wait(2.3)
                                                         IntroTutorial:init()
+                                                        Diamonds:countReset()
                                                     end)
                                                 elseif worldtable[f] == true then
                                                     Timer.clear()
@@ -132,6 +133,7 @@ function MenuSystem:update()
                                                     Timer.script(function(wait)
                                                         wait(2.3)
                                                         State:gameStart()
+                                                        Diamonds:countReset()
                                                     end)
                                                 end                    
                                             end
@@ -166,6 +168,7 @@ function MenuSystem:update()
                                                 Timer.script(function(wait)
                                                     wait(2.3)
                                                     State:gameStart()
+                                                    Diamonds:countReset()
                                                 end)
                                             end                    
                                         end
@@ -270,14 +273,6 @@ function MenuSystem:draw()
                     elseif menuState == 5 and worldtable[11] ~= true and y == 3 then
                         love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
                     elseif menuState == 5 and worldtable[12] ~= true and y == 4 then
-                        love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
-                    elseif menuState == 5 and worldtable[13] ~= true and y == 5 then
-                        love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
-                    elseif menuState == 5 and worldtable[14] ~= true and y == 6 then
-                        love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
-                    elseif menuState == 5 and worldtable[15] ~= true and y == 7 then
-                        love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
-                    elseif menuState == 5 and worldtable[16] ~= true and y == 8 then
                         love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
                     end
                     if menuState == 3 and sound == "off" and y == 1 or menuState == 3 and sound == "firstTime" and y == 1 then

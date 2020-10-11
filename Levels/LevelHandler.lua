@@ -21,6 +21,16 @@ World = 0
 SpeedRun = false
 local isPlaying = false
 local leveldata
+local blocks
+local dLocations
+
+function LevelHandler:initDiamonds()
+    dLocations = {}
+    for i = 0, 50, 1 do
+        dLocations[i] = {x, y, v}
+    end
+end
+
 --Initializes all "blocks" (where each level stores data such as physics bodies, fixtures and shapes)--
 function LevelHandler:initBlocks()
     blocks = {}
@@ -66,19 +76,13 @@ function LevelHandler:loadLevels()
         LevelList[41] = true
     end
     if World == 10 then
-        LevelList[42] = true
-    end
-    if World == 11 then
         LevelList[43] = true
     end
-    if World == 12 then
-        LevelList[44] = true
-    end
-    if World == 13 then
+    if World == 11 then
         LevelList[45] = true
     end
-    if World == 14 then
-        LevelList[46] = true
+    if World == 12 then
+        LevelList[47] = true
     end
     return LevelList
 end
@@ -91,6 +95,9 @@ function LevelHandler:dispose()
     end
     blocks = nil
     w:destroy()
+    for i = 1, #dLocations, 1 do
+        dLocations[i] = nil 
+    end
 end
 --Calls dispose function, sets current leveList value to false and the next one to true--
 function LevelHandler:next()
@@ -143,13 +150,19 @@ function LevelHandler:loadLevelData(leveldata)
     textboxLocation = leveldata.textboxLocation
     levelColor = leveldata.color
     bgLevelColor = leveldata.bgcolor
+    for i = 1, #leveldata.diamondLocations, 1 do
+        dLocations[i].x = leveldata.diamondLocations[i][1]
+        dLocations[i].y = leveldata.diamondLocations[i][2]
+    end
     if leveldata.levelType ~= nil then
         levelType = leveldata.levelType
     end
+    Diamonds:init()
 end
 --Loads the current level depending on LevelList value--
 function LevelHandler:loadCurrentLevel(secret)
     LevelHandler:initBlocks()
+    LevelHandler:initDiamonds()
     p.setMeter(100)
     w = p.newWorld(0, 12.8*p.getMeter(), true)
     w:setCallbacks(beginContact, endContact)
@@ -158,44 +171,48 @@ function LevelHandler:loadCurrentLevel(secret)
         if LevelList[i] == true then
             if i == 6 then
                 DataHandler:saveGame(2)
+                Player:initLives(SpeedRun)
             end
             if i == 11 then
                 DataHandler:saveGame(3)
+                Player:initLives(SpeedRun)
             end
             if i == 16 then
                 DataHandler:saveGame(4)
+                Player:initLives(SpeedRun)
             end
             if i == 21 then
                 DataHandler:saveGame(5)
+                Player:initLives(SpeedRun)
             end
             if i == 26 then
                 DataHandler:saveGame(6)
+                Player:initLives(SpeedRun)
             end
             if i == 31 then
                 DataHandler:saveGame(7)
+                Player:initLives(SpeedRun)
             end
             if i == 36 then
                 DataHandler:saveGame(8)
+                Player:initLives(SpeedRun)
             end
             if i == 41 then
                 DataHandler:saveGame(9)
-            end
-            if i == 42 then
-                DataHandler:saveGame(10)
+                Player:initLives(SpeedRun)
             end
             if i == 43 then
-                DataHandler:saveGame(11)
-            end
-            if i == 44 then
-                DataHandler:saveGame(12)
+                DataHandler:saveGame(10)
+                Player:initLives(SpeedRun)
             end
             if i == 45 then
-                DataHandler:saveGame(13)
+                DataHandler:saveGame(11)
+                Player:initLives(SpeedRun)
             end
-            if i == 46 then
-                DataHandler:saveGame(14)
+            if i == 47 then
+                DataHandler:saveGame(12)
+                Player:initLives(SpeedRun)
             end
-            Player:initLives(SpeedRun)
             if secret ~= nil then
                 leveldata = Levelinit[i].s
             else
@@ -271,6 +288,16 @@ function LevelHandler:colors(colorChoice)
             return bgColor
         end
     end
+end
+
+function LevelHandler:getDiamondsLocation()
+    local dLoc = {}
+    for i = 1, #dLocations, 1 do
+        if dLocations[i].x ~= nil then
+            dLoc[i] = dLocations[i]
+        end
+    end
+    return dLoc
 end
 
 function LevelHandler:textboxColor()

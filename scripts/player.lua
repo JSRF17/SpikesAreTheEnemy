@@ -178,6 +178,10 @@ function Player:lostLife()
     lives = lives - 1
 end
 
+function Player:bonusLives()
+    lives = lives + 5
+end
+
 function Player:checkLives()
     return lives
 end

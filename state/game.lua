@@ -57,7 +57,7 @@ function startGame()
 
         SoundHandler:backgroundMusic("game")
         w:update(dt)
-
+        Diamonds:update(dt)
         if Alive then
             Player:controls(dt)
             Player:track(dt)
@@ -136,10 +136,6 @@ function startGame()
             Alive = false
             LevelChange = true
             Timer.script(function(wait)
-                wait(1.0)
-                Player:destroy()
-            end)
-            Timer.script(function(wait)
                 wait(2.0)
                 LevelHandler:next()
                 LevelChange = false
@@ -151,10 +147,6 @@ function startGame()
             Transition:activate(true)
             Alive = false
             LevelChange = true
-            Timer.script(function(wait)
-                wait(1.0)
-                Player:destroy()
-            end)
             Timer.script(function(wait)
                 wait(2.0)
                 LevelHandler:loadCurrentLevel(true)
@@ -171,7 +163,6 @@ function startGame()
             local dx = love.math.random(-0, 0)
             local dy = love.math.random(-10, 10)
             love.graphics.translate(dx, dy)
-            
             Timer.script(function(wait)
                 wait(0.15)
             end)
@@ -187,10 +178,9 @@ function startGame()
             love.graphics.print(tostring(CollisionHandler:getType()), 100, 400, 0, 1)
             love.graphics.print(tostring(CollisionHandler:getStatus()), 300, 400, 0, 1)
         end
-
         Text:draw()
         Text:dialogDraw()
-
+        Diamonds:draw()
     end
 
     function Game:isLevelChange()
