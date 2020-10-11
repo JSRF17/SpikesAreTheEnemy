@@ -26,7 +26,7 @@ local dLocations
 
 function LevelHandler:initDiamonds()
     dLocations = {}
-    for i = 0, 50, 1 do
+    for i = 0, 20, 1 do
         dLocations[i] = {x, y, v}
     end
 end

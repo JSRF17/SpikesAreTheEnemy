@@ -8,11 +8,11 @@ Diamonds = {}
 local diamond = g.newImage("resources/diamond2.png")
 local getDiamondTable
 local diamondTable = {}
-for i = 1, 100, 1 do
+for i = 1, 20, 1 do
     diamondTable[i] = {y, x, v}
 end
 local diamondTableRect = {}
-for i = 1, 100, 1 do
+for i = 1, 20, 1 do
     diamondTableRect[i] = {y, x, v}
 end
 local Done
@@ -24,10 +24,10 @@ function Diamonds:count()
 end
 
 function Diamonds:init()
-    for i = 1, 100, 1 do
+    for i = 1, 20, 1 do
         diamondTable[i] = {y, x, v}
     end
-    for i = 1, 100, 1 do
+    for i = 1, 20, 1 do
         diamondTableRect[i] = {y, x, v}
     end
     getDiamondTable = LevelHandler:getDiamondsLocation()
@@ -95,9 +95,11 @@ end
 function Diamonds:draw()
     g.setColor(LevelHandler:colors(1))
     for i = 1, #getDiamondTable, 1 do
-        g.draw(diamond, diamondTable[i].x, diamondTable[i].y, 0, 1, 1)
-        if diamondTableRect[i].x ~= nil then
-            --g.rectangle("line", diamondTableRect[i].x, diamondTableRect[i].y, diamondTableRect[i].width, diamondTableRect[i].height)
+        if i < 10 then
+            g.draw(diamond, diamondTable[i].x, diamondTable[i].y, 0, 1, 1)
+            if diamondTableRect[i].x ~= nil then
+                --g.rectangle("line", diamondTableRect[i].x, diamondTableRect[i].y, diamondTableRect[i].width, diamondTableRect[i].height)
+            end
         end
     end
 end
