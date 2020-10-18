@@ -12,6 +12,14 @@ LevelHandler = {}
 
 local Levels = Levels:getLevels()
 
+grassPositions = {}
+
+function LevelHandler:initGrassPositions()
+    for i = 1, 150, 1 do
+        grassPositions[i] = {x,y}
+    end
+end
+
 Levelinit = {}
 for i = 1, #Levels, 1 do
     Levelinit[i] = Levels[i]
@@ -150,6 +158,10 @@ function LevelHandler:loadLevelData(leveldata)
     textboxLocation = leveldata.textboxLocation
     levelColor = leveldata.color
     bgLevelColor = leveldata.bgcolor
+    for i = 1, #leveldata.grassLocations, 1 do
+        grassPositions[i].x = leveldata.grassLocations[i][1]
+        grassPositions[i].y = leveldata.grassLocations[i][2]
+    end
     for i = 1, #leveldata.diamondLocations, 1 do
         dLocations[i].x = leveldata.diamondLocations[i][1]
         dLocations[i].y = leveldata.diamondLocations[i][2]
@@ -158,11 +170,13 @@ function LevelHandler:loadLevelData(leveldata)
         levelType = leveldata.levelType
     end
     Diamonds:init()
+    Grass:init()
 end
 --Loads the current level depending on LevelList value--
 function LevelHandler:loadCurrentLevel(secret)
     LevelHandler:initBlocks()
     LevelHandler:initDiamonds()
+    LevelHandler:initGrassPositions()
     p.setMeter(100)
     w = p.newWorld(0, 12.8*p.getMeter(), true)
     w:setCallbacks(beginContact, endContact)
@@ -237,7 +251,7 @@ end
 --Draws the level
 function LevelHandler:drawLevel()
     g.setColor(LevelHandler:colors(2))
-    g.rectangle("fill", -3000, -1200, 9280, 9020)
+    g.rectangle("fill", -3000, -1200, 9180, 9020)
     g.setColor(LevelHandler:colors(1))
     for i = 1, #blocks, 1 do
         if blocks[i].b ~= nil then
@@ -250,6 +264,8 @@ function LevelHandler:drawLevel()
             end
             g.polygon("fill", blocks[i].b:getWorldPoints(blocks[i].s:getPoints()))
             g.setColor(LevelHandler:colors(1))
+        else
+            break
         end
     end
     for i = 1, 4, 1 do
@@ -315,4 +331,8 @@ function LevelHandler:returnGravityChange()
     else
         return false
     end
+end
+
+function LevelHandler:getGrass()
+    return grassPositions
 end

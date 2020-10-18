@@ -43,11 +43,6 @@ local orientation = 0
 --Used when spawing bubbles as the self.x and self.y will be nill once the player is destroyed--
 storedX = -500
 storedY = -500
---Circles that spawn when player dies--
-die = {}
-for i = 0, 6, 1 do
-    die[i] = {rad = 5, x = -500, y = 100}
-end
 
 function Player:initLives(speedrun)
     if speedrun then
@@ -152,7 +147,7 @@ function Player:animation(dt)
     end
 end
 
-function Player:draw(dt)
+function Player:draw()
     if LevelHandler:colors(1) ~= nil then
         g.setColor(LevelHandler:colors(1))
     else

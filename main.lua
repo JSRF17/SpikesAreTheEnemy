@@ -37,7 +37,7 @@ push:setupScreen(gameWidth, gameHeight, screenWidth, screenHeight, {fullscreen =
 --Requiring modules--
 require("scripts.player")
 require("scripts.transition")
-require("scripts.introTutorial")
+require("state.introTutorial")
 require("state.stateHandler")
 require("state.menu")
 require("state.game")
@@ -51,10 +51,12 @@ require("scripts.settingsChanger")
 require("Levels.LevelHandler")
 require("scripts.menuSystem")
 require("scripts.diamonds")
+require("scripts.grass")
 --Great library, using it for timers and tweening--
 Timer = require("hump.timer")
 --Great library to handle camera emulation--
 Camera = require "gamera"
+
 
 --[[Great library, using it as I haven't learned any shader coding yet
     Includes lots of shaders free to use]]--
@@ -85,11 +87,13 @@ function love.load()
     camera = Camera()
     camera.scale = 1.20
     camera:setFollowStyle('PLATFORMER')
+    --love.profiler = require('profile') 
+    --love.profiler.start()
 end
 
+love.frame = 0
 --Main update function--
 function love.update(dt)
-    IntroTutorial:update(dt)
     Timer.update(dt)
     State:stateChanger(dt)
     camera:update(dt)
@@ -100,6 +104,13 @@ function love.update(dt)
             camera:follow(Player:getPositionX(), Player:getPositionY())
         end
     end
+    --[[love.frame = love.frame + 1
+    if love.frame%100 == 0 then
+        love.report = love.profiler.report(20)
+        love.profiler.reset()
+    end]]
+    --sleep(dt)
+    love.window.setTitle(tostring(love.timer.getFPS()))
 end
 
 --Main draw function--
@@ -128,6 +139,7 @@ function love.draw()
         Transition:draw()
         push:finish()
     end)
+    --love.graphics.print(love.report or "Please wait...")
 end
 
 --This is used to resize the screen filters correctly

@@ -6,7 +6,7 @@
 ]]--
 
 State = {}
-States = {game = false, change = false, menu = false, game2 = false, paused = false, gameOver = false, isPlaying = false}
+States = {game = false, change = false, menu = false, game2 = false, paused = false, gameOver = false, isPlaying = false, intro = false}
 local function changeState(state)
    local bool = false
    for i,v in pairs(States) do
@@ -23,11 +23,18 @@ function State:gameStart()
     States.game = true
     States.change = true
     States.isPlaying = true
+    SoundHandler:backgroundMusic("game")
 end
 
 function State:menuStart()
     changeState()
     States.menu = true
+    States.change = true
+end
+
+function State:introStart()
+    changeState()
+    States.intro = true
     States.change = true
 end
 
@@ -40,6 +47,7 @@ end
 function State:resume()
     changeState()
     States.game = true
+    SoundHandler:backgroundMusic("game")
 end
 
 function State:gameover()
@@ -59,6 +67,8 @@ function State:stateChanger(dt)
             Pause:loadMenu()
         elseif States.gameOver == true then
             GameOver:loadMenu()
+        elseif States.intro == true then
+            IntroTutorial:init()
         end
         States.change = false
 	end
@@ -72,6 +82,8 @@ function State:stateChanger(dt)
         elseif States.game == true then
             TouchControls:update()
             Game:update(dt)
+        elseif States.intro == true then
+            IntroTutorial:update(dt)
         end
 	end
 end

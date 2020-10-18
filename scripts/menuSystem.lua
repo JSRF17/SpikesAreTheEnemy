@@ -123,7 +123,7 @@ function MenuSystem:update()
                                                     State:allFalse()
                                                     Timer.script(function(wait)
                                                         wait(2.3)
-                                                        IntroTutorial:init()
+                                                        State:introStart()
                                                         Diamonds:countReset()
                                                     end)
                                                 elseif worldtable[f] == true then

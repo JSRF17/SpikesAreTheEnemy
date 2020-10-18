@@ -37,6 +37,8 @@ function startGame()
         Text:init(-200, 2050)
         LevelHandler:loadCurrentLevel()
         Player:pushPlayer("justUp")
+        --LevelHandler:initPlatformPositions()
+        Grass:init()
     end
     --Disposes of certain values and resets them--
     function Game:dispose()
@@ -54,10 +56,10 @@ function startGame()
         if k.isDown("left") or k.isDown("right") or TouchControls:getEvent("X") == "right" or TouchControls:getEvent("X") == "left" then
             firstGravityChange = false
         end
-
-        SoundHandler:backgroundMusic("game")
         w:update(dt)
         Diamonds:update(dt)
+        Grass:animate(dt)
+        Grass:update()
         if Alive then
             Player:controls(dt)
             Player:track(dt)
@@ -155,7 +157,7 @@ function startGame()
         end
     end
     --Gives acces to the world w in case it's needed in the collisionhandler--
-    CollisionHandler:getWorld(w)
+    --CollisionHandler:getWorld(w)
     --Draws everything relevant to the game, different levels get drawn depending on the LevelList value--
     function Game:draw()
 
@@ -163,6 +165,7 @@ function startGame()
             local dx = love.math.random(-0, 0)
             local dy = love.math.random(-10, 10)
             love.graphics.translate(dx, dy)
+            
             Timer.script(function(wait)
                 wait(0.15)
             end)
@@ -181,6 +184,7 @@ function startGame()
         Text:draw()
         Text:dialogDraw()
         Diamonds:draw()
+        Grass:draw()
     end
 
     function Game:isLevelChange()
