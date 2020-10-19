@@ -58,6 +58,7 @@ function startGame()
         end
         w:update(dt)
         Diamonds:update(dt)
+        Diamonds:animate(dt)
         Grass:animate(dt)
         Grass:update()
         if Alive then
@@ -137,6 +138,7 @@ function startGame()
             Transition:activate(true)
             Alive = false
             LevelChange = true
+            Player:destroy()
             Timer.script(function(wait)
                 wait(2.0)
                 LevelHandler:next()

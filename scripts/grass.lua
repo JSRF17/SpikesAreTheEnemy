@@ -1,11 +1,11 @@
 
 --[[
-    Diamonds
+    Handles logic for loading, initializing, drawing, updating and animating grass.
+    Each grass patch is animated individually so that theu will move individually when the player runs our walks through them.
 ]]--
 
 Grass = {}
---Fix animation when player moves in grass, separate small and big grass patch...
---Look into not animating all grass patches when player steps in one, needs to be local to that specific grass patch
+
 local grass = g.newImage("resources/grass.png")
 local frameCoordinates = {
     --GrassBig    
@@ -167,14 +167,7 @@ function Grass:draw()
                         love.graphics.draw(grass, activeFrameSmall[1].static, tableOfGrass[i].x - 20, tableOfGrass[i].y - 23, 0, 2.5, 1.5)
                     end
                 end
-                --love.graphics.draw(grass, frame2, tableOfGrass[i].x + 10, tableOfGrass[i].y - 32, 0, 2.5, 1.5)
             end
-            --elseif randomTabel[i] == 2 then
-              --  love.graphics.draw(grass, frame1, tableOfGrass[i].x + 10, tableOfGrass[i].y - 32, 0, 2.5, 1.5)
-                --love.graphics.draw(grass, frame2, tableOfGrass[i].x - 20, tableOfGrass[i].y - 32, 0, 2.5, 1.5)
-            --elseif randomTabel[i] == 1 then
-              --  love.graphics.draw(grass, frame2, tableOfGrass[i].x + 10, tableOfGrass[i].y - 32, 0, 2.5, 1.5)
-            --end
         end
     end
 end

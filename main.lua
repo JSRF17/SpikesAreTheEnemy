@@ -74,16 +74,15 @@ State:menuStart()
 
 --Loading various things at startup--
 function love.load()
-    effect = moonshine(moonshine.effects.chromasep).chain(moonshine.effects.crt).chain(moonshine.effects.fastgaussianblur)
+    effect = moonshine(moonshine.effects.chromasep).chain(moonshine.effects.crt).chain(moonshine.effects.pixelate).chain(moonshine.effects.posterize)
     if osString == "Android" or osString == "iOS" then
         effect.chromasep.radius = 2
-        effect.fastgaussianblur.taps = 3
-        effect.fastgaussianblur.offset = 0.5
     else
         effect.chromasep.radius = 2
-        effect.fastgaussianblur.taps = 5
-        effect.fastgaussianblur.offset = 0.7
     end
+    effect.pixelate.size = {2,2}
+    effect.pixelate.feedback = 0.4
+    effect.posterize.num_bands = 10
     camera = Camera()
     camera.scale = 1.20
     camera:setFollowStyle('PLATFORMER')

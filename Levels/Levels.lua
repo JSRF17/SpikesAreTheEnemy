@@ -346,9 +346,9 @@ level[11] = {
 }
 level[11].spawn = {50, 610}
 level[11].textboxLocation = {-310, 420}
-level[11].textboxColor = {0.776, 0.392, 0.541}
-level[11].color = { 0.94, 0.53, 0.62}
-level[11].bgcolor = { 0.45, 0.16, 0.219}
+level[11].textboxColor = {0.701, 0.07, 0.388}
+level[11].color = { 0.862, 0.105, 0.63}
+level[11].bgcolor = { 0.42, 0.152, 0.325}
 level[11].diamondLocations = {{80, 360},{1200, 580}}
 level[11].grassLocations = {
     {700, 400},{945, 400},{1225, 300},
@@ -380,9 +380,9 @@ level[12] = {
 }
 level[12].spawn = {1230, 110}
 level[12].textboxLocation = {1260, 20}
-level[12].textboxColor = {0.776, 0.392, 0.541}
-level[12].color = { 0.94, 0.53, 0.62}
-level[12].bgcolor = { 0.45, 0.16, 0.219}
+level[12].textboxColor = {0.701, 0.07, 0.388}
+level[12].color = { 0.862, 0.105, 0.63}
+level[12].bgcolor = { 0.42, 0.152, 0.325}
 level[12].diamondLocations = {{710, 200},{500, 450}}
 level[12].grassLocations = {
     {700, 660},{745, 660},{765, 150},
@@ -407,9 +407,9 @@ level[13] = {
 }
 level[13].spawn = {50, 610}
 level[13].textboxLocation = {-310, 420}
-level[13].textboxColor = {0.776, 0.392, 0.541}
-level[13].color = { 0.94, 0.53, 0.62}
-level[13].bgcolor = { 0.45, 0.16, 0.219}
+level[13].textboxColor = {0.701, 0.07, 0.388}
+level[13].color = { 0.862, 0.105, 0.63}
+level[13].bgcolor = { 0.42, 0.152, 0.325}
 level[13].diamondLocations = {{500, 340},{550, 340}}
 level[13].grassLocations = {
     {950, 660},{1000, 660},
@@ -434,9 +434,9 @@ level[14] = {
 }
 level[14].spawn = {50, 610}
 level[14].textboxLocation = {-310, 420}
-level[14].textboxColor = {0.776, 0.392, 0.541}
-level[14].color = { 0.94, 0.53, 0.62}
-level[14].bgcolor = { 0.45, 0.16, 0.219}
+level[14].textboxColor = {0.701, 0.07, 0.388}
+level[14].color = { 0.862, 0.105, 0.63}
+level[14].bgcolor = { 0.42, 0.152, 0.325}
 level[14].diamondLocations = {{400, 540},{740, 540}}
 level[14].grassLocations = {
     {1150, 660},{1100, 660},
@@ -486,9 +486,9 @@ level[15] = {
 }
 level[15].spawn = {50, 400}
 level[15].textboxLocation = {-310, 320}
-level[15].textboxColor = {0.776, 0.392, 0.541}
-level[15].color = { 0.94, 0.53, 0.62}
-level[15].bgcolor = { 0.45, 0.16, 0.219}
+level[15].textboxColor = {0.701, 0.07, 0.388}
+level[15].color = { 0.862, 0.105, 0.63}
+level[15].bgcolor = { 0.42, 0.152, 0.325}
 level[15].diamondLocations = {{400, 540},{750, 540},{985, 350}}
 level[15].grassLocations = {
     {1180, 660},{1130, 660},
@@ -518,7 +518,7 @@ level[16].textboxLocation = {-310, 420}
 level[16].textboxColor = {0.109, 0.392, 0.658}
 level[16].color = { 0.14, 0.53, 0.86}
 level[16].bgcolor = { 0.18, 0.18, 0.37}
-level[16].diamondLocations = {{50, 400},{615, 50},{1200, 430}}
+level[16].diamondLocations = {{50, 400},{615, 50},{1200, 435}}
 level[16].grassLocations = {
     {1180, 490},{1130, 490},
     {150, 450},{100, 450},{50, 450},
@@ -546,7 +546,7 @@ level[17].textboxLocation = {-310, 420}
 level[17].textboxColor = {0.109, 0.392, 0.658}
 level[17].color = { 0.14, 0.53, 0.86}
 level[17].bgcolor = { 0.18, 0.18, 0.37}
-level[17].diamondLocations = {{800, 50},{650, 50},{700, 50},{750, 50}}
+level[17].diamondLocations = {{800, 55},{650, 55},{700, 55},{750, 55}}
 level[17].grassLocations = {
     {1150, 110},{1100, 110},
     {352, 660},{402, 660},{452, 660},
@@ -592,7 +592,7 @@ level[18].textboxLocation = {-310, 420}
 level[18].textboxColor = {0.109, 0.392, 0.658}
 level[18].color = { 0.14, 0.53, 0.86}
 level[18].bgcolor = { 0.18, 0.18, 0.37}
-level[18].diamondLocations = {{185, 300},{485, 300},{785, 300},{1085, 300}}
+level[18].diamondLocations = {{185, 304},{485, 304},{785, 304},{1085, 304}}
 level[18].grassLocations = {
     {352, 660},{402, 660},{492, 360},
     {860, 660},{970, 660},{1020, 660},
@@ -763,7 +763,7 @@ level[24].textboxLocation = {-310, 420}
 level[24].textboxColor = {0.698, 0.07, 0.156}
 level[24].color = { 0.86, 0.10, 0.219}
 level[24].bgcolor = { 0.41, 0.149, 0.15}
-level[24].diamondLocations = {{825, 50},{540, 80}}
+level[24].diamondLocations = {{825, 50},{540, 84}}
 level[24].grassLocations = {
     {150, 660},{200, 660},{250, 660},
     {300, 660},{350, 660},{400, 660},
@@ -1611,9 +1611,9 @@ level[41] = {
 }
 level[41].spawn = {1220, 610}
 level[41].textboxLocation = {1260, 420}
-level[41].textboxColor = {0.702, 0.682, 0.0706}
-level[41].color = { 0.863, 0.863, 0.106}
-level[41].bgcolor = { 0.416, 0.424, 0.153}
+level[41].textboxColor = {0.779, 0.45, 0.378}
+level[41].color = { 0.94, 0.53, 0.62}
+level[41].bgcolor = { 0.45, 0.16, 0.219}
 level[41].levelType = "high"
 level[41].diamondLocations = {{355, 150},{455, 150},{555, 150},{655, 150},{755, 150},{855, 150}}
 level[41].grassLocations = {
@@ -1703,9 +1703,9 @@ level[42] = {
 }
 level[42].spawn = {1210, 610}
 level[42].textboxLocation = {1260, 420}
-level[42].textboxColor = {0.702, 0.0706, 0.49}
-level[42].color = { 0.839, 0.106, 0.863}
-level[42].bgcolor = { 0.424, 0.153, 0.424}
+level[42].textboxColor = {0.779, 0.45, 0.378}
+level[42].color = { 0.94, 0.53, 0.62}
+level[42].bgcolor = { 0.45, 0.16, 0.219}
 level[42].levelType = "long"
 level[42].diamondLocations = {{-475, 500},{-1055, 500},{-1560, 500}}
 level[42].grassLocations = {
@@ -1853,7 +1853,7 @@ level[43].color = { 0.459, 0.863, 0.106}
 level[43].bgcolor = { 0.278, 0.424, 0.153}
 level[43].gravityChange = true
 level[43].levelType = "high"
-level[43].diamondLocations = {{790, -150},{180, 250},{650, 620},{650, -420},{640, -750}}
+level[43].diamondLocations = {{790, -150},{180, 250},{650, 620},{650, -415},{640, -740}}
 level[43].grassLocations = {
     {200, 300},{450, 100},{500, 100},
     {750, 660},{900, 660},
@@ -1904,9 +1904,9 @@ level[44] = {
 }
 level[44].spawn = {1170, 610}
 level[44].textboxLocation = {1260, 420}
-level[44].textboxColor = {0.776, 0.392, 0.541}
-level[44].color = { 0.94, 0.53, 0.62}
-level[44].bgcolor = { 0.45, 0.16, 0.219}
+level[44].textboxColor = {0.345, 0.702, 0.0706}
+level[44].color = { 0.459, 0.863, 0.106}
+level[44].bgcolor = { 0.278, 0.424, 0.153}
 level[44].levelType = "high"
 level[44].diamondLocations = {{190, -250},{150, 350},{750, 350},{1090, -250},{630, -680}}
 level[44].grassLocations = {
@@ -2050,9 +2050,9 @@ level[46] = {
 }
 level[46].spawn = {1210, 610}
 level[46].textboxLocation = {1260, 420}
-level[46].textboxColor = {0.702, 0.302, 0.0706}
-level[46].color = { 0.863, 0.408, 0.106}
-level[46].bgcolor = { 0.424, 0.251, 0.153}
+level[46].textboxColor = {0.0706, 0.596, 0.702}
+level[46].color = { 0.106, 0.714, 0.863}
+level[46].bgcolor = { 0.153, 0.361, 0.424}
 level[46].levelType = "long"
 level[46].diamondLocations = {{115, 620},{215, 620},{315, 620},{415, 620}}
 level[46].grassLocations = {
