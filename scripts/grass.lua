@@ -145,7 +145,6 @@ function Grass:draw()
             --g.rectangle("line", grassHitboxes[i].x, grassHitboxes[i].y, grassHitboxes[i].width, grassHitboxes[i].height)
         end
         if type(tableOfGrass[i].x) == "number" then
-            
             if tableOfGrass[i].s == "single" then
                 if activeFrameSmall[i].touched == true then
                     love.graphics.draw(grass, activeFrameSmall[i].grass, tableOfGrass[i].x - 20, tableOfGrass[i].y - 23, 0, 2.5, 1.5)

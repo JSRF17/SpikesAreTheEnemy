@@ -73,6 +73,11 @@ function beginContact(a, b, coll)
             wallCol = true
             collisionType = "right"
         end
+        if a:getUserData() == "Roof" and b:getUserData() == "player" or b:getUserData() == "Roof" and a:getUserData() == "player" then
+            collisionType = "Roof"
+        elseif a:getUserData() == "Ground" and b:getUserData() == "player" or b:getUserData() == "Ground" and a:getUserData() == "player" then
+            collisionType = "Ground"
+        end
     end
     if Player:getStatus() == false then
         isColliding = false
@@ -97,7 +102,7 @@ function endContact(a, b, coll)
             playerTouchGround = false 
         end
         x, y = Player:getVelocity()
-        if collisionType ~= "spike" and collisionType ~= "goal" then
+        if collisionType ~= "spike" and collisionType ~= "goal" and collisionType ~= "secret" then
             if wallCol ~= true then
                 if y > 0.001 or y < -0.001 then
                     persisting = 0 
@@ -115,7 +120,7 @@ end
 --Resets the collision type and isColliding variable when player is in the air
 function CollisionHandler:resetCollision()
     local x, y = Player:getVelocity()
-    if wallCol == false and collisionType ~= "spike" and collisionType ~= "goal" then
+    if wallCol == false and collisionType ~= "spike" and collisionType ~= "goal" and collisionType ~= "secret" then
         if y > 0.001 or y < -0.001 then
             isColliding = false
             collisionType = "none"

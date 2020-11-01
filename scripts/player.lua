@@ -25,6 +25,7 @@ activeFrame = frames[currentFrame]
 local animationTimeIdle = 0
 local animationTimeRun = 0
 local animationTimeJump = 0
+local blinkTime = 0
 local runing = false
 local runingFast = false
 local idle = true 
@@ -39,6 +40,11 @@ local offsetx2 = -8
 local offsety2 = -33
 local lives = 0
 local orientation = 0
+local test = true
+local died = false
+local Blink = true
+local BlinkReset = true
+local blink = 0
 
 --Used when spawing bubbles as the self.x and self.y will be nill once the player is destroyed--
 storedX = -500
@@ -57,7 +63,7 @@ function Player:init(x, y, tutorial)
     if tutorial then
         self.x = x
         self.y = y
-    else
+    elseif test == true then
         self.x = x
         self.y = y
         player = {}
@@ -75,25 +81,75 @@ function Player:init(x, y, tutorial)
         player.rightSide = love.physics.newFixture(player.b, player.rightSide, 1)
         player.rightSide:setUserData("right")
         player.b:setBullet( true )
+        test = false
     end
 end
 
 --Destroys the player and stores the last x and y values--
-function Player:destroy()
-    storedX = self.x
-    storedY = self.y
-    player.leftSide:destroy()
-    player.rightSide:destroy()
-    player.f:destroy()
-    player.b:destroy()
-    player.b = nil
-    player.s = nil 
-    player.f = nil 
-    player = nil
-    orientation = 0
+function Player:destroy(choice)
+    if "physics" then
+        player.leftSide:destroy()
+        player.rightSide:destroy()
+        player.f:destroy()
+        player.b:destroy()
+        player.b = nil
+        player.s = nil 
+        player.f = nil 
+    else
+        storedX = self.x
+        storedY = self.y
+        player.leftSide:destroy()
+        player.rightSide:destroy()
+        player.f:destroy()
+        player.b:destroy()
+        player.b = nil
+        player.s = nil 
+        player.f = nil 
+    end
+    if choice == "justPhysicsBody" then
+        died = true
+        deathFrame = activeFrame
+        Timer.script(function(wait)
+            wait(0.8)
+            player = nil
+            orientation = 0
+            test = true
+            died = false
+        end)
+    else
+        player = nil
+        orientation = 0
+        test = true
+    end
 end
 
 function Player:animation(dt)
+    if player.b == nil then
+        blinkTime = blinkTime + dt
+        if blinkTime > 0.02 then
+            if Blink then
+                blink = blink + 0.1
+            elseif Blink ~= true then
+                blink = blink - 0.1
+            end
+            if blink > 0.9 then
+                blink = blink - 0.1
+                BlinkReset = true
+            end
+            if blink < 0.1 then
+                blink = blink + 0.1
+                BlinkReset = false
+            end
+            if BlinkReset then
+                blink = blink - 0.1
+                Blink = false
+            elseif BlinkReset == false then
+                blink = blink + 0.1
+                Blink = true
+            end
+            blinkTime = 0
+        end
+    end
     if jumping == true then
         animationTimeJump = animationTimeJump + dt
         if animationTimeRun > 0.2 then
@@ -148,10 +204,10 @@ function Player:animation(dt)
 end
 
 function Player:draw()
-    if LevelHandler:colors(1) ~= nil then
+    if died == true then
+        g.setColor(0, 0, 0, blink)
+    elseif LevelHandler:colors(1) ~= nil then
         g.setColor(LevelHandler:colors(1))
-    else
-        g.setColor(1, 1, 1)
     end
     if debug == true then
         for _, body in pairs(w:getBodies()) do
@@ -161,10 +217,18 @@ function Player:draw()
             end
         end
     end
-    if orientation == 0 then
-        love.graphics.draw(imageFile, activeFrame, self.x - offsetx, self.y - offsety, 0, directionx, directiony)
-    elseif orientation ~= 0 then
-        love.graphics.draw(imageFile, activeFrame, self.x + offsetx2, self.y - offsety2, 160.2, directionx2, directiony2)
+    if player.b ~= nil then
+        if orientation == 0 then
+            love.graphics.draw(imageFile, activeFrame, self.x - offsetx, self.y - offsety, 0, directionx, directiony)
+        elseif orientation ~= 0 then
+            love.graphics.draw(imageFile, activeFrame, self.x + offsetx2, self.y - offsety2, 160.2, directionx2, directiony2)
+        end
+    else
+        if orientation == 0 then
+            love.graphics.draw(imageFile, deathFrame, self.x - offsetx, self.y - offsety, 0, directionx, directiony)
+        elseif orientation ~= 0 then
+            love.graphics.draw(imageFile, deathFrame, self.x + offsetx2, self.y - offsety2, 160.2, directionx2, directiony2)
+        end
     end
     g.setColor(1, 1, 1)
 end
@@ -187,9 +251,24 @@ function Player:drawLives()
 end
 
 function Player:track()
-    local cx, cy = player.b:getWorldPoints(player.s:getPoints())
-    self.x = cx
-    self.y = cy
+    if player ~= nil then
+        if player.b ~= nil then
+            local cx, cy = player.b:getWorldPoints(player.s:getPoints())
+            self.x = cx
+            self.y = cy
+        end
+    end
+end
+
+function Player:teleport(x, y)
+    if player ~= nil then
+        if x ~= nil then
+            self.x = x
+        end
+        if y ~= nil then
+            self.y = y
+        end
+    end
 end
 
 function Player:getPositionX()
@@ -212,107 +291,119 @@ end
 --Handles user input for player controls***Fix walljump issue***--
 local JumpKeyUp = true
 local jump = true
-function Player:controls(dt)
-    local type = CollisionHandler:getType()
-    local isColliding = CollisionHandler:getStatus()
-    local x, y = player.b:getLinearVelocity()
-    if love.keyboard.isDown("right") or TouchControls:getEvent("X") == "right" then
-        offsetx = 10
-        offsety = 10
-        directiony = 2.2
-        directionx = 2.5
-        offsetx2 = -8
-        directionx2 = -2.5
-        runing = true
-        idle = false
-        player.b:applyForce(40, 0)
-        if x > 400 then
-            player.b:setLinearVelocity( 400, y )
-        end
-    elseif love.keyboard.isDown("left") or TouchControls:getEvent("X") == "left" then
-        offsetx = -26
-        offsety = 10
-        directiony = 2.2
-        directionx = -2.5
-        offsetx2 = 26
-        directionx2 = 2.5
-        runing = true
-        idle = false
-        player.b:applyForce(-40, 0)
-        if x < -400 then
-            player.b:setLinearVelocity( -400, y )
-        end
-    end
-    if love.keyboard.isDown("up") == false and TouchControls:getEvent("Y") == "" then
-        JumpKeyUp = true
-    end
-    if type ~= "left" and type ~= "right" then
-        if isColliding == true then
-            if jump == true then
-                if love.keyboard.isDown("up") and JumpKeyUp == true or TouchControls:getEvent("Y") == "up" and JumpKeyUp == true then
-                    jump = false
-                    runing = false
-                    idle = false
-                    jumping = true
+function Player:controls(dt, miniGame)
+    if player ~= nil then
+        if player.b ~= nil then
+            local type = CollisionHandler:getType()
+            local isColliding = CollisionHandler:getStatus()
+            local x, y = player.b:getLinearVelocity()
+            if love.keyboard.isDown("right") or TouchControls:getEvent("X") == "right" then
+                offsetx = 10
+                offsety = 10
+                directiony = 2.2
+                directionx = 2.5
+                offsetx2 = -8
+                directionx2 = -2.5
+                runing = true
+                idle = false
+                if miniGame then
+                    player.b:applyForce(150, 0)
+                else
+                    player.b:applyForce(40, 0)
+                end
+                if x > 400 then
+                    player.b:setLinearVelocity( 400, y )
+                end
+            elseif love.keyboard.isDown("left") or TouchControls:getEvent("X") == "left" then
+                offsetx = -26
+                offsety = 10
+                directiony = 2.2
+                directionx = -2.5
+                offsetx2 = 26
+                directionx2 = 2.5
+                runing = true
+                idle = false
+                if miniGame then
+                    player.b:applyForce(-150, 0)
+                else
+                    player.b:applyForce(-40, 0)
+                end
+                if x < -400 then
+                    player.b:setLinearVelocity( -400, y )
+                end
+            end
+            if love.keyboard.isDown("up") == false and TouchControls:getEvent("Y") == "" then
+                JumpKeyUp = true
+            end
+            if type ~= "left" and type ~= "right" then
+                if isColliding == true then
+                    if jump == true then
+                        if love.keyboard.isDown("up") and JumpKeyUp == true or TouchControls:getEvent("Y") == "up" and JumpKeyUp == true then
+                            jump = false
+                            runing = false
+                            idle = false
+                            jumping = true
+                            JumpKeyUp = false
+                            if orientation == 0 then
+                                player.b:setLinearVelocity( x, -600 )
+                            elseif orientation ~= 0 then
+                                player.b:setLinearVelocity( x, 600 )
+                            end
+                        end
+                        --Timer.script(function(wait)
+                          --  wait(0.8)
+                            jumping = false
+                        --end)
+                    end
+                end
+            end
+            if type == "left" or type == "right" then
+                if love.keyboard.isDown("up") and JumpKeyUp == true or TouchControls:getEvent("Y")== "up" and JumpKeyUp == true then
+                    if CollisionHandler:checkIfPlayerTouchGround() == false then
+                        if type == "left" then
+                            if orientation == 0 then
+                                player.b:setLinearVelocity( 210, -500 )
+                            elseif orientation ~= 0 then
+                                player.b:setLinearVelocity( 210, 500 )
+                            end
+                        elseif type == "right" then
+                            if orientation == 0 then
+                                player.b:setLinearVelocity( -210, -500 )
+                            elseif orientation ~= 0 then
+                                player.b:setLinearVelocity( -210, 500 )
+                            end
+                        end
+                    else
+                        if orientation == 0 then
+                            player.b:setLinearVelocity( x, -550 )
+                        elseif orientation ~= 0 then
+                            player.b:setLinearVelocity( x, 550 )
+                        end
+                    end
                     JumpKeyUp = false
-                    if orientation == 0 then
-                        player.b:setLinearVelocity( x, -600 )
-                    elseif orientation ~= 0 then
-                        player.b:setLinearVelocity( x, 600 )
-                    end
                 end
-                Timer.script(function(wait)
-                    wait(0.8)
-                    jumping = false
-                end)
             end
-        end
-    end
-    if type == "left" or type == "right" then
-        if love.keyboard.isDown("up") and JumpKeyUp == true or TouchControls:getEvent("Y")== "up" and JumpKeyUp == true then
-            if CollisionHandler:checkIfPlayerTouchGround() == false then
-                if type == "left" then
-                    if orientation == 0 then
-                        player.b:setLinearVelocity( 210, -500 )
-                    elseif orientation ~= 0 then
-                        player.b:setLinearVelocity( 210, 500 )
-                    end
-                elseif type == "right" then
-                    if orientation == 0 then
-                        player.b:setLinearVelocity( -210, -500 )
-                    elseif orientation ~= 0 then
-                        player.b:setLinearVelocity( -210, 500 )
-                    end
-                end
-            else
+            if love.keyboard.isDown("down") or TouchControls:getEvent("Y") == "down" then
                 if orientation == 0 then
-                    player.b:setLinearVelocity( x, -550 )
+                    player.b:applyForce(0, 300)
                 elseif orientation ~= 0 then
-                    player.b:setLinearVelocity( x, 550 )
+                    player.b:applyForce(0, -300)
                 end
             end
-            JumpKeyUp = false
+            if x > 300 or x < -300 then
+                runingFast = true 
+            elseif x < 300 and x > 0 or x > -300 and x < 0 then
+                runingFast = false
+            end 
+            if x == 0 and y == 0 then
+                runing = false
+                idle = true
+            end
+            CollisionHandler:resetCollision()
+            if type == "none" or isColliding == false then
+                jump = true
+            end
         end
-    end
-    if love.keyboard.isDown("down") or TouchControls:getEvent("Y") == "down" then
-        if orientation == 0 then
-            player.b:applyForce(0, 300)
-        elseif orientation ~= 0 then
-            player.b:applyForce(0, -300)
-        end
-    end
-    if x > 300 or x < -300 then
-        runingFast = true 
-    elseif x < 300 and x > 0 or x > -300 and x < 0 then
-        runingFast = false
-    end 
-    if x == 0 and y == 0 then
-        runing = false
-        idle = true
-    end
-    CollisionHandler:resetCollision()
-    if type == "none" or isColliding == false then
-        jump = true
     end
 end
 
@@ -335,17 +426,19 @@ function Player:getStatus(get)
 end
 
 function Player:pushPlayer(direction, first)
-    if direction == "up" then
-        player.b:applyForce(0, -30)
-        orientation = 0
-    elseif direction == "down" then
-        player.b:applyForce(0, 30)
-        if first then
-            offsetx2 = 26
+    if player.b ~= nil then
+        if direction == "up" then
+            player.b:applyForce(0, -30)
+            orientation = 0
+        elseif direction == "down" then
+            player.b:applyForce(0, 30)
+            if first then
+                offsetx2 = 26
+            end
+            orientation = 90
+        elseif direction == "justUp" then
+            player.b:applyForce(0, -20)
         end
-        orientation = 90
-    elseif direction == "justUp" then
-        player.b:applyForce(0, -20)
     end
 end
 

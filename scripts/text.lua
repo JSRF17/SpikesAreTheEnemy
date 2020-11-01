@@ -3,6 +3,7 @@
 
 Text = {}
 
+local font = g.newFont(20)
 --Initilize the textbox--
 function Text:init(x, y)
     self.x = x
@@ -64,7 +65,6 @@ end
 
 --Setting up a new message, thanks to the Löve2d forum for some help--
 function Text:dialogSetup(msg)
-    font = g.newFont(20)
     g.setFont(font)
     message = msg
     elapsed = 0
@@ -73,7 +73,6 @@ function Text:dialogSetup(msg)
 end
 
 function Text:dialogSetup1(msg)
-    font = g.newFont(20)
     g.setFont(font)
     message1 = msg
     elapsed1 = 0
@@ -127,7 +126,6 @@ function Text:dialogUpdateIntro(dt)
 end
 
 function Text:dialogDraw()
-    font = g.newFont(20)
     g.setFont(font)
     g.setColor(0.0, 0.0, 0.0)
     if message1 ~= nil then
@@ -196,7 +194,9 @@ end
 
 function Text:storylineSecret(select)
     texts = {
-        "Secret Level num 1. Something should be implemented here but it seems like I didn't have the time.",
+        "Secret Level num 1. New minigame unlocked!",
+        "Secret Level num 2. Another minigame unlocked!",
+        "Secret Level num 3. Third minigame unlocked!",
     }
     for i = 1, #texts, 1 do
         if select == i then

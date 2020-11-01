@@ -11,8 +11,8 @@ function GameOver:loadMenu()
   --MenuSystem:state()
 end
 
-function GameOver:update()
-   MenuSystem:update()
+function GameOver:update(dt)
+   MenuSystem:update(dt)
    MenuSystem:Animate()
 end
 

@@ -6,12 +6,13 @@
 p = love.physics
 g = love.graphics
 k = love.keyboard
-
+jit.off()
 --Setting font
 font = g.newFont("resources/jackeyfont.ttf", 64)
 g.setFont(font)
 
 --Global variables--
+SpeedRun = false
 mouseMoved = false
 mouseX = 0
 mouseY = 0
@@ -20,8 +21,12 @@ width = g.getWidth()
 osString = love.system.getOS()
 
 --Local variables--
-local screenChangeValue = 0
+local screenChangeValue = 1
 local rw, rh, rf = love.window.getMode()
+local mobile 
+if osString == "Android" or osString == "iOS" then
+    mobile = true
+end
 
 --Great library for handling scaling for different screen sizes (desktop, mobile and so on)
 push = require "TLFres"
@@ -52,6 +57,8 @@ require("Levels.LevelHandler")
 require("scripts.menuSystem")
 require("scripts.diamonds")
 require("scripts.grass")
+require("state.miniGameVVVVV")
+require("scripts.collisionHandler")
 --Great library, using it for timers and tweening--
 Timer = require("hump.timer")
 --Great library to handle camera emulation--
@@ -75,7 +82,7 @@ State:menuStart()
 --Loading various things at startup--
 function love.load()
     effect = moonshine(moonshine.effects.chromasep).chain(moonshine.effects.crt).chain(moonshine.effects.pixelate).chain(moonshine.effects.posterize)
-    if osString == "Android" or osString == "iOS" then
+    if mobile then
         effect.chromasep.radius = 2
     else
         effect.chromasep.radius = 2
@@ -86,59 +93,51 @@ function love.load()
     camera = Camera()
     camera.scale = 1.20
     camera:setFollowStyle('PLATFORMER')
-    --love.profiler = require('profile') 
-    --love.profiler.start()
 end
-
-love.frame = 0
+DataHandler:initVVVVV()
 --Main update function--
 function love.update(dt)
     Timer.update(dt)
     State:stateChanger(dt)
     camera:update(dt)
-    if Player:getPositionX() ~= nil then
-        if osString == "Android" or osString == "iOS" then
-            camera:follow(Player:getPositionX() - 200 , Player:getPositionY() - 180)
-        else
-            camera:follow(Player:getPositionX(), Player:getPositionY())
-        end
+    if mobile then
+        camera:follow(Player:getPositionX() - 200 , Player:getPositionY() - 180)
+    else
+        camera:follow(Player:getPositionX(), Player:getPositionY())
     end
-    --[[love.frame = love.frame + 1
-    if love.frame%100 == 0 then
-        love.report = love.profiler.report(20)
-        love.profiler.reset()
-    end]]
-    --sleep(dt)
-    love.window.setTitle(tostring(love.timer.getFPS()))
+    --love.window.setTitle(tostring(love.timer.getFPS()))
 end
 
 --Main draw function--
 function love.draw()
     push:start()
     effect(function()
-        if States.game == true and States.change == false then
-            camera:attach()
-                Game:draw()
-            camera:detach()
+        if States.change == false then
+            if States.game == true then
+                camera:attach()
+                    Game:draw()
+                camera:detach()
+            elseif States.intro == true then
+                introTutorial:draw()
+            elseif States.menu == true then
+                Menu:draw()
+            elseif States.paused == true then
+                Pause:draw()
+            elseif States.gameOver == true then
+                GameOver:draw()
+            elseif States.miniGame1 == true then
+                MiniGameVVVVV:draw()
+            end
+            if States.game == true and Game:isLevelChange() == false then
+                TouchControls:draw()
+                Diamonds:drawCount()
+            end
         end
-        if States.menu == true and States.change == false then
-            Menu:draw()
+        if Transition:getState() then
+            Transition:draw()
         end
-        if States.paused == true and States.change == false then
-            Pause:draw()
-        end
-        if States.gameOver == true and States.change == false then
-            GameOver:draw()
-        end
-        if States.game == true and Game:isLevelChange() == false then
-            TouchControls:draw()
-            Diamonds:drawCount()
-        end
-        IntroTutorial:draw()
-        Transition:draw()
         push:finish()
     end)
-    --love.graphics.print(love.report or "Please wait...")
 end
 
 --This is used to resize the screen filters correctly

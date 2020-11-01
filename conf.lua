@@ -4,5 +4,4 @@ function love.conf(t)
     t.author = "Oliver Kjellén" 
     t.window.vsync = 1
     
-    
 end

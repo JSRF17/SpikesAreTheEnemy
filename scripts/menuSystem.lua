@@ -5,7 +5,7 @@
 MenuSystem = {}
 
 local activeMenu, selectedButton, menuState, unlockedWorld, stateButtonsText, buttons, baseX, baseY, buttonsToTween, lenghtReached, rectangelFill, darkText
-
+local font = love.graphics.newFont("resources/jackeyfont.ttf", 62)
 --Loading current settings based on saved file---
 SettingsChanger:loadSettings()
 local sound = SettingsChanger:getSettings("sound")
@@ -15,8 +15,9 @@ local vissibleControls = SettingsChanger:getSettings("vissibleControls")
 --------------------------------------------------
 
 function MenuSystem:init(selectedMenu)
-    SoundHandler:StopSound("all1")
-    SoundHandler:backgroundMusic("menu")
+    ForegroundColor = {0.8, 0.8, 0.8}
+    colourChangeTime = 0
+    SpeedRun = false
     activeMenu = selectedMenu
     menuState = 1
     darkText = false
@@ -29,7 +30,7 @@ function MenuSystem:init(selectedMenu)
     buttonBack = {}
     buttonNext = {}
     buttonSpeedRun = {}
-    font = love.graphics.newFont("resources/jackeyfont.ttf", 62)
+    buttonMiniGame = {}
     love.graphics.setFont(font)
     MenuSystem:menuStateChange()
     --Tables that contain number of buttons and their text
@@ -40,7 +41,8 @@ function MenuSystem:init(selectedMenu)
                 {{"Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7", "Level 8"}},
                 {{"sound", "music", "dPad", "invissible controls"}},
                 {{"Use the on screen controls to control Dave and complete the levels.\nWatch out for spikes and don't waste those lives\n\nA game by Oliver Kjellen 2020\nSpecial thanks to SpeckyYT for support and testing"}},
-                {{"Level 9", "Level 10", "Level 11", "Level 12"}}
+                {{"Level 9", "Level 10", "Level 11", "Level 12"}},
+                {{"DaVVVVVe", "Pixel", "Race"}}
             }
         else
             menu = {
@@ -48,7 +50,8 @@ function MenuSystem:init(selectedMenu)
                 {{"Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7", "Level 8"}},
                 {{"sound", "music"}},
                 {{"Use the arrow keys to control Dave and complete the levels.\nWatch out for spikes and don't waste those lives\n\nA game by Oliver Kjellen 2020\nSpecial thanks to SpeckyYT for support and testing"}},
-                {{"Level 9", "Level 10", "Level 11", "Level 12"}}
+                {{"Level 9", "Level 10", "Level 11", "Level 12"}},
+                {{"DaVVVVVe", "Pixel", "Race"}}
             }
         end
         menu.header = {"SUPER_Retro Dave"}
@@ -76,9 +79,30 @@ function MenuSystem:init(selectedMenu)
 end
 
 
-function MenuSystem:update()
+function MenuSystem:update(dt)
      --Handles user input while the menu is active
     if States.menu == true or States.paused == true or States.gameOver == true then
+        randRGB = math.random(1,5)
+        if colourChangeTime > 3.5 then
+            if randRGB == 1 then
+                ForegroundColor = {0.459, 0.863, 0.106}
+                BackgroundColor = {0.278, 0.424, 0.153} --Background
+            elseif randRGB == 2 then
+                ForegroundColor = {0.863, 0.863, 0.106}
+                BackgroundColor = {0.416, 0.424, 0.153} --Background
+            elseif randRGB == 3 then
+                ForegroundColor = {0.862, 0.105, 0.63}
+                BackgroundColor = {0.42, 0.152, 0.325}
+            elseif randRGB == 4 then
+                ForegroundColor = {0.10, 0.86, 0.219}
+                BackgroundColor = {0.149, 0.415, 0.156}
+            elseif randRGB == 5 then
+                ForegroundColor = {0.105, 0.862, 0.611}
+                BackgroundColor = {0.149, 0.415, 0.392}
+            end
+            colourChangeTime = 0
+        end
+        colourChangeTime = colourChangeTime + dt
         function love.mousepressed(x, y)
             local globalX, globalY = push:toGame(x, y)
             if globalX ~= nil and globalY ~= nil then
@@ -173,6 +197,23 @@ function MenuSystem:update()
                                             end                    
                                         end
                                     end
+                                elseif menuState == 6 then
+                                    for f = 1, #buttons, 1 do 
+                                        for f = 1, #buttons, 1 do 
+                                            if f == buttons[i].id then
+                                                if f == 1 then
+                                                    --Minigame VVVVV
+                                                    Timer.clear()
+                                                    Transition:activate()
+                                                    State:allFalse()
+                                                    Timer.script(function(wait)
+                                                        wait(2.3)
+                                                        State:miniGame1()
+                                                    end)
+                                                end                
+                                            end
+                                        end
+                                    end
                                 elseif menuState == 3 then
                                     if i == 1 then
                                         SettingsChanger:turnOnOffSound()
@@ -195,9 +236,6 @@ function MenuSystem:update()
                                     State:allFalse()
                                     Timer.script(function(wait)
                                         wait(2.3)
-                                        startGame()
-                                        font = g.newFont(20)
-                                        g.setFont(font)
                                         State:resume()
                                     end)
                                 elseif i == 2 then
@@ -223,7 +261,7 @@ function MenuSystem:update()
                 if buttonBack[1] ~= nil then
                     if globalX >= buttonBack[1].x and globalX <= buttonBack[1].x + buttonBack[1].width and globalY >= buttonBack[1].y and globalY <= buttonBack[1].y + buttonBack[1].height then
                         SoundHandler:PlaySound("select")
-                        if menuState == 5 then
+                        if menuState == 5 or menuState == 6 then
                             menuState = 2 
                         else
                             menuState = 1
@@ -252,64 +290,74 @@ function MenuSystem:update()
                         end)
                     end
                 end
+                if buttonMiniGame[1] ~= nil then
+                    if globalX >= buttonMiniGame[1].x and globalX <= buttonMiniGame[1].x + buttonMiniGame[1].width and globalY >= buttonMiniGame[1].y and globalY <= buttonMiniGame[1].y + buttonMiniGame[1].height then
+                        SoundHandler:PlaySound("select")
+                        menuState = 6
+                    end
+                end
             end
         end 
     end
 end
 --This function gets called in the main love.draw call
 function MenuSystem:draw()
-    love.graphics.setColor(0.8,0.8,0.8)    
-    for i = 1, #menu, 1 do
-        if i == menuState then
-            for v = 1, #menu[i], 1 do
-                for y = 1, #menu[i][v], 1 do
-                    if menuState == 2 and worldtable[y] ~= true and y ~= 1 then
-                        love.graphics.setColor(0.5, 0.5, 0.5, 0.8)      
-                    end
-                    if menuState == 5 and worldtable[9] ~= true and y == 1 then
-                        love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
-                    elseif menuState == 5 and worldtable[10] ~= true and y == 2 then
-                        love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
-                    elseif menuState == 5 and worldtable[11] ~= true and y == 3 then
-                        love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
-                    elseif menuState == 5 and worldtable[12] ~= true and y == 4 then
-                        love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
-                    end
-                    if menuState == 3 and sound == "off" and y == 1 or menuState == 3 and sound == "firstTime" and y == 1 then
-                        rectangleFill = "fill"
-                        darkText = true
-                    end
-                    if menuState == 3 and music == "off" and y == 2 or menuState == 3 and music == "firstTime" and y == 2 then
-                        rectangleFill = "fill"
-                        darkText = true
-                    end
-                    if menuState == 3 and dPad == "off" and y == 3 or menuState == 3 and dPad == "firstTime" and y == 3 then
-                        rectangleFill = "fill"
-                        darkText = true
-                    end
-                    if menuState == 3 and vissibleControls == "off" and y == 4 or menuState == 3 and vissibleControls == "firstTime" and y == 4 then
-                        rectangleFill = "fill"
-                        darkText = true
-                    end
-                    if y <= 8 then
-                        g.rectangle(rectangleFill, buttonsToTween[y].x, buttonsToTween[y].y, buttonsToTween[y].width, buttonsToTween[y].height)
-                        if darkText == true then
-                            love.graphics.setColor(0.2, 0.2, 0.2, 0.8)
-                            darkText = false
-                        end   
-                        if y == 1 and menuState == 4 then
-                            g.printf(menu[i][v][y], buttonsToTween[y].x + 50, buttonsToTween[y].y + 25, 1000, "center", 0, 0.5)
-                        else
-                            g.printf(menu[i][v][y], buttonsToTween[y].x + 50, buttonsToTween[y].y + 25, 400, "center", 0, 0.5)
+    if States.menu == true or States.paused == true or States.gameOver == true then
+        love.graphics.setColor(ForegroundColor)    
+        for i = 1, #menu, 1 do
+            if i == menuState then
+                for v = 1, #menu[i], 1 do
+                    for y = 1, #menu[i][v], 1 do
+                        if menuState == 2 and worldtable[y] ~= true and y ~= 1 then
+                            love.graphics.setColor(0.5, 0.5, 0.5, 0.8)      
                         end
-                        buttons[y] = {x = buttonsToTween[y].x, y = buttonsToTween[y].y, width = buttonsToTween[y].width, height = buttonsToTween[y].height, id = y}
+                        if menuState == 5 and worldtable[9] ~= true and y == 1 then
+                            love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
+                        elseif menuState == 5 and worldtable[10] ~= true and y == 2 then
+                            love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
+                        elseif menuState == 5 and worldtable[11] ~= true and y == 3 then
+                            love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
+                        elseif menuState == 5 and worldtable[12] ~= true and y == 4 then
+                            love.graphics.setColor(0.5, 0.5, 0.5, 0.8)
+                        end
+                        if menuState == 3 and sound == "off" and y == 1 or menuState == 3 and sound == "firstTime" and y == 1 then
+                            rectangleFill = "fill"
+                            darkText = true
+                        end
+                        if menuState == 3 and music == "off" and y == 2 or menuState == 3 and music == "firstTime" and y == 2 then
+                            rectangleFill = "fill"
+                            darkText = true
+                        end
+                        if menuState == 3 and dPad == "off" and y == 3 or menuState == 3 and dPad == "firstTime" and y == 3 then
+                            rectangleFill = "fill"
+                            darkText = true
+                        end
+                        if menuState == 3 and vissibleControls == "off" and y == 4 or menuState == 3 and vissibleControls == "firstTime" and y == 4 then
+                            rectangleFill = "fill"
+                            darkText = true
+                        end
+                        if y <= 8 then
+                            love.graphics.setColor(ForegroundColor)   
+                            g.rectangle(rectangleFill, buttonsToTween[y].x, buttonsToTween[y].y, buttonsToTween[y].width, buttonsToTween[y].height)
+                            if darkText == true then
+                                love.graphics.setColor(0.2, 0.2, 0.2, 0.8)
+                                darkText = false
+                            end   
+                            if y == 1 and menuState == 4 then
+                                g.printf(menu[i][v][y], buttonsToTween[y].x + 50, buttonsToTween[y].y + 25, 1000, "center", 0, 0.5)
+                            else
+                                g.printf(menu[i][v][y], buttonsToTween[y].x + 50, buttonsToTween[y].y + 25, 400, "center", 0, 0.5)
+                            end
+                            buttons[y] = {x = buttonsToTween[y].x, y = buttonsToTween[y].y, width = buttonsToTween[y].width, height = buttonsToTween[y].height, id = y}
+                        end
+                        rectangleFill = "line"
+                        love.graphics.setColor(0.8,0.8,0.8)  
                     end
-                    rectangleFill = "line"
-                    love.graphics.setColor(0.8,0.8,0.8)  
                 end
             end
         end
     end
+    love.graphics.setColor(ForegroundColor)   
     g.printf(menu.header, buttonsToTween.header.x, buttonsToTween.header.y, 400, "center", 0, 1.3)
     if menuState > 1 then
         g.printf("back", buttonsToTween.back.x - 40, buttonsToTween.back.y + 17, 400, "center", 0, 0.5)
@@ -320,6 +368,10 @@ function MenuSystem:draw()
         g.printf("SpeedRun", buttonsToTween.speedRun.x - 20, buttonsToTween.speedRun.y + 17, 400, "center", 0, 0.5)
         g.rectangle("line",  buttonsToTween.speedRun.x,  buttonsToTween.speedRun.y,  buttonsToTween.speedRun.width,  buttonsToTween.speedRun.height)
         buttonSpeedRun[1] = {x = buttonsToTween.speedRun.x, y = buttonsToTween.speedRun.y, width = buttonsToTween.speedRun.width, height = buttonsToTween.speedRun.height, id = "speedRun"}
+
+        g.printf("MiniGames", buttonsToTween.miniGames.x - 20, buttonsToTween.miniGames.y + 17, 400, "center", 0, 0.5)
+        g.rectangle("line",  buttonsToTween.miniGames.x,  buttonsToTween.miniGames.y,  buttonsToTween.miniGames.width,  buttonsToTween.miniGames.height)
+        buttonMiniGame[1] = {x = buttonsToTween.miniGames.x, y = buttonsToTween.miniGames.y, width = buttonsToTween.miniGames.width, height = buttonsToTween.miniGames.height, id = "miniGame"}
     end
     if menuState == 2 then
         g.printf("next", buttonsToTween.next.x - 40, buttonsToTween.next.y + 17, 400, "center", 0, 0.5)
@@ -342,6 +394,7 @@ function MenuSystem:menuStateChange()
     buttonsToTween = {}
     allTweened = false
     headerTweened = false
+    headerTweenedAnim = false
     for i = 1, 8, 1 do
         if menuState == 4 then
             buttonsToTween[i] = {x = -300, y = -210, width = 620, height = 350}
@@ -352,6 +405,7 @@ function MenuSystem:menuStateChange()
     buttonsToTween.back = {x = -300, y = -540, width = 110, height = 70}
     buttonsToTween.next = {x = 1400, y = -540, width = 110, height = 70}
     buttonsToTween.speedRun = {x = 1400, y = -540, width = 155, height = 70}
+    buttonsToTween.miniGames = {x = 1400, y = -640, width = 155, height = 70}
     buttonsToTween.header = {x = -300, y = -540}
     for i = 1, unlockedWorld, 1 do
         worldtable[i] = true
@@ -371,11 +425,15 @@ function MenuSystem:Animate()
             Timer.tween(2, buttonsToTween[i], {y = baseY}, 'in-out-quad')
         end
         if headerTweened == false then
-            Timer.tween(2, buttonsToTween.header, {y = 80}, 'in-out-quad')
+            Timer.tween(2, buttonsToTween.header, {y = 40}, 'in-out-quad')
             Timer.tween(2, buttonsToTween.header, {x = width/2}, 'in-out-quad')
             Timer.tween(2, buttonsToTween.back, {y = 620}, 'in-out-quad')
             Timer.tween(2, buttonsToTween.back, {x = width/2 - 300}, 'in-out-quad')
             headerTweened = true
+            Timer.script(function(wait)
+                wait(1.2)
+                headerTweenedAnim = true
+            end)
             if menuState == 2 then
                 Timer.tween(2, buttonsToTween.next, {y = 620}, 'in-out-quad')
                 Timer.tween(2, buttonsToTween.next, {x = width/2 + 650}, 'in-out-quad')
@@ -383,6 +441,8 @@ function MenuSystem:Animate()
             if tonumber(DataHandler:loadGame()) == 14 then
                 Timer.tween(2, buttonsToTween.speedRun, {y = 300}, 'in-out-quad')
                 Timer.tween(2, buttonsToTween.speedRun, {x = width/2 + 650}, 'in-out-quad')
+                Timer.tween(2, buttonsToTween.miniGames, {y = 450}, 'in-out-quad')
+                Timer.tween(2, buttonsToTween.miniGames, {x = width/2 + 650}, 'in-out-quad')
             end
         end
         if i == #buttonsToTween then
@@ -392,16 +452,23 @@ function MenuSystem:Animate()
 end 
 
 function AnimateNonDT()
-    --[[if buttonsToTween.header.x > 650 or buttonsToTween.header.x < 150 then
-        buttonsToTween.header.x = 500
-    end
-    Timer.every(2, function()
-        if NonDTANIM == "yas" and headerTweened == true then
-            Timer.tween(2, buttonsToTween.header, {x = 500}, 'in-out-quad')
-            NonDTANIM = "nas"
-        elseif NonDTANIM == "nas" and headerTweened == true then 
-            Timer.tween(2, buttonsToTween.header, {x = 300}, 'in-out-quad')
-            NonDTANIM = "yas"
+    Timer.every(1, function()
+        if headerTweenedAnim then
+            if NonDTANIM == "yas" then
+                --for i = 1, # buttonsToTween, 1 do
+                    --Timer.tween(1, buttonsToTween[i], {height = 90}, 'in-out-quad')
+                    --Timer.tween(1, buttonsToTween[i], {width = 290}, 'in-out-quad')
+                    Timer.tween(1, buttonsToTween.header, {y = 40}, 'in-out-quad')
+                --end
+                NonDTANIM = "nas"
+            elseif NonDTANIM == "nas" then 
+                --for i = 1, # buttonsToTween, 1 do
+                    --Timer.tween(1, buttonsToTween[i], {height = 100}, 'in-out-quad')
+                --  Timer.tween(1, buttonsToTween[i], {width = 300}, 'in-out-quad')
+                --end
+                Timer.tween(1, buttonsToTween.header, {y = 90}, 'in-out-quad')
+                NonDTANIM = "yas"
+            end
         end
-    end)]]--
+    end)
 end

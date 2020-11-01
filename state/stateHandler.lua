@@ -6,8 +6,9 @@
 ]]--
 
 State = {}
-States = {game = false, change = false, menu = false, game2 = false, paused = false, gameOver = false, isPlaying = false, intro = false}
+States = {game = false, change = false, menu = false, game2 = false, paused = false, gameOver = false, isPlaying = false, intro = false, miniGame1 = false}
 local function changeState(state)
+    SoundHandler:StopSound("all1")
    local bool = false
    for i,v in pairs(States) do
         States[i] = false
@@ -30,6 +31,7 @@ function State:menuStart()
     changeState()
     States.menu = true
     States.change = true
+    SoundHandler:backgroundMusic("menu")
 end
 
 function State:introStart()
@@ -38,10 +40,17 @@ function State:introStart()
     States.change = true
 end
 
+function State:miniGame1()
+    changeState()
+    States.miniGame1 = true
+    States.change = true
+end
+
 function State:pause()
     changeState()
     States.change = true
     States.paused = true
+    SoundHandler:backgroundMusic("menu")
 end
 
 function State:resume()
@@ -61,7 +70,6 @@ function State:stateChanger(dt)
         if States.menu == true then
             Menu:loadMenu()
         elseif States.game == true then
-            startGame()
             Game:load()
         elseif States.paused == true then
             Pause:loadMenu()
@@ -69,6 +77,8 @@ function State:stateChanger(dt)
             GameOver:loadMenu()
         elseif States.intro == true then
             IntroTutorial:init()
+        elseif States.miniGame1 == true then
+            MiniGameVVVVV:init()
         end
         States.change = false
 	end
@@ -84,6 +94,8 @@ function State:stateChanger(dt)
             Game:update(dt)
         elseif States.intro == true then
             IntroTutorial:update(dt)
+        elseif States.miniGame1 == true then
+            MiniGameVVVVV:update(dt)
         end
 	end
 end

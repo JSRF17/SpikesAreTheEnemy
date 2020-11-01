@@ -9,6 +9,30 @@ local fileSetttingSound = love.filesystem.newFile("settingSound.sav")
 local fileSetttingMusic = love.filesystem.newFile("settingMusic.sav")
 local fileSetttingControl = love.filesystem.newFile("settingControl.sav")
 local fileSetttingControlV = love.filesystem.newFile("settingControlV.sav")
+local VVVVVHigh = love.filesystem.newFile("VVVVV.sav")
+
+function DataHandler:initVVVVV()
+    local number = 0
+    VVVVVHigh:open("w")
+    VVVVVHigh:write(number)
+    VVVVVHigh:close()
+end
+
+function DataHandler:VVVVVLoad()
+    VVVVVHigh:open("r")
+    local data = VVVVVHigh:read()
+    VVVVVHigh:close()
+    return data
+end
+
+function DataHandler:VVVVVSave(num)
+    local Time = num
+    if tonumber(DataHandler:VVVVVLoad()) < Time then
+        VVVVVHigh:open("w")
+        VVVVVHigh:write(Time)
+        VVVVVHigh:close()
+    end
+end
 
 function DataHandler:loadSettings(choice)
     fileSetttingSound:open("r")

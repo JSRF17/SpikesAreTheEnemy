@@ -185,47 +185,47 @@ function LevelHandler:loadCurrentLevel(secret)
         if LevelList[i] == true then
             if i == 6 then
                 DataHandler:saveGame(2)
-                Player:initLives(SpeedRun)
+                Player:initLives()
             end
             if i == 11 then
                 DataHandler:saveGame(3)
-                Player:initLives(SpeedRun)
+                Player:initLives()
             end
             if i == 16 then
                 DataHandler:saveGame(4)
-                Player:initLives(SpeedRun)
+                Player:initLives()
             end
             if i == 21 then
                 DataHandler:saveGame(5)
-                Player:initLives(SpeedRun)
+                Player:initLives()
             end
             if i == 26 then
                 DataHandler:saveGame(6)
-                Player:initLives(SpeedRun)
+                Player:initLives()
             end
             if i == 31 then
                 DataHandler:saveGame(7)
-                Player:initLives(SpeedRun)
+                Player:initLives()
             end
             if i == 36 then
                 DataHandler:saveGame(8)
-                Player:initLives(SpeedRun)
+                Player:initLives()
             end
             if i == 41 then
                 DataHandler:saveGame(9)
-                Player:initLives(SpeedRun)
+                Player:initLives()
             end
             if i == 43 then
                 DataHandler:saveGame(10)
-                Player:initLives(SpeedRun)
+                Player:initLives()
             end
             if i == 45 then
                 DataHandler:saveGame(11)
-                Player:initLives(SpeedRun)
+                Player:initLives()
             end
             if i == 47 then
                 DataHandler:saveGame(12)
-                Player:initLives(SpeedRun)
+                Player:initLives()
             end
             if secret ~= nil then
                 leveldata = Levelinit[i].s

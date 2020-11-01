@@ -5,6 +5,8 @@
 
 Diamonds = {}
 
+local font = love.graphics.newFont("resources/jackeyfont.ttf", 25)
+
 local diamond = g.newImage("resources/diamondAnim2.png")
 local frameCoordinates = {
     {1, 0, 27, 21},{30, 0, 27, 21},{59, 0, 27, 21},{88, 0, 27, 21},{117, 0, 27, 21},
@@ -123,7 +125,7 @@ function Diamonds:update()
             end
         end
     end
-    if count == 10 then
+    if count > 9 then
         count = 0
         livesText = "5 up!"
         Timer.script(function(wait)
@@ -143,6 +145,8 @@ function Diamonds:draw()
             if diamondTableRect[i].x ~= nil then
                 --g.rectangle("line", diamondTableRect[i].x, diamondTableRect[i].y, diamondTableRect[i].width, diamondTableRect[i].height)
             end
+        else
+            break
         end
     end
 end
@@ -155,7 +159,6 @@ function Diamonds:drawCount()
     g.setColor(0.2, 0.2, 0.2, 0.7)
     g.rectangle("fill", 600, 20, 80, 50)
     g.setColor(LevelHandler:colors(1))
-    font = love.graphics.newFont("resources/jackeyfont.ttf", 25)
     love.graphics.setFont(font)
     if livesText ~= "" then
         g.printf(livesText, 444, 30, 400, "center", 0, 1)

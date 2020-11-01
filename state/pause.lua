@@ -9,8 +9,8 @@ function Pause:loadMenu()
    --MenuSystem:state()
 end
 
-function Pause:update()
-    MenuSystem:update()
+function Pause:update(dt)
+    MenuSystem:update(dt)
     MenuSystem:Animate()
 end
 

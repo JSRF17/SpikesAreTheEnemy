@@ -56,6 +56,11 @@ function TouchControls:init(controlScheme)
         button[5] = {width = 130, height = 130, x = 900, y = 450, id = "invert", axis = "i", text = "inv"}
         dPad = true
     end
+    if controlScheme == 3 then
+        button[1] = {width = 230, height = 230, x = 100, y = 500, id = "left", axis = "x", text = "<-"}
+        button[2] = {width = 230, height = 230, x = 1100, y = 500, id = "right", axis = "x", text = "->"}
+        dPad = true
+    end
     button.pause = {width = 70, height = 70, x = 80, y = 40}
     button.pauseL = {width = 9, height = 32, x = 102, y = 58}
     button.pauseR = {width = 9, height = 32, x = 120, y = 58}
