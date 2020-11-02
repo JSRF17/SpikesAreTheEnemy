@@ -57,13 +57,14 @@ function TouchControls:init(controlScheme)
         dPad = true
     end
     if controlScheme == 3 then
-        button[1] = {width = 230, height = 230, x = 100, y = 500, id = "left", axis = "x", text = "<-"}
-        button[2] = {width = 230, height = 230, x = 1100, y = 500, id = "right", axis = "x", text = "->"}
+        button[1] = {width = 230, height = 430, x = 50, y = 500, id = "left", axis = "x", text = "<-"}
+        button[2] = {width = 230, height = 430, x = 1120, y = 500, id = "right", axis = "x", text = "->"}
         dPad = true
+    else
+        button.pause = {width = 70, height = 70, x = 80, y = 40}
+        button.pauseL = {width = 9, height = 32, x = 102, y = 58}
+        button.pauseR = {width = 9, height = 32, x = 120, y = 58}
     end
-    button.pause = {width = 70, height = 70, x = 80, y = 40}
-    button.pauseL = {width = 9, height = 32, x = 102, y = 58}
-    button.pauseR = {width = 9, height = 32, x = 120, y = 58}
 end
 
 function TouchControls:destroy()
@@ -93,19 +94,23 @@ function TouchControls:update()
             if globalX ~= nil and globalY ~= nil then
                 if button[1] ~= nil then
                     for i = 1, #button, 1 do 
-                        if globalX >= button[i].x and globalX <= button[i].x + button[i].width and globalY >= button[i].y and globalY <= button[i].y + button[i].height then
-                            if button[i].axis == "x" then
-                                directionX = button[i].id
-                            elseif button[i].axis == "y" then
-                                directionY = button[i].id
-                            elseif button[i].axis == "i" then
-                                invert = true
+                        if button[i].x ~= nil then
+                            if globalX >= button[i].x and globalX <= button[i].x + button[i].width and globalY >= button[i].y and globalY <= button[i].y + button[i].height then
+                                if button[i].axis == "x" then
+                                    directionX = button[i].id
+                                elseif button[i].axis == "y" then
+                                    directionY = button[i].id
+                                elseif button[i].axis == "i" then
+                                    invert = true
+                                end
                             end
                         end
                     end
                 end
-                if globalX >= button.pause.x and globalX <= button.pause.x + button.pause.width and globalY >= button.pause.y and globalY <= button.pause.y + button.pause.height then
+                if button.pause ~= nil then
+                    if globalX >= button.pause.x and globalX <= button.pause.x + button.pause.width and globalY >= button.pause.y and globalY <= button.pause.y + button.pause.height then
                         pause = "pause"
+                    end
                 end
             end
         end
@@ -115,13 +120,15 @@ function TouchControls:update()
                 if globalX ~= nil and globalY ~= nil then
                     if button[1] ~= nil then
                         for i = 1, #button, 1 do 
-                            if globalX >= button[i].x and globalX <= button[i].x + button[i].width and globalY >= button[i].y and globalY <= button[i].y + button[i].height then
-                                if button[i].axis == "x" then
-                                    directionX = ""
-                                elseif button[i].axis == "y" then
-                                    directionY = ""
-                                elseif button[i].axis == "i" then
-                                    invert = false
+                            if button[i].x ~= nil then
+                                if globalX >= button[i].x and globalX <= button[i].x + button[i].width and globalY >= button[i].y and globalY <= button[i].y + button[i].height then
+                                    if button[i].axis == "x" then
+                                        directionX = ""
+                                    elseif button[i].axis == "y" then
+                                        directionY = ""
+                                    elseif button[i].axis == "i" then
+                                        invert = false
+                                    end
                                 end
                             end
                         end
@@ -162,10 +169,12 @@ function TouchControls:draw()
             end
         end
         g.setColor(0.2, 0.2, 0.2, 0.9)
-        g.rectangle("fill", button.pause.x, button.pause.y, button.pause.width, button.pause.height)
-        g.setColor(1, 1, 1, 0.8)
-        g.rectangle("fill", button.pauseL.x, button.pauseL.y, button.pauseL.width, button.pauseL.height)
-        g.rectangle("fill", button.pauseR.x, button.pauseR.y, button.pauseR.width, button.pauseR.height)
+        if button.pause ~= nil then
+            g.rectangle("fill", button.pause.x, button.pause.y, button.pause.width, button.pause.height)
+            g.setColor(1, 1, 1, 0.8)
+            g.rectangle("fill", button.pauseL.x, button.pauseL.y, button.pauseL.width, button.pauseL.height)
+            g.rectangle("fill", button.pauseR.x, button.pauseR.y, button.pauseR.width, button.pauseR.height)
+        end
     end
 end
 

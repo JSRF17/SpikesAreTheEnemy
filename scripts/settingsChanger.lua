@@ -147,6 +147,9 @@ function SettingsChanger:loadSettings()
     elseif dPad == "on" then
         TouchControls:init(2)
         DataHandler:saveSetting("deactivated", "dPad")
+    elseif dPad == "off" then
+        TouchControls:init(1)
+        DataHandler:saveSetting("deactivated", "dPad")
     end
     if vissibleControls == "on" then
         TouchControls:Vissible(false)

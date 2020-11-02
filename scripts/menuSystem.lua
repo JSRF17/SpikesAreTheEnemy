@@ -76,6 +76,7 @@ function MenuSystem:init(selectedMenu)
     end
     NonDTANIM = "yas"
     AnimateNonDT()
+    SettingsChanger:loadSettings()
 end
 
 
@@ -247,7 +248,14 @@ function MenuSystem:update(dt)
                                 if i == 1 then
                                     Game:dispose()
                                     LevelHandler:dispose()
-                                    State:gameStart()
+                                    Timer.clear()
+                                    Transition:activate()
+                                    State:allFalse()
+                                    Timer.script(function(wait)
+                                        wait(2.3)
+                                        State:gameStart()
+                                        Diamonds:countReset()
+                                    end)
                                 elseif i == 2 then
                                     Game:dispose()
                                     LevelHandler:dispose()
@@ -358,18 +366,18 @@ function MenuSystem:draw()
         end
     end
     love.graphics.setColor(ForegroundColor)   
-    g.printf(menu.header, buttonsToTween.header.x, buttonsToTween.header.y, 400, "center", 0, 1.3)
+    g.printf(menu.header, buttonsToTween.header.x, buttonsToTween.header.y, 400, "center", buttonsToTween.header.rotation, buttonsToTween.header.size)
     if menuState > 1 then
         g.printf("back", buttonsToTween.back.x - 40, buttonsToTween.back.y + 17, 400, "center", 0, 0.5)
         g.rectangle("line",  buttonsToTween.back.x,  buttonsToTween.back.y,  buttonsToTween.back.width,  buttonsToTween.back.height)
         buttonBack[1] = {x = buttonsToTween.back.x, y = buttonsToTween.back.y, width = buttonsToTween.back.width, height = buttonsToTween.back.height, id = "back"}
     end
     if tonumber(DataHandler:loadGame()) == 14 and menuState == 2 or menuState == 5 and tonumber(DataHandler:loadGame()) == 14 then
-        g.printf("SpeedRun", buttonsToTween.speedRun.x - 20, buttonsToTween.speedRun.y + 17, 400, "center", 0, 0.5)
+        g.printf("SpeedRun", buttonsToTween.speedRun.x - 17, buttonsToTween.speedRun.y + 17, 400, "center", 0, 0.5)
         g.rectangle("line",  buttonsToTween.speedRun.x,  buttonsToTween.speedRun.y,  buttonsToTween.speedRun.width,  buttonsToTween.speedRun.height)
         buttonSpeedRun[1] = {x = buttonsToTween.speedRun.x, y = buttonsToTween.speedRun.y, width = buttonsToTween.speedRun.width, height = buttonsToTween.speedRun.height, id = "speedRun"}
 
-        g.printf("MiniGames", buttonsToTween.miniGames.x - 20, buttonsToTween.miniGames.y + 17, 400, "center", 0, 0.5)
+        g.printf("MiniGames", buttonsToTween.miniGames.x - 17, buttonsToTween.miniGames.y + 17, 400, "center", 0, 0.5)
         g.rectangle("line",  buttonsToTween.miniGames.x,  buttonsToTween.miniGames.y,  buttonsToTween.miniGames.width,  buttonsToTween.miniGames.height)
         buttonMiniGame[1] = {x = buttonsToTween.miniGames.x, y = buttonsToTween.miniGames.y, width = buttonsToTween.miniGames.width, height = buttonsToTween.miniGames.height, id = "miniGame"}
     end
@@ -404,9 +412,9 @@ function MenuSystem:menuStateChange()
     end
     buttonsToTween.back = {x = -300, y = -540, width = 110, height = 70}
     buttonsToTween.next = {x = 1400, y = -540, width = 110, height = 70}
-    buttonsToTween.speedRun = {x = 1400, y = -540, width = 155, height = 70}
-    buttonsToTween.miniGames = {x = 1400, y = -640, width = 155, height = 70}
-    buttonsToTween.header = {x = -300, y = -540}
+    buttonsToTween.speedRun = {x = 1400, y = -540, width = 160, height = 70}
+    buttonsToTween.miniGames = {x = 1400, y = -640, width = 160, height = 70}
+    buttonsToTween.header = {x = -300, y = -540, rotation=320, size=1.3}
     for i = 1, unlockedWorld, 1 do
         worldtable[i] = true
     end
@@ -425,24 +433,24 @@ function MenuSystem:Animate()
             Timer.tween(2, buttonsToTween[i], {y = baseY}, 'in-out-quad')
         end
         if headerTweened == false then
-            Timer.tween(2, buttonsToTween.header, {y = 40}, 'in-out-quad')
-            Timer.tween(2, buttonsToTween.header, {x = width/2}, 'in-out-quad')
+            Timer.tween(2, buttonsToTween.header, {y = 190}, 'in-out-quad')
+            Timer.tween(2, buttonsToTween.header, {x = 0}, 'in-out-quad')
             Timer.tween(2, buttonsToTween.back, {y = 620}, 'in-out-quad')
-            Timer.tween(2, buttonsToTween.back, {x = width/2 - 300}, 'in-out-quad')
+            Timer.tween(2, buttonsToTween.back, {x = 100}, 'in-out-quad')
             headerTweened = true
             Timer.script(function(wait)
-                wait(1.2)
+                wait(0.5)
                 headerTweenedAnim = true
             end)
             if menuState == 2 then
                 Timer.tween(2, buttonsToTween.next, {y = 620}, 'in-out-quad')
-                Timer.tween(2, buttonsToTween.next, {x = width/2 + 650}, 'in-out-quad')
+                Timer.tween(2, buttonsToTween.next, {x = 1060}, 'in-out-quad')
             end
             if tonumber(DataHandler:loadGame()) == 14 then
                 Timer.tween(2, buttonsToTween.speedRun, {y = 300}, 'in-out-quad')
-                Timer.tween(2, buttonsToTween.speedRun, {x = width/2 + 650}, 'in-out-quad')
+                Timer.tween(2, buttonsToTween.speedRun, {x = 1060}, 'in-out-quad')
                 Timer.tween(2, buttonsToTween.miniGames, {y = 450}, 'in-out-quad')
-                Timer.tween(2, buttonsToTween.miniGames, {x = width/2 + 650}, 'in-out-quad')
+                Timer.tween(2, buttonsToTween.miniGames, {x = 1060}, 'in-out-quad')
             end
         end
         if i == #buttonsToTween then
@@ -458,7 +466,7 @@ function AnimateNonDT()
                 --for i = 1, # buttonsToTween, 1 do
                     --Timer.tween(1, buttonsToTween[i], {height = 90}, 'in-out-quad')
                     --Timer.tween(1, buttonsToTween[i], {width = 290}, 'in-out-quad')
-                    Timer.tween(1, buttonsToTween.header, {y = 40}, 'in-out-quad')
+                    Timer.tween(1, buttonsToTween.header, {size = 1.3}, 'in-out-quad')
                 --end
                 NonDTANIM = "nas"
             elseif NonDTANIM == "nas" then 
@@ -466,7 +474,7 @@ function AnimateNonDT()
                     --Timer.tween(1, buttonsToTween[i], {height = 100}, 'in-out-quad')
                 --  Timer.tween(1, buttonsToTween[i], {width = 300}, 'in-out-quad')
                 --end
-                Timer.tween(1, buttonsToTween.header, {y = 90}, 'in-out-quad')
+                Timer.tween(1, buttonsToTween.header, {size = 1}, 'in-out-quad')
                 NonDTANIM = "yas"
             end
         end

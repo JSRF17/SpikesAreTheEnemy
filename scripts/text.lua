@@ -179,11 +179,16 @@ function Text:storyline(select)
         "You have completed all base levels!! Mucho gracias for playing......Now move on and complete the long levels coming up!",
         "Level_9-1 loaded. Lives initialized. Reach the top, avoid the spikes. Simple enough",
         "Level_9-2 loaded. Test your balance in this level.",
+        "Level_9-3 loaded. Test your balance in this level.",
         "Level_10-1 loaded. Lives initialized. GravityChange = active. Lots of spikes, like usual, avoid them.",
         "Level_10-2 loaded. This one requires precision, don't get nervous",
+        "Level_10-3 loaded. This one requires precision, don't get nervous",
         "Level_11-1 loaded. Lives initialized. This one should not be too difficult.",
         "Level_11-2 loaded. This one requires precision and focus.", 
+        "Level_11-3 loaded. This one requires precision and focus.", 
+        "Level_11-4 loaded. This one requires precision and focus.", 
         "Level 12 loaded. Lives initialized. This is the last level. After this one ther is no more levels. However you will unlock the speed running mode once this level is completed.",
+        "End.",
     }
     for i = 1, #texts, 1 do
         if select == i then

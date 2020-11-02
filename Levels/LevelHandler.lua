@@ -84,13 +84,13 @@ function LevelHandler:loadLevels()
         LevelList[41] = true
     end
     if World == 10 then
-        LevelList[43] = true
+        LevelList[44] = true
     end
     if World == 11 then
-        LevelList[45] = true
+        LevelList[47] = true
     end
     if World == 12 then
-        LevelList[47] = true
+        LevelList[51] = true
     end
     return LevelList
 end

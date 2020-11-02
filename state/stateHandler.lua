@@ -95,6 +95,7 @@ function State:stateChanger(dt)
         elseif States.intro == true then
             IntroTutorial:update(dt)
         elseif States.miniGame1 == true then
+            TouchControls:update()
             MiniGameVVVVV:update(dt)
         end
 	end

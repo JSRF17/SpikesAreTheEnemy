@@ -65,7 +65,7 @@ function Game:update(dt)
     if Hit == false then
         Text:dialogUpdate(dt)
     end
-    if Alive == false and LevelChange == false then
+    if Alive == false and LevelChange == false and Player:checkLives() ~= 0 then
         Player:init(LevelHandler:playerSpawnLocation())
         Alive = true
     end
@@ -80,7 +80,7 @@ function Game:update(dt)
                 paused = false
             end)
         end
-         paused = true
+        paused = true
     end   
     if LevelHandler:returnGravityChange() and k.isDown("space") and CollisionHandler:getStatus() 
     and CollisionHandler:getType() ~= "left" and CollisionHandler:getType() ~= "right" 
@@ -110,9 +110,11 @@ function Game:update(dt)
         end
     end
     if Player:checkLives() == 0 then
+        CollisionHandler:reset()
         State:gameover()
     end
-    if died == false and CollisionHandler:getSpikeTouch() then
+    if died == false and CollisionHandler:getSpikeTouch() and Player:checkLives() >= 1 then
+        CollisionHandler:reset()
         Hit = true
         Alive = false
         died = true

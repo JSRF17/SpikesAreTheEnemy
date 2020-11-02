@@ -23,6 +23,54 @@ local stonesR, stonesL, stonesRBig, stonesLBig
 
 local stoneSpawnTime = 0
 
+function start()
+    SoundHandler:PlaySound("select")
+    alive = true
+    MiniGameVVVVV:animate(true)
+    display = true
+    displayR = true
+end
+
+local function gameOver()
+    SoundHandler:PlaySound("dead")
+    alive = false
+    DataHandler:VVVVVSave(TimeKeeper)
+    Timer.script(function(wait)
+        wait(1.2)
+        pressed = false
+        lost = true
+        Player:destroy()
+        stonesR = nil
+        stonesL = nil
+        stonesRBig = nil
+        stonesLBig = nil
+        AllStones = nil
+        MiniGameVVVVV:init()
+    end)
+end
+
+function MiniGameVVVVV:dispose()
+    SoundHandler:PlaySound("select")
+    stonesFromLeft = nil
+    stonesFromRight = nil
+    stoneSpawnTime = nil
+    batchen = nil
+    batchenR = nil
+    done = nil
+    doneR = nil
+    ForegroundColor = nil
+    BackgroundColor = nil
+    colourChangeTime = nil
+    Roof = nil
+    Ground = nil
+    alive = nil
+    lost = nil
+    buttonsToTween = nil
+    Time = nil
+    TimeKeeper = nil
+    Highscore = nil
+end
+
 local function ResetStoneLocationsFromLeft()
     Random1 = math.random(1,3)
     Random3 = math.random(1,3)
@@ -467,7 +515,7 @@ function MiniGameVVVVV:draw()
         end
     end
     if lost ~= true then
-        Player:draw()
+        Player:draw(true)
     end
     if alive then
         for i = 1, #stonesOriginalFromLeft, 1 do
@@ -523,60 +571,17 @@ function MiniGameVVVVV:animate(away)
         Timer.tween(2, buttonsToTween.button2, {x = -300}, 'in-out-quad')
         Timer.tween(2, buttonsToTween.button2, {y = -540}, 'in-out-quad')
     else
-        Timer.tween(2, buttonsToTween.Header, {x = width/2 + 50}, 'in-out-quad')
+        Timer.tween(2, buttonsToTween.Header, {x = 465}, 'in-out-quad')
         Timer.tween(2, buttonsToTween.Header, {y = 170}, 'in-out-quad')
-        Timer.tween(2, buttonsToTween.buttonText, {x = width/2 + 110}, 'in-out-quad')
+        Timer.tween(2, buttonsToTween.buttonText, {x = 535}, 'in-out-quad')
         Timer.tween(2, buttonsToTween.buttonText, {y = 300}, 'in-out-quad')
-        Timer.tween(2, buttonsToTween.button, {x = width/2 + 90}, 'in-out-quad')
+        Timer.tween(2, buttonsToTween.button, {x = 500}, 'in-out-quad')
         Timer.tween(2, buttonsToTween.button, {y = 270}, 'in-out-quad')
-        Timer.tween(2, buttonsToTween.buttonText2, {x = width/2 + 110}, 'in-out-quad')
+        Timer.tween(2, buttonsToTween.buttonText2, {x = 535}, 'in-out-quad')
         Timer.tween(2, buttonsToTween.buttonText2, {y = 410}, 'in-out-quad')
-        Timer.tween(2, buttonsToTween.button2, {x = width/2 + 90}, 'in-out-quad')
+        Timer.tween(2, buttonsToTween.button2, {x = 500}, 'in-out-quad')
         Timer.tween(2, buttonsToTween.button2, {y = 380}, 'in-out-quad')
     end
 end
 
-function start()
-    alive = true
-    MiniGameVVVVV:animate(true)
-    display = true
-    displayR = true
-end
 
-local function gameOver()
-    alive = false
-    DataHandler:VVVVVSave(TimeKeeper)
-    Timer.script(function(wait)
-        wait(1.2)
-        pressed = false
-        lost = true
-        Player:destroy()
-        stonesR = nil
-        stonesL = nil
-        stonesRBig = nil
-        stonesLBig = nil
-        AllStones = nil
-        MiniGameVVVVV:init()
-    end)
-end
-
-function MiniGameVVVVV:dispose()
-    stonesFromLeft = nil
-    stonesFromRight = nil
-    stoneSpawnTime = nil
-    batchen = nil
-    batchenR = nil
-    done = nil
-    doneR = nil
-    ForegroundColor = nil
-    BackgroundColor = nil
-    colourChangeTime = nil
-    Roof = nil
-    Ground = nil
-    alive = nil
-    lost = nil
-    buttonsToTween = nil
-    Time = nil
-    TimeKeeper = nil
-    Highscore = nil
-end

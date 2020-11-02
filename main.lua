@@ -101,13 +101,15 @@ function love.update(dt)
     State:stateChanger(dt)
     camera:update(dt)
     if mobile then
-        camera:follow(Player:getPositionX() - 200 , Player:getPositionY() - 180)
+        if Player:getPositionX() ~= nil then
+            camera:follow(Player:getPositionX() - 200, Player:getPositionY() - 180)
+        end
     else
         camera:follow(Player:getPositionX(), Player:getPositionY())
     end
     --love.window.setTitle(tostring(love.timer.getFPS()))
 end
-
+DataHandler:saveGame(14)
 --Main draw function--
 function love.draw()
     push:start()
@@ -127,6 +129,7 @@ function love.draw()
                 GameOver:draw()
             elseif States.miniGame1 == true then
                 MiniGameVVVVV:draw()
+                TouchControls:draw()
             end
             if States.game == true and Game:isLevelChange() == false then
                 TouchControls:draw()

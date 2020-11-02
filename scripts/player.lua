@@ -203,10 +203,10 @@ function Player:animation(dt)
     end
 end
 
-function Player:draw()
+function Player:draw(minigame)
     if died == true then
         g.setColor(0, 0, 0, blink)
-    elseif LevelHandler:colors(1) ~= nil then
+    elseif LevelHandler:colors(1) ~= nil and minigame ~= true then
         g.setColor(LevelHandler:colors(1))
     end
     if debug == true then

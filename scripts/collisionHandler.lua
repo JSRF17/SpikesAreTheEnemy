@@ -145,4 +145,10 @@ function CollisionHandler:checkIfPlayerTouchGround()
     return playerTouchGround
 end
 
+function CollisionHandler:reset()
+    persisting = 0 
+    isColliding = false
+    collisionType = "none"
+end
+
 
