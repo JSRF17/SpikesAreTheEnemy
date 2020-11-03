@@ -186,8 +186,11 @@ function Text:storyline(select)
         "Level_11-1 loaded. Lives initialized. This one should not be too difficult.",
         "Level_11-2 loaded. This one requires precision and focus.", 
         "Level_11-3 loaded. This one requires precision and focus.", 
-        "Level_11-4 loaded. This one requires precision and focus.", 
-        "Level 12 loaded. Lives initialized. This is the last level. After this one ther is no more levels. However you will unlock the speed running mode once this level is completed.",
+        "Level_12-1 loaded. This one requires precision and focus.",
+        "Level_12-2 loaded. This one requires precision and focus.",
+        "Level_12-3 loaded. This one requires precision and focus.",
+        "Level_12-4 loaded. This one requires precision and focus.",
+        "Level 14 loaded. Lives initialized. This is the last level. After this one ther is no more levels. However you will unlock the speed running mode once this level is completed.",
         "End.",
     }
     for i = 1, #texts, 1 do

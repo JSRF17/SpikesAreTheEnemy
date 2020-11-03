@@ -72,6 +72,7 @@ local moonshine = require ("moonshine")
 --If playing for the first time init a save file--
 if DataHandler:loadGame() == nil then
     DataHandler:init()
+    DataHandler:initVVVVV()
     DataHandler:initSettings()
 end
 
@@ -94,7 +95,6 @@ function love.load()
     camera.scale = 1.20
     camera:setFollowStyle('PLATFORMER')
 end
-DataHandler:initVVVVV()
 --Main update function--
 function love.update(dt)
     Timer.update(dt)

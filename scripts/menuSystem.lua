@@ -8,11 +8,11 @@ local activeMenu, selectedButton, menuState, unlockedWorld, stateButtonsText, bu
 local font = love.graphics.newFont("resources/jackeyfont.ttf", 62)
 --Loading current settings based on saved file---
 SettingsChanger:loadSettings()
+local vissibleControls = SettingsChanger:getSettings("vissibleControls")
+--------------------------------------------------
 local sound = SettingsChanger:getSettings("sound")
 local music = SettingsChanger:getSettings("music")
 local dPad = SettingsChanger:getSettings("dPad")
-local vissibleControls = SettingsChanger:getSettings("vissibleControls")
---------------------------------------------------
 
 function MenuSystem:init(selectedMenu)
     ForegroundColor = {0.8, 0.8, 0.8}
@@ -77,6 +77,9 @@ function MenuSystem:init(selectedMenu)
     NonDTANIM = "yas"
     AnimateNonDT()
     SettingsChanger:loadSettings()
+    sound = SettingsChanger:getSettings("sound")
+    music = SettingsChanger:getSettings("music")
+    dPad = SettingsChanger:getSettings("dPad")
 end
 
 

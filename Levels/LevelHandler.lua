@@ -42,7 +42,7 @@ end
 --Initializes all "blocks" (where each level stores data such as physics bodies, fixtures and shapes)--
 function LevelHandler:initBlocks()
     blocks = {}
-    for i = 0, 150, 1 do
+    for i = 0, 200, 1 do
         blocks[i] = {}
     end
 end
@@ -90,7 +90,10 @@ function LevelHandler:loadLevels()
         LevelList[47] = true
     end
     if World == 12 then
-        LevelList[51] = true
+        LevelList[50] = true
+    end
+    if World == 13 then
+        LevelList[54] = true
     end
     return LevelList
 end
@@ -215,16 +218,20 @@ function LevelHandler:loadCurrentLevel(secret)
                 DataHandler:saveGame(9)
                 Player:initLives()
             end
-            if i == 43 then
+            if i == 44 then
                 DataHandler:saveGame(10)
                 Player:initLives()
             end
-            if i == 45 then
+            if i == 47 then
                 DataHandler:saveGame(11)
                 Player:initLives()
             end
-            if i == 47 then
+            if i == 50 then
                 DataHandler:saveGame(12)
+                Player:initLives()
+            end
+            if i == 54 then
+                DataHandler:saveGame(13)
                 Player:initLives()
             end
             if secret ~= nil then
