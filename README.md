@@ -1,6 +1,8 @@
 
 
-# PPGRBY(Previously 10/5)
+# PPGRBY
+
+Copyright Oliver Kjellén 2020
 
 PPGRBY is a hardcore platformer programmed in lua using the Love2d framework. 
 It features over 50 challenges spread out over 12 separate levels. On each level the player is given 10 lives, lose these lives and it is game over.
