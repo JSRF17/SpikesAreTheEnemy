@@ -66,9 +66,9 @@ end
 function SettingsChanger:update_dPadSettings()
     local currentSettings = DataHandler:loadSettings()
     if currentSettings[3] == "dPad" then
-        dPad = "off"
-    elseif currentSettings[3] == "deactivated" then
         dPad = "on"
+    elseif currentSettings[3] == "deactivated" then
+        dPad = "off"
     elseif currentSettings[3] ~= "dPad" then
         dPad = "firstTime"
     end
@@ -83,7 +83,7 @@ function SettingsChanger:changeControls()
         DataHandler:saveSetting("dPad", "dPad")
     elseif dPad == "firstTime" then
         TouchControls:init(2)
-        DataHandler:saveSetting("deactivated", "dPad")
+        DataHandler:saveSetting("dPad", "dPad")
     end
     SettingsChanger:update_dPadSettings()
 end

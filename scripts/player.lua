@@ -291,12 +291,48 @@ end
 --Handles user input for player controls***Fix walljump issue***--
 local JumpKeyUp = true
 local jump = true
+local test1 = false
+local test2 = false
 function Player:controls(dt, miniGame)
     if player ~= nil then
         if player.b ~= nil then
+            if CollisionHandler:checkIfPlayerTouchGround() == true or type ~= "right" then
+                test1 = true
+            end
+            if CollisionHandler:checkIfPlayerTouchGround() == true or type ~= "left" then
+                test2 = true
+            end
             local type = CollisionHandler:getType()
             local isColliding = CollisionHandler:getStatus()
             local x, y = player.b:getLinearVelocity()
+            if type == "left" or type == "right" then
+                if love.keyboard.isDown("up") and JumpKeyUp == true or TouchControls:getEvent("Y")== "up" and JumpKeyUp == true then
+                    if CollisionHandler:checkIfPlayerTouchGround() == false then
+                        if type == "left" then
+                            if orientation == 0 then
+                                player.b:setLinearVelocity( 210, -500 )
+                            elseif orientation ~= 0 then
+                                player.b:setLinearVelocity( 210, 500 )
+                            end
+                            test2 = false
+                        elseif type == "right" then
+                            if orientation == 0 then
+                                player.b:setLinearVelocity( -210, -500 )
+                            elseif orientation ~= 0 then
+                                player.b:setLinearVelocity( -210, 500 )
+                            end
+                            test1 = false
+                        end
+                    else
+                        if orientation == 0 then
+                            player.b:setLinearVelocity( x, -550 )
+                        elseif orientation ~= 0 then
+                            player.b:setLinearVelocity( x, 550 )
+                        end
+                    end
+                    JumpKeyUp = false
+                end   
+            end         
             if love.keyboard.isDown("right") or TouchControls:getEvent("X") == "right" then
                 offsetx = 10
                 offsety = 10
@@ -308,7 +344,7 @@ function Player:controls(dt, miniGame)
                 idle = false
                 if miniGame then
                     player.b:applyForce(150, 0)
-                else
+                elseif test1 then
                     player.b:applyForce(40, 0)
                 end
                 if x > 400 then
@@ -325,7 +361,7 @@ function Player:controls(dt, miniGame)
                 idle = false
                 if miniGame then
                     player.b:applyForce(-150, 0)
-                else
+                elseif test2 then
                     player.b:applyForce(-40, 0)
                 end
                 if x < -400 then
@@ -357,32 +393,7 @@ function Player:controls(dt, miniGame)
                     end
                 end
             end
-            if type == "left" or type == "right" then
-                if love.keyboard.isDown("up") and JumpKeyUp == true or TouchControls:getEvent("Y")== "up" and JumpKeyUp == true then
-                    if CollisionHandler:checkIfPlayerTouchGround() == false then
-                        if type == "left" then
-                            if orientation == 0 then
-                                player.b:setLinearVelocity( 210, -500 )
-                            elseif orientation ~= 0 then
-                                player.b:setLinearVelocity( 210, 500 )
-                            end
-                        elseif type == "right" then
-                            if orientation == 0 then
-                                player.b:setLinearVelocity( -210, -500 )
-                            elseif orientation ~= 0 then
-                                player.b:setLinearVelocity( -210, 500 )
-                            end
-                        end
-                    else
-                        if orientation == 0 then
-                            player.b:setLinearVelocity( x, -550 )
-                        elseif orientation ~= 0 then
-                            player.b:setLinearVelocity( x, 550 )
-                        end
-                    end
-                    JumpKeyUp = false
-                end
-            end
+            
             if love.keyboard.isDown("down") or TouchControls:getEvent("Y") == "down" then
                 if orientation == 0 then
                     player.b:applyForce(0, 300)

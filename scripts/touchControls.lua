@@ -41,19 +41,19 @@ function TouchControls:init(controlScheme)
         {}
     }
     if controlScheme == 2 then
-        button[1] = {width = 630, height = 720, x = -250, y = 200, id = "left", axis = "x"}
-        button[2] = {width = 650, height = 720, x = 900, y = 200, id = "right", axis = "x"}
-        button[3] = {width = 500, height = 350, x = 390, y = 500, id = "up", axis = "y"}
-        button[4] = {width = 500, height = 170, x = 390, y = 320, id = "down", axis = "y"}
+        button[1] = {width = 630, height = 720, x = -250, y = 100, id = "left", axis = "x"}
+        button[2] = {width = 650, height = 720, x = 900, y = 100, id = "right", axis = "x"}
+        button[3] = {width = 500, height = 350, x = 390, y = 400, id = "up", axis = "y"}
+        button[4] = {width = 500, height = 170, x = 390, y = 220, id = "down", axis = "y"}
         button[5] = {width = 500, height = 365, x = 390, y = -50, id = "invert", axis = "i"}
         dPad = false
     end
     if controlScheme == 1 then
-        button[1] = {width = 130, height = 130, x = 20, y = 500, id = "left", axis = "x", text = "<-"}
-        button[2] = {width = 130, height = 130, x = 200, y = 500, id = "right", axis = "x", text = "->"}
-        button[3] = {width = 130, height = 130, x = 1100, y = 550, id = "down", axis = "y", text = "down"}
-        button[4] = {width = 130, height = 130, x = 1100, y = 400, id = "up", axis = "y", text = "up"}
-        button[5] = {width = 130, height = 130, x = 900, y = 450, id = "invert", axis = "i", text = "inv"}
+        button[1] = {width = 130, height = 130, x = 20, y = 450, id = "left", axis = "x", text = "<-"}
+        button[2] = {width = 130, height = 130, x = 200, y = 450, id = "right", axis = "x", text = "->"}
+        button[3] = {width = 130, height = 130, x = 1100, y = 500, id = "down", axis = "y", text = "down"}
+        button[4] = {width = 130, height = 130, x = 1100, y = 350, id = "up", axis = "y", text = "up"}
+        button[5] = {width = 130, height = 130, x = 900, y = 400, id = "invert", axis = "i", text = "inv"}
         dPad = true
     end
     if controlScheme == 3 then
@@ -148,27 +148,50 @@ function TouchControls:draw()
         if Vissible == false then
             g.setColor(0.2, 0.2, 0.2, 0)
         else
-            g.setColor(0.3, 0.3, 0.3, 0.3)
+            g.setColor(0.3, 0.3, 0.3, 0.6)
         end
         for i = 1, #button, 1 do
             if dPad == true then
-                --g.rectangle("line", button[i].x, button[i].y, button[i].width, button[i].height)
+                --Check if level is of colour blue or yellow to make buttons less transparent
+                local ActiveLevel = LevelHandler:getCurrentLevel()
+                if ActiveLevel > 40 then
+                    g.setColor(0, 0, 0, 0.8)
+                else
+                    g.setColor(0, 0, 0, 0.6)
+                end
                 if button[i].id == "left" then
+                    if directionX == "left" then
+                        g.setColor(1, 1, 1, 0.8)
+                    end
                     love.graphics.draw(imageFile, frames[2], button[i].x, button[i].y, 0, 1, 1)
                 elseif button[i].id == "right" then
+                    if directionX == "right" then
+                        g.setColor(1, 1, 1, 0.8)
+                    end
                     love.graphics.draw(imageFile, frames[4], button[i].x, button[i].y, 0, 1, 1)
                 elseif button[i].id == "up" then
+                    if directionY == "up" then
+                        g.setColor(1, 1, 1, 0.8)
+                    end
                     love.graphics.draw(imageFile, frames[1], button[i].x, button[i].y, 0, 1, 1)
                 elseif button[i].id == "down" then
+                    if directionY == "down" then
+                        g.setColor(1, 1, 1, 0.8)
+                    end
                     love.graphics.draw(imageFile, frames[3], button[i].x, button[i].y, 0, 1, 1)
                 elseif button[i].id == "invert" then
-                    love.graphics.draw(imageFile2, frames[1], button[i].x, button[i].y, 0, 1, 1)
+                    if invert == true then
+                        g.setColor(1, 1, 1, 0.8)
+                    end
+                    if LevelHandler:returnGravityChange() then
+                        love.graphics.draw(imageFile2, frames[1], button[i].x, button[i].y, 0, 1, 1)
+                    end
                 end
             else
                 g.rectangle("line", button[i].x, button[i].y, button[i].width, button[i].height)
             end
         end
-        g.setColor(0.2, 0.2, 0.2, 0.9)
+        g.setColor(0.2, 0.2, 0.2, 0.7)
         if button.pause ~= nil then
             g.rectangle("fill", button.pause.x, button.pause.y, button.pause.width, button.pause.height)
             g.setColor(1, 1, 1, 0.8)

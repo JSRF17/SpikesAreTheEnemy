@@ -29,14 +29,22 @@ if osString == "Android" or osString == "iOS" then
 end
 
 --Great library for handling scaling for different screen sizes (desktop, mobile and so on)
-push = require "TLFres"
+push = require "push"
 -----------------Push setup------------------------------------------------------
 local gameWidth, gameHeight = 1280, 720
 local screenWidth, screenHeight = love.window.getDesktopDimensions()
 local dpi_scale = love.window.getDPIScale()
-screenWidth = screenWidth/dpi_scale
-screenHeight = screenHeight/dpi_scale
-push:setupScreen(gameWidth, gameHeight, screenWidth, screenHeight, {fullscreen = true, resizable = true, canvas = false, pixelperfect = false, highdpi = true, stretched = true})
+if mobile then
+    screenWidth, screenHeight = screenWidth*1, screenHeight*1.1
+    screenWidth = screenWidth/dpi_scale
+    screenHeight = screenHeight/dpi_scale
+    screenHeight = screenHeight
+else
+    screenWidth, screenHeight = screenWidth*0.7, screenHeight*0.7
+    screenWidth = screenWidth/dpi_scale
+    screenHeight = screenHeight/dpi_scale
+end
+push:setupScreen(gameWidth, gameHeight, screenWidth, screenHeight, {fullscreen = true, resizable = true, canvas = true, pixelperfect = false, highdpi = true, stretched = false})
 ---------------Push setup end-----------------------------------------------------
 
 --Requiring modules--
@@ -63,11 +71,10 @@ require("scripts.collisionHandler")
 Timer = require("hump.timer")
 --Great library to handle camera emulation--
 Camera = require "gamera"
+--Shaders loaded
+crtShader = love.graphics.newShader("shaders/crt.shader")
+posterize = love.graphics.newShader("shaders/posterize.shader")
 
-
---[[Great library, using it as I haven't learned any shader coding yet
-    Includes lots of shaders free to use]]--
-local moonshine = require ("moonshine")
 
 --If playing for the first time init a save file--
 if DataHandler:loadGame() == nil then
@@ -82,18 +89,15 @@ State:menuStart()
 
 --Loading various things at startup--
 function love.load()
-    effect = moonshine(moonshine.effects.chromasep).chain(moonshine.effects.crt).chain(moonshine.effects.pixelate).chain(moonshine.effects.posterize)
-    if mobile then
-        effect.chromasep.radius = 2
-    else
-        effect.chromasep.radius = 2
-    end
-    effect.pixelate.size = {2,2}
-    effect.pixelate.feedback = 0.4
-    effect.posterize.num_bands = 10
     camera = Camera()
-    camera.scale = 1.20
+    camera.scale = 1.15
     camera:setFollowStyle('PLATFORMER')
+    push:setShader({ effect })
+    push:setShader({ crtShader, posterize })
+    crtShader:send("feather", 0.02)
+    crtShader:send("distortionFactor", {1.06, 1.065})
+    crtShader:send("scaleFactor", 1)
+    posterize:send("num_bands", 40)
 end
 --Main update function--
 function love.update(dt)
@@ -102,18 +106,19 @@ function love.update(dt)
     camera:update(dt)
     if mobile then
         if Player:getPositionX() ~= nil then
-            camera:follow(Player:getPositionX() - 200, Player:getPositionY() - 180)
+            camera:follow(Player:getPositionX() - 200, Player:getPositionY() - 167)
         end
     else
-        camera:follow(Player:getPositionX(), Player:getPositionY())
+        if Player:getPositionX() ~= nil then
+            camera:follow(Player:getPositionX() - 100, Player:getPositionY() - 4)
+        end
     end
     --love.window.setTitle(tostring(love.timer.getFPS()))
 end
-DataHandler:saveGame(14)
+DataHandler:saveGame(13)
 --Main draw function--
 function love.draw()
-    push:start()
-    effect(function()
+    push:apply("start")
         if States.change == false then
             if States.game == true then
                 camera:attach()
@@ -139,15 +144,11 @@ function love.draw()
         if Transition:getState() then
             Transition:draw()
         end
-        push:finish()
-    end)
+    push:apply("end")
 end
 
 --This is used to resize the screen filters correctly
 function love.resize(rw, rh)
-    effect.disable("crt", "chromasep", "fastgaussianblur")
-    effect.resize(rw, rh)
-    effect.enable("crt", "chromasep", "fastgaussianblur")
     push:resize(rw, rh)
 end
 

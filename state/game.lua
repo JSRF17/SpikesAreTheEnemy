@@ -88,7 +88,7 @@ function Game:update(dt)
     and CollisionHandler:getStatus() and CollisionHandler:getType() ~= "left" and CollisionHandler:getType() ~= "right" then
         if gravityChangeKeyPress then
             gravityChangeKeyPress = false
-            if gravityChange == true then
+            if gravityChange == true and Alive then
                 if firstGravityChange then
                     Player:pushPlayer("down", true)
                     firstGravityChange = false
@@ -97,7 +97,7 @@ function Game:update(dt)
                 end
                 w:setGravity( 0, -1280 )
                 gravityChange = false
-            elseif gravityChange == false then
+            elseif gravityChange == false and Alive then
                 Player:pushPlayer("up")
                 w:setGravity( 0, 1280 )
                 gravityChange = true

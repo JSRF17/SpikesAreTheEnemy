@@ -3,7 +3,7 @@
 
 Text = {}
 
-local font = g.newFont(20)
+local font = love.graphics.newFont("resources/jackeyfont.ttf", 23)
 --Initilize the textbox--
 function Text:init(x, y)
     self.x = x
@@ -17,11 +17,8 @@ function Text:destroy()
 end
 
 function Text:draw()
-    if LevelHandler:textboxColor() ~= nil then
-        g.setColor(LevelHandler:textboxColor())
-    else
-        g.setColor(0.5,0.5,0.5, 0.8)
-    end
+    
+    g.setColor(0.3,0.3,0.3, 0.8)
     g.rectangle("fill", textbox[1].x, textbox[1].y, textbox[1].width, textbox[1].height)
     g.setColor(0.5,0.5,0.5, 0.8)
 end
@@ -127,7 +124,7 @@ end
 
 function Text:dialogDraw()
     g.setFont(font)
-    g.setColor(0.0, 0.0, 0.0)
+    g.setColor(LevelHandler:colors(1))
     if message1 ~= nil then
         g.printf(message1:sub(1, letters1), textbox[1].x + 5, textbox[1].y + 200, 300)
     end

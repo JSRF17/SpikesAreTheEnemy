@@ -186,52 +186,78 @@ function LevelHandler:loadCurrentLevel(secret)
     persisting = 0
     for i = 0, #LevelList, 1 do
         if LevelList[i] == true then
+            if i == 1 then
+                posterize:send("num_bands", 2.5)
+                Player:initLives()
+            end
             if i == 6 then
                 DataHandler:saveGame(2)
-                Player:initLives()
+                posterize:send("num_bands", 2.5)
+                if Player:checkLives() <= 9 then
+                    Player:initLives()
+                end
             end
             if i == 11 then
                 DataHandler:saveGame(3)
+                posterize:send("num_bands", 2.2)
                 Player:initLives()
             end
             if i == 16 then
                 DataHandler:saveGame(4)
-                Player:initLives()
+                posterize:send("num_bands", 2.2)
+                if Player:checkLives() <= 9 then
+                    Player:initLives()
+                end
             end
             if i == 21 then
                 DataHandler:saveGame(5)
+                posterize:send("num_bands", 2.5)
                 Player:initLives()
             end
             if i == 26 then
                 DataHandler:saveGame(6)
-                Player:initLives()
+                posterize:send("num_bands", 2.5)
+                if Player:checkLives() <= 9 then
+                    Player:initLives()
+                end
             end
             if i == 31 then
                 DataHandler:saveGame(7)
+                posterize:send("num_bands", 2.82)
                 Player:initLives()
             end
             if i == 36 then
                 DataHandler:saveGame(8)
-                Player:initLives()
+                posterize:send("num_bands", 2.82)
+                if Player:checkLives() <= 9 then
+                    Player:initLives()
+                end
             end
             if i == 41 then
                 DataHandler:saveGame(9)
+                posterize:send("num_bands", 3.5)
                 Player:initLives()
             end
             if i == 44 then
                 DataHandler:saveGame(10)
-                Player:initLives()
+                posterize:send("num_bands", 3.5)
+                if Player:checkLives() <= 9 then
+                    Player:initLives()
+                end
             end
             if i == 47 then
                 DataHandler:saveGame(11)
+                posterize:send("num_bands", 5.8)
                 Player:initLives()
             end
             if i == 50 then
                 DataHandler:saveGame(12)
+                posterize:send("num_bands", 5.8)
                 Player:initLives()
             end
             if i == 54 then
                 DataHandler:saveGame(13)
+                posterize:send("num_bands", 5.8)
                 Player:initLives()
             end
             if secret ~= nil then
@@ -342,4 +368,13 @@ end
 
 function LevelHandler:getGrass()
     return grassPositions
+end
+
+function LevelHandler:getCurrentLevel()
+    local ActiveLevel = LevelList
+    for i = 1, #ActiveLevel, 1 do
+        if ActiveLevel[i] == true then
+            return i
+        end
+    end
 end
