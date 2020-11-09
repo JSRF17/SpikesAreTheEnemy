@@ -191,7 +191,7 @@ function TouchControls:draw()
                 g.rectangle("line", button[i].x, button[i].y, button[i].width, button[i].height)
             end
         end
-        g.setColor(0.2, 0.2, 0.2, 0.7)
+        g.setColor(0.3, 0.3, 0.3, 0.8)
         if button.pause ~= nil then
             g.rectangle("fill", button.pause.x, button.pause.y, button.pause.width, button.pause.height)
             g.setColor(1, 1, 1, 0.8)

@@ -31,6 +31,7 @@ local isPlaying = false
 local leveldata
 local blocks
 local dLocations
+local newLevelUnlock = false
 
 function LevelHandler:initDiamonds()
     dLocations = {}
@@ -188,77 +189,106 @@ function LevelHandler:loadCurrentLevel(secret)
         if LevelList[i] == true then
             if i == 1 then
                 posterize:send("num_bands", 2.5)
-                Player:initLives()
+                newLevelUnlock = true
+                if Player:checkLives() <= 9 then
+                    Player:initLives()
+                end
             end
             if i == 6 then
                 DataHandler:saveGame(2)
                 posterize:send("num_bands", 2.5)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
+                    newLevelUnlock = true
                 end
             end
             if i == 11 then
                 DataHandler:saveGame(3)
                 posterize:send("num_bands", 2.2)
-                Player:initLives()
+                if Player:checkLives() <= 9 then
+                    Player:initLives()
+                    newLevelUnlock = true
+                end
             end
             if i == 16 then
                 DataHandler:saveGame(4)
                 posterize:send("num_bands", 2.2)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
+                    newLevelUnlock = true
                 end
             end
             if i == 21 then
                 DataHandler:saveGame(5)
                 posterize:send("num_bands", 2.5)
-                Player:initLives()
+                if Player:checkLives() <= 9 then
+                    Player:initLives()
+                    newLevelUnlock = true
+                end
             end
             if i == 26 then
                 DataHandler:saveGame(6)
                 posterize:send("num_bands", 2.5)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
+                    newLevelUnlock = true
                 end
             end
             if i == 31 then
                 DataHandler:saveGame(7)
                 posterize:send("num_bands", 2.82)
-                Player:initLives()
+                if Player:checkLives() <= 9 then
+                    Player:initLives()
+                    newLevelUnlock = true
+                end
             end
             if i == 36 then
                 DataHandler:saveGame(8)
                 posterize:send("num_bands", 2.82)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
+                    newLevelUnlock = true
                 end
             end
             if i == 41 then
                 DataHandler:saveGame(9)
                 posterize:send("num_bands", 3.5)
-                Player:initLives()
+                if Player:checkLives() <= 9 then
+                    Player:initLives()
+                    newLevelUnlock = true
+                end
             end
             if i == 44 then
                 DataHandler:saveGame(10)
                 posterize:send("num_bands", 3.5)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
+                    newLevelUnlock = true
                 end
             end
             if i == 47 then
                 DataHandler:saveGame(11)
                 posterize:send("num_bands", 5.8)
-                Player:initLives()
+                if Player:checkLives() <= 9 then
+                    Player:initLives()
+                    newLevelUnlock = true
+                end
             end
-            if i == 50 then
+            if i == 51 then
                 DataHandler:saveGame(12)
                 posterize:send("num_bands", 5.8)
-                Player:initLives()
+                if Player:checkLives() <= 9 then
+                    Player:initLives()
+                    newLevelUnlock = true
+                end
             end
-            if i == 54 then
+            if i == 55 then
                 DataHandler:saveGame(13)
                 posterize:send("num_bands", 5.8)
-                Player:initLives()
+                if Player:checkLives() <= 9 then
+                    Player:initLives()
+                    newLevelUnlock = true
+                end
             end
             if secret ~= nil then
                 leveldata = Levelinit[i].s
@@ -377,4 +407,10 @@ function LevelHandler:getCurrentLevel()
             return i
         end
     end
+end
+
+function LevelHandler:getUnder10Lives()
+    local newLevel = newLevelUnlock
+    newLevelUnlock = false
+    return newLevel
 end

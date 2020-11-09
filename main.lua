@@ -90,7 +90,7 @@ State:menuStart()
 --Loading various things at startup--
 function love.load()
     camera = Camera()
-    camera.scale = 1.15
+    camera.scale = 1.18
     camera:setFollowStyle('PLATFORMER')
     push:setShader({ effect })
     push:setShader({ crtShader, posterize })
@@ -106,16 +106,15 @@ function love.update(dt)
     camera:update(dt)
     if mobile then
         if Player:getPositionX() ~= nil then
-            camera:follow(Player:getPositionX() - 200, Player:getPositionY() - 167)
+            camera:follow(Player:getPositionX() - 200, Player:getPositionY() - 173)
         end
     else
         if Player:getPositionX() ~= nil then
-            camera:follow(Player:getPositionX() - 100, Player:getPositionY() - 4)
+            camera:follow(Player:getPositionX() - 100, Player:getPositionY() - 7)
         end
     end
     --love.window.setTitle(tostring(love.timer.getFPS()))
 end
-DataHandler:saveGame(13)
 --Main draw function--
 function love.draw()
     push:apply("start")

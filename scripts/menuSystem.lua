@@ -54,23 +54,34 @@ function MenuSystem:init(selectedMenu)
                 {{"DaVVVVVe", "Pixel", "Race"}}
             }
         end
+        menu.header = {"P"}
+        menu.header1 = {"P"}
+        menu.header2 = {"G"}
+        menu.header3 = {"R"}
+        menu.header4 = {"B"}
+        menu.header5 = {"Y"}
         posterize:send("num_bands", 40)
     elseif activeMenu == 2 then
         menu = {
             {{"resume game", "to menu"}}
         }
-        
+        menu.header = {"P"}
+        menu.header1 = {"A"}
+        menu.header2 = {"U"}
+        menu.header3 = {"S"}
+        menu.header4 = {"E"}
+        menu.header5 = {"D"}
     else
         menu = {
             {{"retry", "quit"}}
         }
+        menu.header = {"T"}
+        menu.header1 = {"O"}
+        menu.header2 = {"O"}
+        menu.header3 = {"B"}
+        menu.header4 = {"A"}
+        menu.header5 = {"D"}
     end
-    menu.header = {"P"}
-    menu.header1 = {"P"}
-    menu.header2 = {"G"}
-    menu.header3 = {"R"}
-    menu.header4 = {"B"}
-    menu.header5 = {"Y"}
     if activeMenu == 1 then
         activeHeader = 1
     elseif activeMenu == 2 then
