@@ -21,7 +21,8 @@ local frames = {}
 for i = 1, #frameCoordinates, 1 do
     frames[i] = g.newQuad(frameCoordinates[i][1],frameCoordinates[i][2],frameCoordinates[i][3],frameCoordinates[i][4], imageFile:getDimensions())
 end
-
+local globalX1 = 0.0
+local globalY1 = 0.0
 local activeFrame2
 local currentFrame2 = 1
 local frameCoordinates2 = {
@@ -86,6 +87,9 @@ function TouchControls:getEvent(XorYorP)
     end
 end
 
+local idTouchX
+local idTouchY
+local idTouchInv
 function TouchControls:update()
     local down = love.mouse.isDown(1)
     if osString == "Android" or osString == "iOS" then
@@ -98,10 +102,13 @@ function TouchControls:update()
                             if globalX >= button[i].x and globalX <= button[i].x + button[i].width and globalY >= button[i].y and globalY <= button[i].y + button[i].height then
                                 if button[i].axis == "x" then
                                     directionX = button[i].id
+                                    idTouchX = id
                                 elseif button[i].axis == "y" then
                                     directionY = button[i].id
+                                    idTouchY = id
                                 elseif button[i].axis == "i" then
                                     invert = true
+                                    idTouchInv = id
                                 end
                             end
                         end
@@ -128,6 +135,65 @@ function TouchControls:update()
                                         directionY = ""
                                     elseif button[i].axis == "i" then
                                         invert = false
+                                    end
+                                end
+                            end
+                        end
+                    end
+                    pause = ""
+                end
+            end
+        end
+        function love.touchmoved( id, x, y, dx, dy, pressure )
+            local globalX, globalY = push:toGame(x, y)
+            if globalX ~= nil and globalY ~= nil then
+                if globalX ~= nil and globalY ~= nil then
+                    if button[1] ~= nil then
+                        for i = 1, #button, 1 do 
+                            if button[i].x ~= nil then                           
+                                if directionX == "left" then
+                                    if id == idTouchX then 
+                                        if globalX < 29 or globalX > 155 or globalY < 455 or globalY > 570 then
+                                            if button[i].axis == "x" then
+                                                directionX = ""
+                                            end
+                                        end
+                                    end
+                                end
+                                if directionX == "right" then
+                                    if id == idTouchX then
+                                        if globalX < 208 or globalX > 333 or globalY < 455 or globalY > 570 then
+                                            if button[i].axis == "x" then
+                                                directionX = ""
+                                            end
+                                        end
+                                    end
+                                end
+                                if directionY == "down" then
+                                    if id == idTouchY then
+                                        if globalX < 1095 or globalX > 1220 or globalY < 504 or globalY > 620 then
+                                            if button[i].axis == "y" then
+                                                directionY = ""
+                                            end
+                                        end
+                                    end
+                                end
+                                if directionY == "up" then
+                                    if id == idTouchY then
+                                        if globalX < 1104 or globalX > 1228 or globalY < 358 or globalY > 470 then
+                                            if button[i].axis == "y" then
+                                                directionY = ""
+                                            end
+                                        end
+                                    end
+                                end
+                                if invert then
+                                    if id == idTouchInv then
+                                        if globalX < 902 or globalX > 1026 or globalY < 407 or globalY > 529 then
+                                            if button[i].axis == "i" then
+                                                invert = false
+                                            end
+                                        end
                                     end
                                 end
                             end

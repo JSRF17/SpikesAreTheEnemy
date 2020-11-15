@@ -17,7 +17,6 @@ function Text:destroy()
 end
 
 function Text:draw()
-    
     g.setColor(0.3,0.3,0.3, 0.8)
     g.rectangle("fill", textbox[1].x, textbox[1].y, textbox[1].width, textbox[1].height)
     g.setColor(0.5,0.5,0.5, 0.8)
@@ -82,7 +81,7 @@ end
 function Text:dialogUpdate(dt)
     if levelstart == true then
         Timer.script(function(wait)
-            wait(2.0)
+            wait(2.5)
             levelstart = false
         end)
     end
@@ -140,62 +139,61 @@ function Text:storyline(select)
         LivesInit = ""
     end
     texts = {
-        "Level 1-1 loaded."..LivesInit.."Welcome, do your best to complete the challanges coming up ahead. Collect diamonds to gain extra lives, once yout lives counter reach 0 it's game over.",
-        "Level_1-2 loaded. See those spikey things? Yeah, try not to touch them alright.",
-        "Level_1-3 loaded. Wall jumping is certainly possible, just jump again when touching a wall to initialize a walljump.",
-        "Level_1-4 loaded. Tip: You can press the down arrow while in mid air to dive",
-        "Level_1-5 loaded.",
-        "Level_2-1 loaded."..LivesInit.."Lives initialized. You've reached Level 2, good work!",
-        "Level_2-2 loaded. You'll need to dive to avoid those spikes.",
-        "Level_2-3 loaded.",
-        "Level_2-4 loaded.",
-        "Level_2-5 loaded. You made it! Don't die now and you'll reach level 3.",
-        "Level_3-1 loaded."..LivesInit.."Lives initialized. You've reached Level 3, that's more than Level 2",
-        "Level_3-2 loaded. Those spikes leave no room for error",
-        "Level_3-3 loaded.",
-        "Level_3-4 loaded. This level is easy! You can't possibly fail now",
-        "Level_3-5 loaded. That's a lot of spikes! Don't step on them",
-        "Level_4-1 loaded."..LivesInit.."Lives initialized. You've reached Level 4, that's more than Level 3. Just walljump and you'll be good",
-        "Level_4-2 loaded. Do you want to know a secret?",
-        "Level_4-3 loaded. Jump and dive, jump and dive",
-        "Level_4-4 loaded. How long can you jump?",
-        "Level_4-5 loaded. I like wall jumping, do you?",
-        "Level_5-1 loaded."..LivesInit.."Lives initialized. You've reached Level 5, that's more than Level 4",
-        "Level_5-2 loaded.",
-        "Level_5-3 loaded.",
-        "Level_5-4 loaded.",
-        "Level_5-5 loaded.",
-        "Level_6-1 loaded."..LivesInit.."Lives initialized. GravityChange = active. Press the spacebar to change your local gravity",
-        "Level_6-2 loaded. GravityChange = active.",
-        "Level_6-3 loaded. GravityChange = active.",
-        "Level_6-4 loaded. GravityChange = active.",
-        "Level_6-5 loaded. GravityChange = active.",
-        "Level_7-1 loaded."..LivesInit.."Lives initialized.",
-        "Level_7-2 loaded. GravityChange = active.",
-        "Level_7-3 loaded.",
-        "Level_7-4 loaded. GravityChange = active.",
-        "Level_7-5 loaded.",
-        "Level_8-1 loaded."..LivesInit.."Lives initialized. GravityChange = active.",
-        "Level_8-2 loaded.",
-        "Level_8-3 loaded. GravityChange = active.",
-        "Level_8-4 loaded.",
-        "You have completed all base levels!! Mucho gracias for playing......Now move on and complete the long levels coming up!",
-        "Level_9-1 loaded."..LivesInit.."Lives initialized. Reach the top, avoid the spikes. Simple enough",
-        "Level_9-2 loaded. Test your balance in this level.",
-        "Level_9-3 loaded. Test your balance in this level.",
-        "Level_10-1 loaded."..LivesInit.."Lives initialized. GravityChange = active. Lots of spikes, like usual, avoid them.",
-        "Level_10-2 loaded. This one requires precision, don't get nervous",
-        "Level_10-3 loaded. This one requires precision, don't get nervous",
-        "Level_11-1 loaded."..LivesInit.."Lives initialized. This one should not be too difficult.",
-        "Level_11-2 loaded. Test.", 
-        "Level_11-3 loaded. Test2.", 
-        "Level_11-4 loaded. Test3.", 
-        "Level_12-1 loaded."..LivesInit.."This one requires precision and focus.",
-        "Level_12-2 loaded. This one requires precision and focus.",
-        "Level_12-3 loaded. This one requires precision and focus.",
-        "Level_12-4 loaded. This one requires precision and focus.",
-        "Level 14 loaded. Lives initialized. This is the last level. After this one ther is no more levels. However you will unlock the speed running mode once this level is completed.",
-        "End.",
+        "1-1: Can't die here, literally impossible. "..LivesInit,
+        "1-2: Could die here, if you're no good.",
+        "1-3: The walljump.",
+        "1-4: Two pillars two spikes.",
+        "1-5: Jumping required.",
+        "2-1: 6 spikes in a row, pass twice. "..LivesInit,
+        "2-2: Narrow corridor, dive.",
+        "2-3: Falldown, go right.",
+        "2-4: Back, forth and down.",
+        "2-5: Two and eight.",
+        "3-1: Under and over. "..LivesInit,
+        "3-2: Falldown, go right, but more difficult.",
+        "3-3: Jump 4 dive 2",
+        "3-4: The easy one.",
+        "3-5: Over and under make no blunder.",
+        "4-1: Middle pillar with spikes. "..LivesInit,
+        "4-2: The gap.",
+        "4-3: The up and then down and back up again.",
+        "4-4: The long jump with a dive.",
+        "4-5: The walljump, but more difficult.",
+        "5-1: Land in between. "..LivesInit,
+        "5-2: Land in between, many times.",
+        "5-3: The floor is spikes.",
+        "5-4: Narrow dive.",
+        "5-5: 3 pillars with one spike each.",
+        "6-1: The gravity switch. "..LivesInit,
+        "6-2: Ahhh! There's spikes on the roof.",
+        "6-3: Do it upside down.",
+        "6-4: Doing it upside down again.",
+        "6-5: Collecting diamonds?",
+        "7-1: The easy one nr:2. "..LivesInit,
+        "7-2: 3 platforms.",
+        "7-3: The small tower ladder.",
+        "7-4: Narrow gravity change.",
+        "7-5: The walljump with narrow dive.",
+        "8-1: Technically more than 1 spike. "..LivesInit,
+        "8-2: Can you even land on those?",
+        "8-3: Can you even land on those? Upside down.",
+        "8-4: No room for error.",
+        "8-5: Take a breather, and some diamonds.",
+        "9-1: The climb. "..LivesInit,
+        "9-2: Jumping skills.",
+        "9-3: 3 mountains with spikes.",
+        "10-1: Gravity switcher 2000. "..LivesInit,
+        "10-2: The frustration.",
+        "10-3: Above the spikes.",
+        "11-1: Climb high. "..LivesInit,
+        "11-2: The one with a secret.", 
+        "11-3: No room for error, but more difficult.", 
+        "11-4: Easy to the top.", 
+        "12-1: Overdimensioned"..LivesInit,
+        "12-2: The Cave.",
+        "12-3: The filler.",
+        "12-4: Narrow corridor, dive, but more difficult.",
+        "The end.",
     }
     for i = 1, #texts, 1 do
         if select == i then
@@ -206,10 +204,11 @@ end
 
 function Text:storylineSecret(select)
     texts = {
-        "Secret Level num 1. New minigame unlocked!",
-        "Secret Level num 2. Another minigame unlocked!",
-        "Secret Level num 3. Third minigame unlocked!",
-        "Ojoj, how did you find this place?! Very impressive. I'm curious to see how many players reached this place. Take a screenshot and send it to me on Twitter @squiden",
+        "1-S: The art gallery.",
+        "4-S: You had me at Hi!",
+        "7-S: You had me at HELLO.",
+        "10-S: You had me at HEJ.",
+        "11-S: The OJOJ! room.",
     }
     for i = 1, #texts, 1 do
         if select == i then

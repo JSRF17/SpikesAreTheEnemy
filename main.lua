@@ -20,6 +20,30 @@ mouseDown = false
 width = g.getWidth()
 osString = love.system.getOS()
 
+--Shaders loaded--
+crtShader = love.graphics.newShader("shaders/crt.shader")
+posterize = love.graphics.newShader("shaders/posterize.shader")
+----------------
+math.randomseed(os.time())
+randomColour = math.random(1,5)
+SessionColour = ""
+if randomColour == 1 then
+    SessionColour = "pink"
+    posterize:send("num_bands", 2.2)
+elseif randomColour == 2 then
+    SessionColour = "purple"
+    posterize:send("num_bands", 2.5)
+elseif randomColour == 3 then
+    SessionColour = "green"
+    posterize:send("num_bands", 2.5)
+elseif randomColour == 4 then
+    SessionColour = "blueish"
+    posterize:send("num_bands", 2.2)
+elseif randomColour == 5 then
+    SessionColour = "red"
+    posterize:send("num_bands", 2.5)
+end
+
 --Local variables--
 local screenChangeValue = 1
 local rw, rh, rf = love.window.getMode()
@@ -35,7 +59,7 @@ local gameWidth, gameHeight = 1280, 720
 local screenWidth, screenHeight = love.window.getDesktopDimensions()
 local dpi_scale = love.window.getDPIScale()
 if mobile then
-    screenWidth, screenHeight = screenWidth*1, screenHeight*1.1
+    screenWidth, screenHeight = screenWidth*1, screenHeight*1.12
     screenWidth = screenWidth/dpi_scale
     screenHeight = screenHeight/dpi_scale
     screenHeight = screenHeight
@@ -67,13 +91,12 @@ require("scripts.diamonds")
 require("scripts.grass")
 require("state.miniGameVVVVV")
 require("scripts.collisionHandler")
+require("scripts.artGallery")
 --Great library, using it for timers and tweening--
 Timer = require("hump.timer")
 --Great library to handle camera emulation--
 Camera = require "gamera"
---Shaders loaded
-crtShader = love.graphics.newShader("shaders/crt.shader")
-posterize = love.graphics.newShader("shaders/posterize.shader")
+
 
 
 --If playing for the first time init a save file--
@@ -90,14 +113,12 @@ State:menuStart()
 --Loading various things at startup--
 function love.load()
     camera = Camera()
-    camera.scale = 1.18
+    camera.scale = 0.8
     camera:setFollowStyle('PLATFORMER')
-    push:setShader({ effect })
     push:setShader({ crtShader, posterize })
     crtShader:send("feather", 0.02)
     crtShader:send("distortionFactor", {1.06, 1.065})
     crtShader:send("scaleFactor", 1)
-    posterize:send("num_bands", 40)
 end
 --Main update function--
 function love.update(dt)
@@ -106,14 +127,14 @@ function love.update(dt)
     camera:update(dt)
     if mobile then
         if Player:getPositionX() ~= nil then
-            camera:follow(Player:getPositionX() - 200, Player:getPositionY() - 173)
+            camera:follow(Player:getPositionX() - 200, Player:getPositionY() - 160)
         end
     else
         if Player:getPositionX() ~= nil then
             camera:follow(Player:getPositionX() - 100, Player:getPositionY() - 7)
         end
     end
-    --love.window.setTitle(tostring(love.timer.getFPS()))
+    love.window.setTitle(tostring(love.timer.getFPS()))
 end
 --Main draw function--
 function love.draw()
@@ -126,7 +147,7 @@ function love.draw()
             elseif States.intro == true then
                 introTutorial:draw()
             elseif States.menu == true then
-                Menu:draw()
+                Menu:draw()    
             elseif States.paused == true then
                 Pause:draw()
             elseif States.gameOver == true then
@@ -135,9 +156,11 @@ function love.draw()
                 MiniGameVVVVV:draw()
                 TouchControls:draw()
             end
-            if States.game == true and Game:isLevelChange() == false then
+            if States.game and Game:isLevelChange() == false or States.menu and MenuSystem:StartedMenuGame() then
                 TouchControls:draw()
-                Diamonds:drawCount()
+                if States.game then
+                    Diamonds:drawCount()
+                end
             end
         end
         if Transition:getState() then
@@ -160,5 +183,6 @@ function love.keyreleased(key)
             love.window.setFullscreen(true, "desktop")
         end
         screenChangeValue = screenChangeValue + 1
+        push:resize(rw, rh)
     end
 end

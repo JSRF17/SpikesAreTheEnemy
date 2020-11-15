@@ -25,8 +25,13 @@ end
 function beginContact(a, b, coll)
     local ended = false
     if Player:getStatus() == true then
-        if a:getUserData() == "goal" and b:getUserData() == "player" or b:getUserData() == "goal" and a:getUserData() == "player" 
-        or a:getUserData() == "goal" and b:getUserData() == "left" or b:getUserData() == "goal" and a:getUserData() == "left" 
+        for i = 0, 12, 1 do
+            if a:getUserData() == "goal"..tostring(i) and b:getUserData() == "player" or b:getUserData() == "goal"..tostring(i) and a:getUserData() == "player" then
+                collisionType = "goal"..tostring(i)
+                break
+            end
+        end
+        if a:getUserData() == "goal" and b:getUserData() == "left" or b:getUserData() == "goal" and a:getUserData() == "left" 
         or a:getUserData() == "goal" and b:getUserData() == "right" or b:getUserData() == "goal" and a:getUserData() == "right" then
             isColliding = true
             collisionType = "goal"
@@ -36,9 +41,24 @@ function beginContact(a, b, coll)
                 wait(0.3)
                 collisionType = "none"
             end)
-        elseif a:getUserData() == "secret" and b:getUserData() == "player" or b:getUserData() == "secret" and a:getUserData() == "player" 
-        or a:getUserData() == "secret" and b:getUserData() == "right" or b:getUserData() == "secret" and a:getUserData() == "right" 
+        elseif a:getUserData() == "secret" and b:getUserData() == "right" or b:getUserData() == "secret" and a:getUserData() == "right" 
         or a:getUserData() == "secret" and b:getUserData() == "left" or b:getUserData() == "secret" and a:getUserData() == "left" then
+            isColliding = true
+            collisionType = "secret"
+            Timer.script(function(wait)
+                wait(0.3)
+                collisionType = "none"
+            end)
+        elseif a:getUserData() == "goal" and b:getUserData() == "player" or b:getUserData() == "goal" and a:getUserData() == "player" then
+            isColliding = true
+            collisionType = "goal"
+            --Since I'm destroying the physics object player during collision it seems to persist sometimes,
+            --this fixes it.
+            Timer.script(function(wait)
+                wait(0.3)
+                collisionType = "none"
+            end)
+        elseif a:getUserData() == "secret" and b:getUserData() == "player" or b:getUserData() == "secret" and a:getUserData() == "player" then
             isColliding = true
             collisionType = "secret"
             Timer.script(function(wait)
@@ -147,8 +167,8 @@ end
 
 function CollisionHandler:reset()
     persisting = 0 
-    isColliding = false
-    collisionType = "none"
+    isColliding = true
+    collisionType = "ground"
 end
 
 

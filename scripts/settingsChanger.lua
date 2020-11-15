@@ -63,12 +63,20 @@ function SettingsChanger:turnOnOffMusic()
 end
 --Music settings end--
 --dPad Settings--
-function SettingsChanger:update_dPadSettings()
+function SettingsChanger:reload_dPadSettings()
     local currentSettings = DataHandler:loadSettings()
     if currentSettings[3] == "dPad" then
         dPad = "on"
     elseif currentSettings[3] == "deactivated" then
         dPad = "off"
+    end
+end
+function SettingsChanger:update_dPadSettings()
+    local currentSettings = DataHandler:loadSettings()
+    if currentSettings[3] == "dPad" then
+        dPad = "off"
+    elseif currentSettings[3] == "deactivated" then
+        dPad = "on"
     elseif currentSettings[3] ~= "dPad" then
         dPad = "firstTime"
     end
@@ -83,7 +91,7 @@ function SettingsChanger:changeControls()
         DataHandler:saveSetting("dPad", "dPad")
     elseif dPad == "firstTime" then
         TouchControls:init(2)
-        DataHandler:saveSetting("dPad", "dPad")
+        DataHandler:saveSetting("deactivated", "dPad")
     end
     SettingsChanger:update_dPadSettings()
 end

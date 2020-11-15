@@ -17,6 +17,7 @@ end
 
 function State:allFalse()
     changeState()
+    Menu:dispose()
 end
 
 function State:gameStart()

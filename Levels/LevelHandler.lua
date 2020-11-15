@@ -24,6 +24,7 @@ Levelinit = {}
 for i = 1, #Levels, 1 do
     Levelinit[i] = Levels[i]
 end
+local testNum = 0
 
 World = 0
 SpeedRun = false
@@ -32,6 +33,7 @@ local leveldata
 local blocks
 local dLocations
 local newLevelUnlock = false
+local secretLevel = false
 
 function LevelHandler:initDiamonds()
     dLocations = {}
@@ -91,10 +93,13 @@ function LevelHandler:loadLevels()
         LevelList[47] = true
     end
     if World == 12 then
-        LevelList[50] = true
+        LevelList[51] = true
     end
     if World == 13 then
-        LevelList[54] = true
+        LevelList[55] = true
+    end
+    if World == 0 then
+        LevelList[56] = true
     end
     return LevelList
 end
@@ -120,6 +125,7 @@ function LevelHandler:next()
         if matchFound then
             matchFound = false
             LevelList[i] = true
+            value = i
             break
         end
         if LevelList[i] == true then
@@ -156,6 +162,14 @@ function LevelHandler:loadLevelData(leveldata)
                 blocks[i].s = p.newRectangleShape(leveldata[i][4], leveldata[i][5])
                 blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s)
             end
+            for v = 0, 12, 1 do
+                if leveldata[i][1] == "goal"..tostring(v) then
+                    blocks[i].s = p.newRectangleShape(leveldata[i][4], leveldata[i][5])
+                    blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s)
+                    blocks[i].f:setUserData("goal"..tostring(v))
+                    testNum = tostring(v)
+                end
+            end
         end
     end
     currentSpawn = leveldata.spawn
@@ -188,7 +202,6 @@ function LevelHandler:loadCurrentLevel(secret)
     for i = 0, #LevelList, 1 do
         if LevelList[i] == true then
             if i == 1 then
-                posterize:send("num_bands", 2.5)
                 newLevelUnlock = true
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -196,7 +209,6 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 6 then
                 DataHandler:saveGame(2)
-                posterize:send("num_bands", 2.5)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
                     newLevelUnlock = true
@@ -204,7 +216,6 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 11 then
                 DataHandler:saveGame(3)
-                posterize:send("num_bands", 2.2)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
                     newLevelUnlock = true
@@ -212,7 +223,6 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 16 then
                 DataHandler:saveGame(4)
-                posterize:send("num_bands", 2.2)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
                     newLevelUnlock = true
@@ -220,7 +230,6 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 21 then
                 DataHandler:saveGame(5)
-                posterize:send("num_bands", 2.5)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
                     newLevelUnlock = true
@@ -228,7 +237,6 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 26 then
                 DataHandler:saveGame(6)
-                posterize:send("num_bands", 2.5)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
                     newLevelUnlock = true
@@ -236,7 +244,7 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 31 then
                 DataHandler:saveGame(7)
-                posterize:send("num_bands", 2.82)
+                --posterize:send("num_bands", 3)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
                     newLevelUnlock = true
@@ -244,7 +252,7 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 36 then
                 DataHandler:saveGame(8)
-                posterize:send("num_bands", 2.82)
+                --posterize:send("num_bands", 3)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
                     newLevelUnlock = true
@@ -252,7 +260,7 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 41 then
                 DataHandler:saveGame(9)
-                posterize:send("num_bands", 3.5)
+                --posterize:send("num_bands", 3.5)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
                     newLevelUnlock = true
@@ -260,7 +268,6 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 44 then
                 DataHandler:saveGame(10)
-                posterize:send("num_bands", 3.5)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
                     newLevelUnlock = true
@@ -268,7 +275,7 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 47 then
                 DataHandler:saveGame(11)
-                posterize:send("num_bands", 5.8)
+                --posterize:send("num_bands", 5.8)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
                     newLevelUnlock = true
@@ -276,7 +283,6 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 51 then
                 DataHandler:saveGame(12)
-                posterize:send("num_bands", 5.8)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
                     newLevelUnlock = true
@@ -284,29 +290,35 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 55 then
                 DataHandler:saveGame(13)
-                posterize:send("num_bands", 5.8)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
                     newLevelUnlock = true
                 end
             end
+
             if secret ~= nil then
+                secretLevel = true
                 leveldata = Levelinit[i].s
             else
+                secretLevel = false
                 leveldata = Levelinit[i]
             end
             LevelHandler:loadLevelData(leveldata)
-            Text:reset()
-            Text:dialogSetup1("Lives:"..Player:checkLives())
-            if secret ~= nil then
-                Text:dialogSetup(Text:storylineSecret(Levelinit[i].s.num))
-            else
-                Text:dialogSetup(Text:storyline(i))
+            if States.menu ~= true then
+                Text:reset()
+                Text:dialogSetup1("Lives:"..Player:checkLives())
+                if secret ~= nil then
+                    Text:dialogSetup(Text:storylineSecret(Levelinit[i].s.num))
+                else
+                    Text:dialogSetup(Text:storyline(i))
+                end
             end
             break
         end
     end
-    Text:moveTo(LevelHandler:textboxLocation())
+    if States.menu ~= true then
+        Text:moveTo(LevelHandler:textboxLocation())
+    end
     if isPlaying == false then
         Player:init(LevelHandler:playerSpawnLocation())
     end
@@ -319,10 +331,14 @@ function LevelHandler:drawLevel()
     for i = 1, #blocks, 1 do
         if blocks[i].b ~= nil then
             if blocks[i].f:getUserData() ~= nil then
-                if blocks[i].f:getUserData() == "goal" then
+                if blocks[i].f:getUserData() == "goal" or blocks[i].f:getUserData() == "secret" then
                     g.setColor(1.0, 1.0, 1.0, 0.0)
-                elseif blocks[i].f:getUserData() == "secret" then
-                    g.setColor(1.0, 1.0, 1.0, 0.0)
+                end
+                 
+                for v = 0, 12, 1 do
+                    if blocks[i].f:getUserData() == "goal"..tostring(v) then
+                        g.setColor(1.0, 1.0, 1.0, 0.0)
+                    end
                 end
             end
             g.polygon("fill", blocks[i].b:getWorldPoints(blocks[i].s:getPoints()))
@@ -340,6 +356,21 @@ function LevelHandler:drawLevel()
             g.rectangle("fill", Levels.borders[i][1], Levels.borders[i][2], Levels.borders[i][3], Levels.borders[i][4])
         end
     end
+    if LevelHandler:getCurrentLevel() == 57 then
+        g.printf("1", -2895, 560, 400, "center", 0, 1)
+        g.printf("2", -2595, 560, 400, "center", 0, 1)
+        g.printf("3", -2295, 560, 400, "center", 0, 1)
+        g.printf("4", -1995, 560, 400, "center", 0, 1)
+        g.printf("5", -1695, 560, 400, "center", 0, 1)
+        g.printf("6", -1395, 560, 400, "center", 0, 1)
+        g.printf("7", -1095, 560, 400, "center", 0, 1)
+        g.printf("8", -795, 560, 400, "center", 0, 1)
+        g.printf("9", -495, 560, 400, "center", 0, 1)
+        g.printf("10", -195, 560, 400, "center", 0, 1)
+        g.printf("11", 100, 560, 400, "center", 0, 1)
+        g.printf("12", 400, 560, 400, "center", 0, 1)
+    end
+    --g.printf(tostring(testNum - 1), -2444, 500, 400, "center", 0, 1)
 end
 --Returns spawn location depending on which level is active
 function LevelHandler:playerSpawnLocation()
@@ -406,6 +437,12 @@ function LevelHandler:getCurrentLevel()
         if ActiveLevel[i] == true then
             return i
         end
+    end
+end
+
+function LevelHandler:getSecretLevel()
+    if secretLevel then
+        return true
     end
 end
 

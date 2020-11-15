@@ -117,6 +117,8 @@ function Grass:update()
                     activeFrameBig[i].touched = true
                     activeFrameSmall[i].touched = true
                 else
+                    activeFrameBig[i].touched = false
+                    activeFrameSmall[i].touched = false
                     if animationComplete then
                         activeFrameBig[i].touched = false
                     end
@@ -124,7 +126,6 @@ function Grass:update()
                         activeFrameSmall[i].touched = false
                     end
                 end
-                break
             end
             if PlayerX < grassHitboxes[i].x or PlayerX > grassHitboxes[i].x then
                 if animationComplete then

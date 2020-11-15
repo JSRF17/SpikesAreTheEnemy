@@ -28,7 +28,7 @@ function Game:load()
     gravityChange = true
     gravityChangeKeyPress = true
     paused = false
-    Text:init(-200, 2050)
+    Text:init(-200, 2350)
     LevelHandler:loadCurrentLevel()
     Player:pushPlayer("justUp")
     Grass:init()
@@ -78,6 +78,7 @@ function Game:update(dt)
                 wait(1.5)
                 State:pause()
                 paused = false
+                Transition:down()
             end)
         end
         paused = true
@@ -146,6 +147,7 @@ function Game:update(dt)
             wait(2.0)
             LevelHandler:next()
             LevelChange = false
+            Transition:down()
         end)
         SoundHandler:PlaySound("next")
     elseif LevelChange == false and CollisionHandler:getType() == "secret" then
@@ -159,6 +161,7 @@ function Game:update(dt)
             wait(2.0)
             LevelHandler:loadCurrentLevel(true)
             LevelChange = false
+            Transition:down()
         end)
     end
 end
@@ -172,7 +175,13 @@ function Game:draw()
         local dy = love.math.random(-10, 10)
         love.graphics.translate(dx, dy) 
     end
+    
     LevelHandler:drawLevel()
+    if LevelHandler:getCurrentLevel() == 2 then
+        if LevelHandler:getSecretLevel() then
+            ArtGallery:draw()
+        end
+    end
     if Alive == true then
         Player:draw()
     end        
