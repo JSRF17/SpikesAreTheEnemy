@@ -23,25 +23,33 @@ osString = love.system.getOS()
 --Shaders loaded--
 crtShader = love.graphics.newShader("shaders/crt.shader")
 posterize = love.graphics.newShader("shaders/posterize.shader")
+scanlines = love.graphics.newShader("shaders/scanlines.shader")
+chromasep = love.graphics.newShader("shaders/chromasep.shader")
 ----------------
 math.randomseed(os.time())
 randomColour = math.random(1,5)
 SessionColour = ""
+randomColour = 5
 if randomColour == 1 then
     SessionColour = "pink"
     posterize:send("num_bands", 2.2)
+    chromasep:send("direction", {0.002, 0.0015})
 elseif randomColour == 2 then
-    SessionColour = "purple"
+    SessionColour = "yellow"
     posterize:send("num_bands", 2.5)
+    chromasep:send("direction", {0.0035, 0.0015})
 elseif randomColour == 3 then
-    SessionColour = "green"
+    SessionColour = "greenish"
     posterize:send("num_bands", 2.5)
+    chromasep:send("direction", {0.0045, 0.0015})
 elseif randomColour == 4 then
     SessionColour = "blueish"
     posterize:send("num_bands", 2.2)
+    chromasep:send("direction", {0.0035, 0.0015})
 elseif randomColour == 5 then
-    SessionColour = "red"
+    SessionColour = "orange"
     posterize:send("num_bands", 2.5)
+    chromasep:send("direction", {0.0025, 0.0015})
 end
 
 --Local variables--
@@ -115,7 +123,15 @@ function love.load()
     camera = Camera()
     camera.scale = 0.8
     camera:setFollowStyle('PLATFORMER')
-    push:setShader({ crtShader, posterize })
+    push:setShader({ crtShader, chromasep, scanlines })
+
+    phase = 0
+    complete = false
+    angle = 0.005
+    completeChroma = false
+    scanlines:send("time", 1)
+    scanlines:send("setting1", 640.0)
+    scanlines:send("setting2", 640.0)
     crtShader:send("feather", 0.02)
     crtShader:send("distortionFactor", {1.06, 1.065})
     crtShader:send("scaleFactor", 1)
@@ -125,17 +141,33 @@ function love.update(dt)
     Timer.update(dt)
     State:stateChanger(dt)
     camera:update(dt)
+
+    if phase < 2.5 and complete == false then
+        phase = phase + 0.1
+    end
+    if phase > 0.8 and complete then
+        phase = phase - 0.1
+    end
+    if phase < 0.9 then
+        complete = false
+    end
+    if phase > 2.4 then
+        complete = true
+    end
+    scanlines:send("time", phase)
+
     if mobile then
         if Player:getPositionX() ~= nil then
             camera:follow(Player:getPositionX() - 200, Player:getPositionY() - 160)
         end
     else
         if Player:getPositionX() ~= nil then
-            camera:follow(Player:getPositionX() - 100, Player:getPositionY() - 7)
+            camera:follow(Player:getPositionX() - 10, Player:getPositionY() - 10)
         end
     end
     love.window.setTitle(tostring(love.timer.getFPS()))
 end
+
 --Main draw function--
 function love.draw()
     push:apply("start")

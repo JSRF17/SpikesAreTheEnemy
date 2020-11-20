@@ -9,13 +9,14 @@ Player = {}
 
 local debug = false
 
-local imageFile = love.graphics.newImage("resources/tex.png")
+local imageFile = love.graphics.newImage("resources/tex2.png")
 local activeFrame
 local currentFrame = 1
 local frameCoordinates = {
     {0, 32, 16, 16},{16, 32, 16, 16},{32, 32, 16, 16},{0, 48.5, 16, 15},
     {16, 48.5, 16, 15},{32, 48.5, 16, 15},{48, 48, 16, 15},{0, 64, 16, 15},
-    {16, 64, 16, 16},{32, 64, 16, 16},{48, 64, 16, 16}
+    {16, 64, 16, 16},{32, 64, 16, 16},{48, 64, 16, 16},{-1, 81, 16, 16},
+    {-18, 81, 16, 16}
 }
 local frames = {}
 for i = 1, #frameCoordinates, 1 do
@@ -26,10 +27,6 @@ local animationTimeIdle = 0
 local animationTimeRun = 0
 local animationTimeJump = 0
 local blinkTime = 0
-local runing = false
-local runingFast = false
-local idle = true 
-local jumping = false 
 local directionx = 2.5
 local directiony = 2.2
 local offsetx = 10
@@ -45,6 +42,9 @@ local died = false
 local Blink = true
 local BlinkReset = true
 local blink = 0
+local bouncedX = false 
+local fixedSpeed = true
+local wallTouch = false
 
 --Used when spawing bubbles as the self.x and self.y will be nill once the player is destroyed--
 storedX = -500
@@ -60,6 +60,11 @@ end
 
 --Used to spawn player. creates shape, physics object and so on--
 function Player:init(x, y, tutorial)
+    runing = false
+    runingFast = false
+    idle = true 
+    jumping = false
+
     if tutorial then
         self.x = x
         self.y = y
@@ -80,6 +85,11 @@ function Player:init(x, y, tutorial)
         player.rightSide = love.physics.newRectangleShape( 10, 0, 5 , 5, 0)
         player.rightSide = love.physics.newFixture(player.b, player.rightSide, 1)
         player.rightSide:setUserData("right")
+
+        --player.bottom = love.physics.newRectangleShape( 0, 12, 5 , 5, 0)
+        --player.bottom = love.physics.newFixture(player.b, player.bottom, 1)
+        --player.bottom:setUserData("bottom")
+
         player.b:setBullet( true )
         test = false
     end
@@ -121,6 +131,10 @@ function Player:destroy(choice)
         orientation = 0
         test = true
     end
+    runing = false
+    runingFast = false
+    idle = true 
+    jumping = false
 end
 
 function Player:animation(dt)
@@ -201,6 +215,24 @@ function Player:animation(dt)
             end
         end
     end
+    if wallTouchRight then
+        activeFrame = frames[12]
+        offsetx = -26
+        offsety = 10
+        directiony = 2.2
+        directionx = -2.5
+        offsetx2 = 26
+        directionx2 = 2.5
+    elseif wallTouchLeft then
+        activeFrame = frames[12]
+        offsetx = 10
+        offsety = 10
+        directiony = 2.2
+        directionx = 2.5
+        offsetx2 = -8
+        directionx2 = -2.5
+        
+    end
 end
 
 function Player:draw(minigame)
@@ -260,6 +292,55 @@ function Player:track()
     end
 end
 
+function Player:limitSpeed()
+    if player.b ~= nil then
+        local x, y = player.b:getLinearVelocity()
+        if x > 1400 and fixedSpeed then
+            fixedSpeed = false
+            player.b:setLinearVelocity( 1400, y )
+        end
+        if x < -1400 and fixedSpeed then
+            fixedSpeed = false
+            player.b:setLinearVelocity( -1400, y )
+        end
+        if y < -3000 and fixedSpeed then
+            fixedSpeed = false
+            player.b:setLinearVelocity( x, -3000 )
+        end
+    end
+end
+
+function Player:bounce(forceX, forceY, dir)
+    if dir ~= nil then
+        bouncedX = true
+    end
+    fixedSpeed = true
+    Timer.script(function(wait)
+        wait(1)
+        bouncedX = false
+    end)
+    if dir == "right" then
+        offsetx = 10
+        offsety = 10
+        directiony = 2.2
+        directionx = 2.5
+        offsetx2 = -8
+        directionx2 = -2.5
+        runing = true
+        idle = false
+    elseif dir == "left" then
+        offsetx = -26
+        offsety = 10
+        directiony = 2.2
+        directionx = -2.5
+        offsetx2 = 26
+        directionx2 = 2.5
+        runing = true
+        idle = false
+    end
+    player.b:applyForce(forceX, forceY)
+end
+
 function Player:teleport(x, y)
     if player ~= nil then
         if x ~= nil then
@@ -296,15 +377,28 @@ local test2 = false
 function Player:controls(dt, miniGame)
     if player ~= nil then
         if player.b ~= nil then
+
+            local type = CollisionHandler:getType()
+            local isColliding = CollisionHandler:getStatus()
+            local x, y = player.b:getLinearVelocity()
+
             if CollisionHandler:checkIfPlayerTouchGround() == true or type ~= "right" then
                 test1 = true
             end
             if CollisionHandler:checkIfPlayerTouchGround() == true or type ~= "left" then
                 test2 = true
             end
-            local type = CollisionHandler:getType()
-            local isColliding = CollisionHandler:getStatus()
-            local x, y = player.b:getLinearVelocity()
+            if type == "right" then
+                wallTouchRight = true
+            end
+            if type == "left" then
+                wallTouchLeft = true
+            end
+
+            if x > 1 or x < -1 or CollisionHandler:checkIfPlayerTouchGround() or CollisionHandler:getWallCol() == false then
+                wallTouchRight = false
+                wallTouchLeft = false
+            end
             if type == "right" then
                 if love.keyboard.isDown("up") and JumpKeyUp == true or TouchControls:getEvent("Y")== "up" and JumpKeyUp == true then
                     if CollisionHandler:checkIfPlayerTouchGround() == false then
@@ -321,6 +415,7 @@ function Player:controls(dt, miniGame)
                             player.b:setLinearVelocity( x, 550 )
                         end
                     end
+                    wallTouchRight = false
                     JumpKeyUp = false
                 end
             end
@@ -340,64 +435,63 @@ function Player:controls(dt, miniGame)
                             player.b:setLinearVelocity( x, 550 )
                         end
                     end
+                    wallTouchLeft = false
                     JumpKeyUp = false
                 end   
             end         
-            if love.keyboard.isDown("right") or TouchControls:getEvent("X") == "right" then
-                offsetx = 10
-                offsety = 10
-                directiony = 2.2
-                directionx = 2.5
-                offsetx2 = -8
-                directionx2 = -2.5
+            if love.keyboard.isDown("right") and bouncedX == false and wallTouchLeft == false or TouchControls:getEvent("X") == "right" and bouncedX == false and wallTouchLeft == false then
+                if wallTouchRight ~= true then
+                    offsetx = 10
+                    offsety = 10
+                    directiony = 2.2
+                    directionx = 2.5
+                    offsetx2 = -8
+                    directionx2 = -2.5
+                end
                 runing = true
                 idle = false
                 if miniGame then
                     player.b:applyForce(150, 0)
-                elseif test2 then
-                    player.b:applyForce(40, 0)
+                elseif x < 400 then
+                    player.b:applyForce(50, 0)
                 end
-                if x > 400 then
-                    player.b:setLinearVelocity( 400, y )
+            elseif love.keyboard.isDown("left") and bouncedX == false and wallTouchRight == false or TouchControls:getEvent("X") == "left" and bouncedX == false and wallTouchRight == false then
+                if wallTouchLeft ~= true then
+                    offsetx = -26
+                    offsety = 10
+                    directiony = 2.2
+                    directionx = -2.5
+                    offsetx2 = 26
+                    directionx2 = 2.5
                 end
-            elseif love.keyboard.isDown("left") or TouchControls:getEvent("X") == "left" then
-                offsetx = -26
-                offsety = 10
-                directiony = 2.2
-                directionx = -2.5
-                offsetx2 = 26
-                directionx2 = 2.5
                 runing = true
                 idle = false
                 if miniGame then
                     player.b:applyForce(-150, 0)
-                elseif test1 then
-                    player.b:applyForce(-40, 0)
-                end
-                if x < -400 then
-                    player.b:setLinearVelocity( -400, y )
+                elseif x > -400 then
+                    player.b:applyForce(-50, 0)
                 end
             end
             if love.keyboard.isDown("up") == false and TouchControls:getEvent("Y") == "" then
                 JumpKeyUp = true
             end
-            if type ~= "left" and type ~= "right" then
-                if isColliding == true then
-                    if jump == true then
-                        if love.keyboard.isDown("up") and JumpKeyUp == true or TouchControls:getEvent("Y") == "up" and JumpKeyUp == true then
-                            jump = false
-                            runing = false
-                            idle = false
-                            jumping = true
-                            JumpKeyUp = false
-                            if orientation == 0 then
-                                player.b:setLinearVelocity( x, -600 )
-                            elseif orientation ~= 0 then
-                                player.b:setLinearVelocity( x, 600 )
-                            end
+            
+            if isColliding or CollisionHandler:checkIfPlayerTouchGround() then
+                if jump == true then
+                    if love.keyboard.isDown("up") and JumpKeyUp == true or TouchControls:getEvent("Y") == "up" and JumpKeyUp == true then
+                        jump = false
+                        runing = false
+                        idle = false
+                        jumping = true
+                        JumpKeyUp = false
+                        if orientation == 0 then
+                            player.b:setLinearVelocity( x, -600 )
+                        elseif orientation ~= 0 then
+                            player.b:setLinearVelocity( x, 600 )
                         end
-                        jumping = false
+                        wallTouch = false
                     end
+                    jumping = false
                 end
             end
             
@@ -418,7 +512,7 @@ function Player:controls(dt, miniGame)
                 idle = true
             end
             CollisionHandler:resetCollision()
-            if type == "none" or isColliding == false then
+            if type == "none" or isColliding == false or CollisionHandler:checkIfPlayerTouchGround() == false then
                 jump = true
             end
         end

@@ -7,6 +7,9 @@
 
 State = {}
 States = {game = false, change = false, menu = false, game2 = false, paused = false, gameOver = false, isPlaying = false, intro = false, miniGame1 = false}
+
+local pausedMenu
+
 local function changeState(state)
     SoundHandler:StopSound("all1")
    local bool = false
@@ -17,7 +20,7 @@ end
 
 function State:allFalse()
     changeState()
-    Menu:dispose()
+    --Menu:dispose()
 end
 
 function State:gameStart()
@@ -47,17 +50,26 @@ function State:miniGame1()
     States.change = true
 end
 
-function State:pause()
+function State:pause(state)
     changeState()
+    if state == "menu" then
+        pausedMenu  = true
+    else
+        pausedMenu = false
+    end
     States.change = true
     States.paused = true
     SoundHandler:backgroundMusic("menu")
 end
 
-function State:resume()
+function State:resume(state)
     changeState()
-    States.game = true
-    SoundHandler:backgroundMusic("game")
+    if state == "menu" then
+        States.menu = true
+    else
+        States.game = true
+        SoundHandler:backgroundMusic("game")
+    end
 end
 
 function State:gameover()
@@ -73,7 +85,11 @@ function State:stateChanger(dt)
         elseif States.game == true then
             Game:load()
         elseif States.paused == true then
-            Pause:loadMenu()
+            if pausedMenu then
+                Pause:loadMenu("menu")
+            else
+                Pause:loadMenu("normal")
+            end
         elseif States.gameOver == true then
             GameOver:loadMenu()
         elseif States.intro == true then

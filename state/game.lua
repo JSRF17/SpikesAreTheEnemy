@@ -22,7 +22,10 @@ function Game:load()
     LevelHandler:loadLevels()
     Player:initLives(SpeedRun)
     Alive = true
+    initCamera = true
+    cameraIncreaseAmount = 0
     died = false
+    Dead = false
     LevelChange = false
     debug = false
     gravityChange = true
@@ -37,6 +40,7 @@ end
 --Disposes of certain values and resets them--
 function Game:dispose()
     Alive = nil
+    initCamera = nil
     died = nil
     LevelChange = nil
     debug = nil
@@ -61,6 +65,24 @@ function Game:update(dt)
         Player:controls(dt)
         Player:track(dt)
         Player:animation(dt)
+        Player:limitSpeed()
+        if initCamera then
+            camera.follow_style = 'LOCKON'
+            initCamera = false
+            camera.follow_style = 'PLATFORMER'
+        end
+        if CollisionHandler:getType() == "bounceRight" then
+            Player:bounce(4200, -120, "right")
+        end
+        if CollisionHandler:getType() == "bounceLeft" then
+            Player:bounce(-4200, -520, "left")
+        end
+        if CollisionHandler:getType() == "bounceUp" then
+            Player:bounce(0, -6250, nil)
+        end
+        if CollisionHandler:getType() == "bounceUpSmall" then
+            Player:bounce(0, -3720, nil)
+        end
     end
     if Hit == false then
         Text:dialogUpdate(dt)
@@ -69,11 +91,12 @@ function Game:update(dt)
         Player:init(LevelHandler:playerSpawnLocation())
         Alive = true
     end
-    if k.isDown( "escape" ) and LevelChange == false or TouchControls:getEvent("P") == "pause" and LevelChange == false then
+    if k.isDown( "escape" ) and LevelChange == false and Transition:getState() == false 
+    or TouchControls:getEvent("P") == "pause" and LevelChange == false and Transition:getState() == false then
         if paused == false then
             SoundHandler:PlaySound("pause")
             Transition:init()
-            Transition:activate()                            
+            Transition:activate()
             Timer.script(function(wait)
                 wait(1.5)
                 State:pause()
@@ -115,6 +138,9 @@ function Game:update(dt)
         State:gameover()
     end
     if died == false and CollisionHandler:getSpikeTouch() and Player:checkLives() >= 1 then
+        if Player:checkLives() ~= 0 then
+            Transition:deathTransition()
+        end
         CollisionHandler:reset()
         Hit = true
         Alive = false
@@ -124,6 +150,8 @@ function Game:update(dt)
         Player:destroy("justPhysicsBody")
         Timer.script(function(wait)
             wait(0.8)
+            camera.follow_style = 'LOCKON'
+            Dead = true
             Hit = false
             Alive = false
             if Player:checkLives() ~= 0 then
@@ -134,8 +162,12 @@ function Game:update(dt)
             wait(0.2)
             died = false
         end)
+        Timer.script(function(wait)
+            wait(1)
+            camera.follow_style = 'PLATFORMER'
+        end)
         SoundHandler:PlaySound("dead")
-    elseif LevelChange == false and CollisionHandler:getType() == "goal" then
+    elseif LevelChange == false and CollisionHandler:getGoalTouch() then
         --SoundHandler:StopSound("all1")
         Text:reset()
         Text:moveAway()
@@ -150,13 +182,14 @@ function Game:update(dt)
             Transition:down()
         end)
         SoundHandler:PlaySound("next")
-    elseif LevelChange == false and CollisionHandler:getType() == "secret" then
+    elseif LevelChange == false and CollisionHandler:getSecretTouch() then
         Text:reset()
         Text:moveAway()
         Transition:activate(true)
         Alive = false
         LevelChange = true
         Player:destroy()
+        initCamera = true
         Timer.script(function(wait)
             wait(2.0)
             LevelHandler:loadCurrentLevel(true)
@@ -193,6 +226,14 @@ function Game:draw()
     Text:dialogDraw()
     Diamonds:draw()
     Grass:draw()
+end
+
+function Game:checkIfDead()
+    return Dead
+end
+
+function Game:setDeadToFalse()
+    Dead = false
 end
 
 function Game:isLevelChange()

@@ -45,7 +45,7 @@ end
 --Initializes all "blocks" (where each level stores data such as physics bodies, fixtures and shapes)--
 function LevelHandler:initBlocks()
     blocks = {}
-    for i = 0, 200, 1 do
+    for i = 0, 250, 1 do
         blocks[i] = {}
     end
 end
@@ -87,19 +87,19 @@ function LevelHandler:loadLevels()
         LevelList[41] = true
     end
     if World == 10 then
-        LevelList[44] = true
+        LevelList[45] = true
     end
     if World == 11 then
-        LevelList[47] = true
+        LevelList[49] = true
     end
     if World == 12 then
-        LevelList[51] = true
+        LevelList[53] = true
     end
     if World == 13 then
-        LevelList[55] = true
+        LevelList[57] = true
     end
     if World == 0 then
-        LevelList[56] = true
+        LevelList[61] = true
     end
     return LevelList
 end
@@ -158,11 +158,27 @@ function LevelHandler:loadLevelData(leveldata)
                 blocks[i].s = p.newRectangleShape(leveldata[i][4], leveldata[i][5])
                 blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s)
                 blocks[i].f:setUserData("secret")
+            elseif leveldata[i][1] == "bounceRight" then
+                blocks[i].s = p.newRectangleShape(leveldata[i][4], leveldata[i][5])
+                blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s)
+                blocks[i].f:setUserData("bounceRight")
+            elseif leveldata[i][1] == "bounceLeft" then
+                blocks[i].s = p.newRectangleShape(leveldata[i][4], leveldata[i][5])
+                blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s)
+                blocks[i].f:setUserData("bounceLeft")
+            elseif leveldata[i][1] == "bounceUp" then
+                blocks[i].s = p.newRectangleShape(leveldata[i][4], leveldata[i][5])
+                blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s)
+                blocks[i].f:setUserData("bounceUp")
+            elseif leveldata[i][1] == "bounceUpSmall" then
+                blocks[i].s = p.newRectangleShape(leveldata[i][4], leveldata[i][5])
+                blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s)
+                blocks[i].f:setUserData("bounceUpSmall")
             else
                 blocks[i].s = p.newRectangleShape(leveldata[i][4], leveldata[i][5])
                 blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s)
             end
-            for v = 0, 12, 1 do
+            for v = 0, 13, 1 do
                 if leveldata[i][1] == "goal"..tostring(v) then
                     blocks[i].s = p.newRectangleShape(leveldata[i][4], leveldata[i][5])
                     blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s)
@@ -335,7 +351,7 @@ function LevelHandler:drawLevel()
                     g.setColor(1.0, 1.0, 1.0, 0.0)
                 end
                  
-                for v = 0, 12, 1 do
+                for v = 0, 13, 1 do
                     if blocks[i].f:getUserData() == "goal"..tostring(v) then
                         g.setColor(1.0, 1.0, 1.0, 0.0)
                     end
@@ -356,7 +372,7 @@ function LevelHandler:drawLevel()
             g.rectangle("fill", Levels.borders[i][1], Levels.borders[i][2], Levels.borders[i][3], Levels.borders[i][4])
         end
     end
-    if LevelHandler:getCurrentLevel() == 57 then
+    if LevelHandler:getCurrentLevel() == 62 then
         g.printf("1", -2895, 560, 400, "center", 0, 1)
         g.printf("2", -2595, 560, 400, "center", 0, 1)
         g.printf("3", -2295, 560, 400, "center", 0, 1)
@@ -369,6 +385,7 @@ function LevelHandler:drawLevel()
         g.printf("10", -195, 560, 400, "center", 0, 1)
         g.printf("11", 100, 560, 400, "center", 0, 1)
         g.printf("12", 400, 560, 400, "center", 0, 1)
+        g.printf("13", 700, 560, 400, "center", 0, 1)
     end
     --g.printf(tostring(testNum - 1), -2444, 500, 400, "center", 0, 1)
 end

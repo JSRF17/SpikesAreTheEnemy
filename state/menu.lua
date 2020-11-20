@@ -9,12 +9,13 @@ function Menu:loadMenu()
     MenuSystem:init(1)
     LevelHandler:loadLevels()
     LevelHandler:loadCurrentLevel()
-    Player:pushPlayer("justUp")
     Player:init(LevelHandler:playerSpawnLocation())
+    Player:pushPlayer("justUp")
     alive = true
     died = false
     hit = false
     test = true
+    paused = false
     cameraScale = 0
     camerScaleGoal = 0.8
     levelChange = false
@@ -27,12 +28,35 @@ function Menu:update(dt)
     if alive then
         Player:track(dt)
         Player:animation(dt)
+        Player:limitSpeed()
+        if CollisionHandler:getType() == "bounceRight" then
+            Player:bounce(4200, -120, "right")
+        end
+        if CollisionHandler:getType() == "bounceLeft" then
+            Player:bounce(-4200, -120, "left")
+        end
     end
     if alive == false and levelChange == false then
         died = false
         alive = true
         Player:init(LevelHandler:playerSpawnLocation())
     end
+
+    if k.isDown( "escape" ) and levelChange == false and Transition:getState() == false 
+    or TouchControls:getEvent("P") == "pause" and levelChange == false and Transition:getState() == false then
+        if paused == false then
+            SoundHandler:PlaySound("pause")
+            Transition:init()
+            Transition:activate()
+            Timer.script(function(wait)
+                wait(1.5)
+                State:pause("menu")
+                paused = false
+                Transition:down()
+            end)
+        end
+        paused = true
+    end   
     if died == false and CollisionHandler:getSpikeTouch() then
         CollisionHandler:reset()
         Hit = true
@@ -40,6 +64,7 @@ function Menu:update(dt)
         died = true
         w:setGravity( 0, 1280 )
         if test then
+            Transition:deathTransition()
             Player:destroy("justPhysicsBody")
         end
         test = false
@@ -56,7 +81,7 @@ function Menu:update(dt)
         end)
         SoundHandler:PlaySound("dead")
     end
-    if levelChange == false and CollisionHandler:getType() == "goal" then
+    if levelChange == false and CollisionHandler:getGoalTouch() then
         --SoundHandler:StopSound("all1")
         levelChange = true
         Transition:init()
@@ -72,11 +97,10 @@ function Menu:update(dt)
             Transition:down()
             levelChange = false
             test = true
-            
         end)
         SoundHandler:PlaySound("next")
     end
-    for i = 0, 12, 1 do
+    for i = 0, 13, 1 do
         if levelChange == false and CollisionHandler:getType() == "goal"..tostring(i) then
             levelChange = true
             World = i
@@ -102,6 +126,15 @@ function Menu:update(dt)
         Grass:update()
         TouchControls:update()
         Player:controls(dt)
+        if Player:getPositionX() ~= nil and camerScaleGoal < 1.18 then
+            if mobile then
+                camera.x = Player:getPositionX() - 160
+                camera.y = Player:getPositionY() - 10
+            else
+                camera.x = Player:getPositionX() + 20
+                camera.y = Player:getPositionY() - 10
+            end
+        end
         cameraScale = cameraScale + dt
         if cameraScale > 0.01 then
             if camerScaleGoal < 1.18 then
@@ -117,7 +150,7 @@ function Menu:draw()
     if MenuSystem:StartedMenuGame() then
         camera:attach()
             LevelHandler:drawLevel()
-            MenuSystem:draw()
+            --MenuSystem:draw()
             if alive then
                 Player:draw()
             end
@@ -141,5 +174,7 @@ function Menu:dispose()
     alive = nil
     hit = nil
     died = nil
+    levelChange = nil
     CollisionHandler:reset()
+    Player:destroy()
 end

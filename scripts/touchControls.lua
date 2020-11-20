@@ -171,7 +171,7 @@ function TouchControls:update()
                                 end
                                 if directionY == "down" then
                                     if id == idTouchY then
-                                        if globalX < 1095 or globalX > 1220 or globalY < 504 or globalY > 620 then
+                                        if globalX < 1100 or globalX > 1213 or globalY < 510 or globalY > 620 then
                                             if button[i].axis == "y" then
                                                 directionY = ""
                                             end
@@ -220,8 +220,8 @@ function TouchControls:draw()
             if dPad == true then
                 --Check if level is of colour blue or yellow to make buttons less transparent
                 local ActiveLevel = LevelHandler:getCurrentLevel()
-                if ActiveLevel > 40 then
-                    g.setColor(0, 0, 0, 0.8)
+                if SessionColour ~= nil then
+                    g.setColor(0, 0, 0, 0.5)
                 else
                     g.setColor(0, 0, 0, 0.6)
                 end
@@ -257,7 +257,7 @@ function TouchControls:draw()
                 g.rectangle("line", button[i].x, button[i].y, button[i].width, button[i].height)
             end
         end
-        g.setColor(0.3, 0.3, 0.3, 0.8)
+        g.setColor(0.2, 0.2, 0.2, 0)
         if button.pause ~= nil then
             g.rectangle("fill", button.pause.x, button.pause.y, button.pause.width, button.pause.height)
             g.setColor(1, 1, 1, 0.8)

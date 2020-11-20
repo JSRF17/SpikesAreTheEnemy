@@ -156,7 +156,7 @@ function Diamonds:countReset()
 end
 
 function Diamonds:drawCount()
-    g.setColor(0.1, 0.1, 0.1, 0.8)
+    g.setColor(0, 0, 0, 0.5)
     g.rectangle("fill", 600, 20, 80, 50)
     g.setColor(LevelHandler:colors(1))
     love.graphics.setFont(font)

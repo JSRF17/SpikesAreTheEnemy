@@ -12,6 +12,8 @@ local playerDestroyed
 local wallCol = false
 local print, print2
 local playerTouchGround = true
+local hitGoal = false
+local hitSecret = false
 
 function CollisionHandler:getPlayerStatus()
     playerDestroyed = Player:getStatus()
@@ -25,7 +27,7 @@ end
 function beginContact(a, b, coll)
     local ended = false
     if Player:getStatus() == true then
-        for i = 0, 12, 1 do
+        for i = 0, 13, 1 do
             if a:getUserData() == "goal"..tostring(i) and b:getUserData() == "player" or b:getUserData() == "goal"..tostring(i) and a:getUserData() == "player" then
                 collisionType = "goal"..tostring(i)
                 break
@@ -34,35 +36,39 @@ function beginContact(a, b, coll)
         if a:getUserData() == "goal" and b:getUserData() == "left" or b:getUserData() == "goal" and a:getUserData() == "left" 
         or a:getUserData() == "goal" and b:getUserData() == "right" or b:getUserData() == "goal" and a:getUserData() == "right" then
             isColliding = true
-            collisionType = "goal"
+            hitGoal = true
             --Since I'm destroying the physics object player during collision it seems to persist sometimes,
             --this fixes it.
             Timer.script(function(wait)
                 wait(0.3)
+                hitGoal = false
                 collisionType = "none"
             end)
         elseif a:getUserData() == "secret" and b:getUserData() == "right" or b:getUserData() == "secret" and a:getUserData() == "right" 
         or a:getUserData() == "secret" and b:getUserData() == "left" or b:getUserData() == "secret" and a:getUserData() == "left" then
             isColliding = true
-            collisionType = "secret"
+            hitSecret = true
             Timer.script(function(wait)
                 wait(0.3)
+                hitSecret = false
                 collisionType = "none"
             end)
         elseif a:getUserData() == "goal" and b:getUserData() == "player" or b:getUserData() == "goal" and a:getUserData() == "player" then
             isColliding = true
-            collisionType = "goal"
+            hitGoal = true
             --Since I'm destroying the physics object player during collision it seems to persist sometimes,
             --this fixes it.
             Timer.script(function(wait)
                 wait(0.3)
+                hitGoal = false
                 collisionType = "none"
             end)
         elseif a:getUserData() == "secret" and b:getUserData() == "player" or b:getUserData() == "secret" and a:getUserData() == "player" then
             isColliding = true
-            collisionType = "secret"
+            hitSecret = true
             Timer.script(function(wait)
                 wait(0.3)
+                hitSecret = false
                 collisionType = "none"
             end)
         end
@@ -78,25 +84,30 @@ function beginContact(a, b, coll)
                 touchedSpike = false
             end)
         end
-        if a:getUserData() == "normal" and b:getUserData() == "player" or b:getUserData() == "player" and a:getUserData() == "normal" then
+        if a:getUserData() == "normal" and b:getUserData() == "player" or a:getUserData() == "player" and a:getUserData() == "normal" then
             if wallCol == false then
                 isColliding = true
                 collisionType = "normal"
             end
             playerTouchGround = true
-        elseif a:getUserData() == "normal" and b:getUserData() == "left" or b:getUserData() == "left" and a:getUserData() == "normal" then
+        elseif a:getUserData() == "normal" and b:getUserData() == "left" or a:getUserData() == "left" and a:getUserData() == "normal" then
             isColliding = true
             wallCol = true
             collisionType = "left"
-        elseif a:getUserData() == "normal" and b:getUserData() == "right" or b:getUserData() == "right" and a:getUserData() == "normal" then
+        elseif a:getUserData() == "normal" and b:getUserData() == "right" or a:getUserData() == "right" and a:getUserData() == "normal" then
             isColliding = true
             wallCol = true
             collisionType = "right"
         end
-        if a:getUserData() == "Roof" and b:getUserData() == "player" or b:getUserData() == "Roof" and a:getUserData() == "player" then
-            collisionType = "Roof"
-        elseif a:getUserData() == "Ground" and b:getUserData() == "player" or b:getUserData() == "Ground" and a:getUserData() == "player" then
-            collisionType = "Ground"
+       
+        if a:getUserData() == "bounceRight" and b:getUserData() == "left" or b:getUserData() == "bounceRight" and a:getUserData() == "left" then
+            collisionType = "bounceRight"
+        elseif  a:getUserData() == "bounceLeft" and b:getUserData() == "right" or b:getUserData() == "bounceLeft" and a:getUserData() == "right" then
+            collisionType = "bounceLeft"
+        elseif  a:getUserData() == "bounceUp" and b:getUserData() == "player" or b:getUserData() == "bounceUp" and a:getUserData() == "player" then
+            collisionType = "bounceUp"
+        elseif  a:getUserData() == "bounceUpSmall" and b:getUserData() == "player" or b:getUserData() == "bounceUpSmall" and a:getUserData() == "player" then
+            collisionType = "bounceUpSmall"
         end
     end
     if Player:getStatus() == false then
@@ -161,6 +172,18 @@ function CollisionHandler:getSpikeTouch()
     return touchedSpike
 end
 
+function CollisionHandler:getGoalTouch()
+    return hitGoal
+end
+
+function CollisionHandler:getSecretTouch()
+    return hitSecret
+end
+
+function CollisionHandler:getWallCol()
+    return wallCol
+end
+
 function CollisionHandler:checkIfPlayerTouchGround()
     return playerTouchGround
 end
@@ -168,7 +191,8 @@ end
 function CollisionHandler:reset()
     persisting = 0 
     isColliding = true
-    collisionType = "ground"
+    collisionType = "none"
+    playerTouchGround = true
 end
 
 

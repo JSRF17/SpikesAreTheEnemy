@@ -4,8 +4,8 @@
 
 Pause = {}
 
-function Pause:loadMenu()
-    MenuSystem:init(2)
+function Pause:loadMenu(state)
+    MenuSystem:init(2, state)
    --MenuSystem:state()
 end
 

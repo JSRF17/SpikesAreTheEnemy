@@ -15,11 +15,12 @@ local music = SettingsChanger:getSettings("music")
 local dPad = SettingsChanger:getSettings("dPad")
 
 
-function MenuSystem:init(selectedMenu)
+function MenuSystem:init(selectedMenu,state)
     ForegroundColor = {0.8, 0.8, 0.8}
     colourChangeTime = 0
     SpeedRun = false
     activeMenu = selectedMenu
+    pausedMenu = state
     menuState = 1
     darkText = false
     started = false
@@ -155,7 +156,10 @@ function MenuSystem:update(dt)
                                     Timer.script(function(wait)
                                         wait(2.3)
                                         State:allFalse()
-                                        State:resume()
+                                        State:resume(pausedMenu)
+                                        if pausedMenu == "menu" then
+                                            started = true
+                                        end
                                         Transition:down()
                                     end)
                                 elseif i == 2 then
@@ -164,14 +168,19 @@ function MenuSystem:update(dt)
                                     Transition:activate()
                                     Timer.script(function(wait)
                                         wait(2.3)
-                                        Game:dispose()
+                                        if pausedMenu == "menu" then
+                                            Menu:dispose()
+                                        else
+                                            Game:dispose()
+                                        end
                                         LevelHandler:dispose()
                                         State:menuStart()
                                         Transition:down()
                                     end)
                                 end
-                            elseif activeMenu == 3 then
+                            elseif activeMenu == 3 and clicked == false then
                                 if i == 1 then
+                                    clicked = true
                                     Game:dispose()
                                     LevelHandler:dispose()
                                     Transition:init()
@@ -184,6 +193,7 @@ function MenuSystem:update(dt)
                                         Transition:down()
                                     end)
                                 elseif i == 2 then
+                                    clicked = true
                                     Game:dispose()
                                     LevelHandler:dispose()
                                     State:menuStart()
