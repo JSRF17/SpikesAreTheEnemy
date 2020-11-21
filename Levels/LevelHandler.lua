@@ -117,16 +117,23 @@ function LevelHandler:dispose()
     end
 end
 --Calls dispose function, sets current leveList value to false and the next one to true--
-function LevelHandler:next()
+function LevelHandler:next(goBack)
     isPlaying = true
     LevelHandler:dispose()
     local matchFound = false
     for i = 0, #LevelList, 1 do
         if matchFound then
             matchFound = false
-            LevelList[i] = true
-            value = i
-            break
+            if goBack then
+                i = i - 2
+                LevelList[i] = true
+                value = i
+                break
+            else
+                LevelList[i] = true
+                value = i
+                break
+            end
         end
         if LevelList[i] == true then
             LevelList[i] = false
@@ -158,6 +165,10 @@ function LevelHandler:loadLevelData(leveldata)
                 blocks[i].s = p.newRectangleShape(leveldata[i][4], leveldata[i][5])
                 blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s)
                 blocks[i].f:setUserData("secret")
+            elseif leveldata[i][1] == "return" then
+                blocks[i].s = p.newRectangleShape(leveldata[i][4], leveldata[i][5])
+                blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s)
+                blocks[i].f:setUserData("return")
             elseif leveldata[i][1] == "bounceRight" then
                 blocks[i].s = p.newRectangleShape(leveldata[i][4], leveldata[i][5])
                 blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s)
@@ -395,6 +406,17 @@ function LevelHandler:playerSpawnLocation()
     x = leveldata.spawn[1]
     y = leveldata.spawn[2]
     return x, y
+end
+
+function LevelHandler:playerReturnSpawnLocation()
+    local x, y
+    if leveldata.ReturnSpawn ~= nil then
+        x = leveldata.ReturnSpawn[1]
+        y = leveldata.ReturnSpawn[2]
+        return x, y
+    else
+        return nil 
+    end
 end
 
 function LevelHandler:textboxLocation()

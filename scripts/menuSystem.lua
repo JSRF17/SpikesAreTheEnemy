@@ -12,7 +12,6 @@ local vissibleControls = SettingsChanger:getSettings("vissibleControls")
 --------------------------------------------------
 local sound = SettingsChanger:getSettings("sound")
 local music = SettingsChanger:getSettings("music")
-local dPad = SettingsChanger:getSettings("dPad")
 
 
 function MenuSystem:init(selectedMenu,state)
@@ -42,7 +41,7 @@ function MenuSystem:init(selectedMenu,state)
         --if osString == "Android" or osString == "iOS" then
             menu = {
                 {{"start game", "settings", "about", "quit"}},
-                {{"sound", "music", "dPad", "invissible controls"}},
+                {{"sound", "music", "vissible controls"}},
                 {{"Use the on screen controls to control Dave and complete the levels.\nWatch out for spikes and don't waste those lives\n\nA game by Oliver Kjellen 2020\nSpecial thanks to SpeckyYT for support and testing"}},
                 {{"DaVVVVVe", "Pixel", "Race"}}
             }
@@ -80,7 +79,6 @@ function MenuSystem:init(selectedMenu,state)
     end
     NonDTANIM = "yas"
     --AnimateNonDT()
-    SettingsChanger:reload_dPadSettings()
     sound = SettingsChanger:getSettings("sound")
     music = SettingsChanger:getSettings("music")
     dPad = SettingsChanger:getSettings("dPad")
@@ -140,11 +138,10 @@ function MenuSystem:update(dt)
                                         SettingsChanger:turnOnOffMusic()
                                         music = SettingsChanger:getSettings("music")
                                     elseif i == 3 then
-                                        SettingsChanger:changeControls()
-                                        dPad = SettingsChanger:getSettings("dPad")
-                                    elseif i == 4 then
                                         SettingsChanger:vissibleControlsOff()
                                         vissibleControls = SettingsChanger:getSettings("vissibleControls")
+                                    elseif i == 4 then
+                                        
                                     end
                                     MenuSystem:menuStateChange()
                                 end
@@ -243,12 +240,7 @@ function MenuSystem:draw()
                             rectangleFill = "fill"
                             darkText = true
                         end
-                        if menuState == 2 and dPad == "off" and y == 3 or menuState == 2 and dPad == "firstTime" and y == 3 then
-                            love.graphics.setColor(1, 1, 1, 1)
-                            rectangleFill = "fill"
-                            darkText = true
-                        end
-                        if menuState == 2 and vissibleControls == "off" and y == 4 or menuState == 2 and vissibleControls == "firstTime" and y == 4 then
+                        if menuState == 2 and vissibleControls == "off" and y == 3 or menuState == 2 and vissibleControls == "firstTime" and y == 3 then
                             love.graphics.setColor(1, 1, 1, 1)
                             rectangleFill = "fill"
                             darkText = true
@@ -274,14 +266,14 @@ function MenuSystem:draw()
         end
     end
     --Colours of text according to levels
-    --if menuState == 1 then
+    if menuState ~= 3 then
         if menu.header1 ~= nil then
             love.graphics.setColor(0.8, 0.8, 0.8)
             g.printf(menu.header1, buttonsToTween.header1.x, buttonsToTween.header1.y, 400, "center", buttonsToTween.header1.rotation, buttonsToTween.header1.size)
         end
         g.setColor(LevelHandler:colors(1))
         g.printf(menu.header, buttonsToTween.header.x, buttonsToTween.header.y, 400, "center", buttonsToTween.header.rotation, buttonsToTween.header.size)
-    --end
+    end
     g.setColor(LevelHandler:colors(1))
     if menuState > 1 then
         g.printf("back", buttonsToTween.back.x - 40, buttonsToTween.back.y + 17, 400, "center", 0, 0.5)

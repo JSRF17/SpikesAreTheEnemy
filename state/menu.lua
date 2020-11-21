@@ -14,9 +14,11 @@ function Menu:loadMenu()
     alive = true
     died = false
     hit = false
+    returned = false
     test = true
     paused = false
     cameraScale = 0
+    initCamera = false
     camerScaleGoal = 0.8
     levelChange = false
 end
@@ -29,17 +31,33 @@ function Menu:update(dt)
         Player:track(dt)
         Player:animation(dt)
         Player:limitSpeed()
+        if initCamera then
+            camera.follow_style = 'LOCKON'
+            initCamera = false
+            Timer.script(function(wait)
+                wait(0.5)
+                camera.follow_style = 'PLATFORMER'
+            end)
+        end
         if CollisionHandler:getType() == "bounceRight" then
             Player:bounce(4200, -120, "right")
         end
         if CollisionHandler:getType() == "bounceLeft" then
             Player:bounce(-4200, -120, "left")
         end
+        if CollisionHandler:getType() == "bounceUp" then
+            Player:bounce(0, -5800, nil)
+        end
     end
     if alive == false and levelChange == false then
         died = false
         alive = true
-        Player:init(LevelHandler:playerSpawnLocation())
+        if LevelHandler:playerReturnSpawnLocation() ~= nil and returned then
+            Player:init(LevelHandler:playerReturnSpawnLocation())
+            returned = false
+        else
+            Player:init(LevelHandler:playerSpawnLocation())
+        end
     end
 
     if k.isDown( "escape" ) and levelChange == false and Transition:getState() == false 
@@ -81,9 +99,11 @@ function Menu:update(dt)
         end)
         SoundHandler:PlaySound("dead")
     end
+
     if levelChange == false and CollisionHandler:getGoalTouch() then
         --SoundHandler:StopSound("all1")
         levelChange = true
+        initCamera = true
         Transition:init()
         Transition:activate(true)
         alive = false
@@ -94,6 +114,25 @@ function Menu:update(dt)
         Timer.script(function(wait)
             wait(2.3)
             LevelHandler:next()
+            Transition:down()
+            levelChange = false
+            test = true
+        end)
+        SoundHandler:PlaySound("next")
+    elseif levelChange == false and CollisionHandler:getReturnTouch() then
+        levelChange = true
+        initCamera = true
+        Transition:init()
+        Transition:activate(true)
+        alive = false
+        returned = true
+        if test then
+            Player:destroy()
+        end
+        test = false
+        Timer.script(function(wait)
+            wait(2.3)
+            LevelHandler:next(true)
             Transition:down()
             levelChange = false
             test = true

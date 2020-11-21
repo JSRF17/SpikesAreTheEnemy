@@ -17,21 +17,25 @@ function Transition:init()
         Timer.cancel(handle)
         Timer.cancel(handle1)
     end
+
     curtain1[1] = {x = 0, y = 1200, alpha = 0} 
 end
 
 function Transition:draw()
     g.setColor(1, 1, 1)
+
     if color == "" then
         g.setColor(1, 1, 1)
     else
         g.setColor(LevelHandler:colors(1))
     end
+
     g.rectangle("fill", curtain1[1].x, curtain1[1].y, 1280, 720)
 end
 
 function Transition:activate(choice, quicker)
     transitioning = true
+
     if choice then
         color = "asLevel"
     else
@@ -51,6 +55,7 @@ function Transition:down(quicker)
     else
         handle = Timer.tween(1.3, curtain1[1], {y = 1200}, 'in-out-quad')
     end
+
     Timer.script(function(wait)
         wait(1.32)
         transitioning = false
@@ -59,6 +64,7 @@ end
 
 function Transition:deathTransition()
     Transition:activate(true, true)
+    
     Timer.script(function(wait)
         wait(1)
         Transition:down(true)

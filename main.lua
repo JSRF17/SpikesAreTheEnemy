@@ -113,7 +113,7 @@ if DataHandler:loadGame() == nil then
     DataHandler:initVVVVV()
     DataHandler:initSettings()
 end
-
+--DataHandler:initSettings()
 --Start at the menu state--
 States.menu = true
 State:menuStart()
@@ -135,6 +135,8 @@ function love.load()
     crtShader:send("feather", 0.02)
     crtShader:send("distortionFactor", {1.06, 1.065})
     crtShader:send("scaleFactor", 1)
+
+    TouchControls:init(1)
 end
 --Main update function--
 function love.update(dt)

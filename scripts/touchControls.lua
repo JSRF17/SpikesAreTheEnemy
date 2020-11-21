@@ -211,58 +211,55 @@ end
 
 function TouchControls:draw()
     if osString == "Android" or osString == "iOS" then
-        if Vissible == false then
-            g.setColor(0.2, 0.2, 0.2, 0)
-        else
-            g.setColor(0.3, 0.3, 0.3, 0.6)
-        end
-        for i = 1, #button, 1 do
-            if dPad == true then
-                --Check if level is of colour blue or yellow to make buttons less transparent
-                local ActiveLevel = LevelHandler:getCurrentLevel()
-                if SessionColour ~= nil then
-                    g.setColor(0, 0, 0, 0.5)
+        if Vissible then
+            for i = 1, #button, 1 do
+                if dPad == true then
+                    --Check if level is of colour blue or yellow to make buttons less transparent
+                    local ActiveLevel = LevelHandler:getCurrentLevel()
+                    if SessionColour ~= nil then
+                        g.setColor(0, 0, 0, 0.5)
+                    else
+                        g.setColor(0, 0, 0, 0.6)
+                    end
+                    if button[i].id == "left" then
+                        if directionX == "left" then
+                            g.setColor(1, 1, 1, 0.8)
+                        end
+                        love.graphics.draw(imageFile, frames[2], button[i].x, button[i].y, 0, 1, 1)
+                    elseif button[i].id == "right" then
+                        if directionX == "right" then
+                            g.setColor(1, 1, 1, 0.8)
+                        end
+                        love.graphics.draw(imageFile, frames[4], button[i].x, button[i].y, 0, 1, 1)
+                    elseif button[i].id == "up" then
+                        if directionY == "up" then
+                            g.setColor(1, 1, 1, 0.8)
+                        end
+                        love.graphics.draw(imageFile, frames[1], button[i].x, button[i].y, 0, 1, 1)
+                    elseif button[i].id == "down" then
+                        if directionY == "down" then
+                            g.setColor(1, 1, 1, 0.8)
+                        end
+                        love.graphics.draw(imageFile, frames[3], button[i].x, button[i].y, 0, 1, 1)
+                    elseif button[i].id == "invert" then
+                        if invert == true then
+                            g.setColor(1, 1, 1, 0.8)
+                        end
+                        if LevelHandler:returnGravityChange() then
+                            love.graphics.draw(imageFile2, frames[1], button[i].x, button[i].y, 0, 1, 1)
+                        end
+                    end
                 else
-                    g.setColor(0, 0, 0, 0.6)
+                    g.rectangle("line", button[i].x, button[i].y, button[i].width, button[i].height)
                 end
-                if button[i].id == "left" then
-                    if directionX == "left" then
-                        g.setColor(1, 1, 1, 0.8)
-                    end
-                    love.graphics.draw(imageFile, frames[2], button[i].x, button[i].y, 0, 1, 1)
-                elseif button[i].id == "right" then
-                    if directionX == "right" then
-                        g.setColor(1, 1, 1, 0.8)
-                    end
-                    love.graphics.draw(imageFile, frames[4], button[i].x, button[i].y, 0, 1, 1)
-                elseif button[i].id == "up" then
-                    if directionY == "up" then
-                        g.setColor(1, 1, 1, 0.8)
-                    end
-                    love.graphics.draw(imageFile, frames[1], button[i].x, button[i].y, 0, 1, 1)
-                elseif button[i].id == "down" then
-                    if directionY == "down" then
-                        g.setColor(1, 1, 1, 0.8)
-                    end
-                    love.graphics.draw(imageFile, frames[3], button[i].x, button[i].y, 0, 1, 1)
-                elseif button[i].id == "invert" then
-                    if invert == true then
-                        g.setColor(1, 1, 1, 0.8)
-                    end
-                    if LevelHandler:returnGravityChange() then
-                        love.graphics.draw(imageFile2, frames[1], button[i].x, button[i].y, 0, 1, 1)
-                    end
-                end
-            else
-                g.rectangle("line", button[i].x, button[i].y, button[i].width, button[i].height)
             end
-        end
-        g.setColor(0.2, 0.2, 0.2, 0)
-        if button.pause ~= nil then
-            g.rectangle("fill", button.pause.x, button.pause.y, button.pause.width, button.pause.height)
-            g.setColor(1, 1, 1, 0.8)
-            g.rectangle("fill", button.pauseL.x, button.pauseL.y, button.pauseL.width, button.pauseL.height)
-            g.rectangle("fill", button.pauseR.x, button.pauseR.y, button.pauseR.width, button.pauseR.height)
+            g.setColor(0, 0, 0, 0.5)
+            if button.pause ~= nil then
+                g.rectangle("fill", button.pause.x, button.pause.y, button.pause.width, button.pause.height)
+                g.setColor(1, 1, 1, 0.8)
+                g.rectangle("fill", button.pauseL.x, button.pauseL.y, button.pauseL.width, button.pauseL.height)
+                g.rectangle("fill", button.pauseR.x, button.pauseR.y, button.pauseR.width, button.pauseR.height)
+            end
         end
     end
 end

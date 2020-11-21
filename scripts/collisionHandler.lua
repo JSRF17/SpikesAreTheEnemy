@@ -13,6 +13,7 @@ local wallCol = false
 local print, print2
 local playerTouchGround = true
 local hitGoal = false
+local hitReturn = false
 local hitSecret = false
 
 function CollisionHandler:getPlayerStatus()
@@ -53,7 +54,20 @@ function beginContact(a, b, coll)
                 hitSecret = false
                 collisionType = "none"
             end)
-        elseif a:getUserData() == "goal" and b:getUserData() == "player" or b:getUserData() == "goal" and a:getUserData() == "player" then
+        end
+        if a:getUserData() == "return" and b:getUserData() == "left" or b:getUserData() == "return" and a:getUserData() == "left" 
+        or a:getUserData() == "return" and b:getUserData() == "right" or b:getUserData() == "return" and a:getUserData() == "right" then
+            isColliding = true
+            hitReturn = true
+            --Since I'm destroying the physics object player during collision it seems to persist sometimes,
+            --this fixes it.
+            Timer.script(function(wait)
+                wait(0.3)
+                hitReturn = false
+                collisionType = "none"
+            end)
+        end
+        if a:getUserData() == "goal" and b:getUserData() == "player" or b:getUserData() == "goal" and a:getUserData() == "player" then
             isColliding = true
             hitGoal = true
             --Since I'm destroying the physics object player during collision it seems to persist sometimes,
@@ -174,6 +188,10 @@ end
 
 function CollisionHandler:getGoalTouch()
     return hitGoal
+end
+
+function CollisionHandler:getReturnTouch()
+    return hitReturn
 end
 
 function CollisionHandler:getSecretTouch()

@@ -23,9 +23,7 @@ function Game:load()
     Player:initLives(SpeedRun)
     Alive = true
     initCamera = true
-    cameraIncreaseAmount = 0
     died = false
-    Dead = false
     LevelChange = false
     debug = false
     gravityChange = true
@@ -56,11 +54,13 @@ function Game:update(dt)
     if k.isDown("left") or k.isDown("right") or TouchControls:getEvent("X") == "right" or TouchControls:getEvent("X") == "left" then
         firstGravityChange = false
     end
+
     w:update(dt)
     Diamonds:update(dt)
     Diamonds:animate(dt)
     Grass:animate(dt)
     Grass:update()
+
     if Alive then
         Player:controls(dt)
         Player:track(dt)
@@ -69,7 +69,10 @@ function Game:update(dt)
         if initCamera then
             camera.follow_style = 'LOCKON'
             initCamera = false
-            camera.follow_style = 'PLATFORMER'
+            Timer.script(function(wait)
+                wait(0.5)
+                camera.follow_style = 'PLATFORMER'
+            end)
         end
         if CollisionHandler:getType() == "bounceRight" then
             Player:bounce(4200, -120, "right")
@@ -78,19 +81,22 @@ function Game:update(dt)
             Player:bounce(-4200, -520, "left")
         end
         if CollisionHandler:getType() == "bounceUp" then
-            Player:bounce(0, -6250, nil)
+            Player:bounce(0, -6200, nil)
         end
         if CollisionHandler:getType() == "bounceUpSmall" then
             Player:bounce(0, -3720, nil)
         end
     end
+
     if Hit == false then
         Text:dialogUpdate(dt)
     end
+
     if Alive == false and LevelChange == false and Player:checkLives() ~= 0 then
         Player:init(LevelHandler:playerSpawnLocation())
         Alive = true
     end
+
     if k.isDown( "escape" ) and LevelChange == false and Transition:getState() == false 
     or TouchControls:getEvent("P") == "pause" and LevelChange == false and Transition:getState() == false then
         if paused == false then
@@ -106,6 +112,7 @@ function Game:update(dt)
         end
         paused = true
     end   
+
     if LevelHandler:returnGravityChange() and k.isDown("space") and CollisionHandler:getStatus() 
     and CollisionHandler:getType() ~= "left" and CollisionHandler:getType() ~= "right" 
     or LevelHandler:returnGravityChange() and TouchControls:getEvent("invert") == true 
@@ -133,10 +140,12 @@ function Game:update(dt)
             end)
         end
     end
+
     if Player:checkLives() == 0 then
         CollisionHandler:reset()
         State:gameover()
     end
+
     if died == false and CollisionHandler:getSpikeTouch() and Player:checkLives() >= 1 then
         if Player:checkLives() ~= 0 then
             Transition:deathTransition()
@@ -151,7 +160,6 @@ function Game:update(dt)
         Timer.script(function(wait)
             wait(0.8)
             camera.follow_style = 'LOCKON'
-            Dead = true
             Hit = false
             Alive = false
             if Player:checkLives() ~= 0 then
@@ -210,30 +218,26 @@ function Game:draw()
     end
     
     LevelHandler:drawLevel()
+
     if LevelHandler:getCurrentLevel() == 2 then
         if LevelHandler:getSecretLevel() then
             ArtGallery:draw()
         end
     end
+
     if Alive == true then
         Player:draw()
-    end        
+    end
+
     if debug == true then
         love.graphics.print(tostring(CollisionHandler:getType()), 100, 400, 0, 1)
         love.graphics.print(tostring(CollisionHandler:getStatus()), 300, 400, 0, 1)
     end
+
     Text:draw()
     Text:dialogDraw()
     Diamonds:draw()
     Grass:draw()
-end
-
-function Game:checkIfDead()
-    return Dead
-end
-
-function Game:setDeadToFalse()
-    Dead = false
 end
 
 function Game:isLevelChange()
