@@ -21,6 +21,7 @@ function Menu:loadMenu()
     initCamera = false
     camerScaleGoal = 0.8
     levelChange = false
+    levelChangeDone = true
 end
 
 function Menu:update(dt)
@@ -51,7 +52,10 @@ function Menu:update(dt)
     end
     if alive == false and levelChange == false then
         died = false
-        alive = true
+        Timer.script(function(wait)
+            wait(0.4)
+            alive = true
+        end)
         if LevelHandler:playerReturnSpawnLocation() ~= nil and returned then
             Player:init(LevelHandler:playerReturnSpawnLocation())
             returned = false
@@ -106,6 +110,7 @@ function Menu:update(dt)
         initCamera = true
         Transition:init()
         Transition:activate(true)
+        levelChangeDone = false
         alive = false
         if test then
             Player:destroy()
@@ -118,12 +123,17 @@ function Menu:update(dt)
             levelChange = false
             test = true
         end)
+        Timer.script(function(wait)
+            wait(2.8)
+            levelChangeDone = true
+        end)
         SoundHandler:PlaySound("next")
     elseif levelChange == false and CollisionHandler:getReturnTouch() then
         levelChange = true
         initCamera = true
         Transition:init()
         Transition:activate(true)
+        levelChangeDone = false
         alive = false
         returned = true
         if test then
@@ -137,6 +147,10 @@ function Menu:update(dt)
             levelChange = false
             test = true
         end)
+        Timer.script(function(wait)
+            wait(2.8)
+            levelChangeDone = true
+        end)
         SoundHandler:PlaySound("next")
     end
     for i = 0, 13, 1 do
@@ -149,7 +163,7 @@ function Menu:update(dt)
             end
             test = false
             Transition:init()
-            Transition:activate(true)
+            Transition:activate(true)   
             Timer.script(function(wait)
                 wait(2.3)
                 State:allFalse()
@@ -164,7 +178,9 @@ function Menu:update(dt)
         Grass:animate(dt)
         Grass:update()
         TouchControls:update()
-        Player:controls(dt)
+        if levelChangeDone then
+            Player:controls(dt)
+        end
         if Player:getPositionX() ~= nil and camerScaleGoal < 1.18 then
             if mobile then
                 camera.x = Player:getPositionX() - 160

@@ -156,13 +156,11 @@ function Diamonds:countReset()
 end
 
 function Diamonds:drawCount()
-    g.setColor(0, 0, 0, 0.5)
-    g.rectangle("fill", 600, 20, 80, 50)
     g.setColor(LevelHandler:colors(1))
     love.graphics.setFont(font)
     if livesText ~= "" then
-        g.printf(livesText, 444, 30, 400, "center", 0, 1)
+        g.printf("\n"..livesText, 976, 660, 400, "center", 0, 1)
     else
-        g.printf("D:"..count, 444, 30, 400, "center", 0, 1)
+        g.printf("\n".."D:"..count, 970, 660, 400, "center", 0, 1)
     end
 end

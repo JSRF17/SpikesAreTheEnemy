@@ -16,6 +16,7 @@ local gravityChangeKeyPress
 local paused = false
 local firstGravityChange = true
 local Hit = false
+local pauseText = false
 
 --Initilize game values--
 function Game:load()
@@ -29,7 +30,7 @@ function Game:load()
     gravityChange = true
     gravityChangeKeyPress = true
     paused = false
-    Text:init(-200, 2350)
+    Text:init(0, 1500)
     LevelHandler:loadCurrentLevel()
     Player:pushPlayer("justUp")
     Grass:init()
@@ -61,6 +62,10 @@ function Game:update(dt)
     Grass:animate(dt)
     Grass:update()
 
+    if pauseText then
+        Text:moveUp()
+        pauseText = false
+    end
     if Alive then
         Player:controls(dt)
         Player:track(dt)
@@ -100,12 +105,14 @@ function Game:update(dt)
     if k.isDown( "escape" ) and LevelChange == false and Transition:getState() == false 
     or TouchControls:getEvent("P") == "pause" and LevelChange == false and Transition:getState() == false then
         if paused == false then
+            Text:moveDown()
             SoundHandler:PlaySound("pause")
             Transition:init()
             Transition:activate()
             Timer.script(function(wait)
                 wait(1.5)
                 State:pause()
+                pauseText = true
                 paused = false
                 Transition:down()
             end)
@@ -177,22 +184,22 @@ function Game:update(dt)
         SoundHandler:PlaySound("dead")
     elseif LevelChange == false and CollisionHandler:getGoalTouch() then
         --SoundHandler:StopSound("all1")
-        Text:reset()
-        Text:moveAway()
+        Text:initMove()
+        Text:moveDown()
         Transition:activate(true)
         Alive = false
         LevelChange = true
         Player:destroy()
         Timer.script(function(wait)
             wait(2.0)
+            Text:reset()
             LevelHandler:next()
             LevelChange = false
             Transition:down()
         end)
         SoundHandler:PlaySound("next")
     elseif LevelChange == false and CollisionHandler:getSecretTouch() then
-        Text:reset()
-        Text:moveAway()
+        Text:moveDown()
         Transition:activate(true)
         Alive = false
         LevelChange = true
@@ -200,6 +207,7 @@ function Game:update(dt)
         initCamera = true
         Timer.script(function(wait)
             wait(2.0)
+            Text:reset()
             LevelHandler:loadCurrentLevel(true)
             LevelChange = false
             Transition:down()
@@ -233,9 +241,6 @@ function Game:draw()
         love.graphics.print(tostring(CollisionHandler:getType()), 100, 400, 0, 1)
         love.graphics.print(tostring(CollisionHandler:getStatus()), 300, 400, 0, 1)
     end
-
-    Text:draw()
-    Text:dialogDraw()
     Diamonds:draw()
     Grass:draw()
 end

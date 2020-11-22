@@ -10,7 +10,8 @@ require("Levels.Levels")
 
 LevelHandler = {}
 
-local Levels = Levels:getLevels()
+local Stages = Levels:getLevels()
+
 
 grassPositions = {}
 
@@ -21,8 +22,8 @@ function LevelHandler:initGrassPositions()
 end
 
 Levelinit = {}
-for i = 1, #Levels, 1 do
-    Levelinit[i] = Levels[i]
+for i = 1, #Stages, 1 do
+    Levelinit[i] = Stages[i]
 end
 local testNum = 0
 
@@ -34,6 +35,7 @@ local blocks
 local dLocations
 local newLevelUnlock = false
 local secretLevel = false
+local changing = false
 
 function LevelHandler:initDiamonds()
     dLocations = {}
@@ -140,6 +142,7 @@ function LevelHandler:next(goBack)
             matchFound = true
         end
     end
+    changing = true
     LevelHandler:loadCurrentLevel()
 end
 
@@ -201,8 +204,6 @@ function LevelHandler:loadLevelData(leveldata)
     end
     currentSpawn = leveldata.spawn
     textboxLocation = leveldata.textboxLocation
-    levelColor = leveldata.color
-    bgLevelColor = leveldata.bgcolor
     for i = 1, #leveldata.grassLocations, 1 do
         grassPositions[i].x = leveldata.grassLocations[i][1]
         grassPositions[i].y = leveldata.grassLocations[i][2]
@@ -229,12 +230,14 @@ function LevelHandler:loadCurrentLevel(secret)
     for i = 0, #LevelList, 1 do
         if LevelList[i] == true then
             if i == 1 then
+                Levels:changeColor("yellow")
                 newLevelUnlock = true
                 if Player:checkLives() <= 9 then
                     Player:initLives()
                 end
             end
             if i == 6 then
+                Levels:changeColor("greenish")
                 DataHandler:saveGame(2)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -242,6 +245,7 @@ function LevelHandler:loadCurrentLevel(secret)
                 end
             end
             if i == 11 then
+                Levels:changeColor("blueish")
                 DataHandler:saveGame(3)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -249,6 +253,7 @@ function LevelHandler:loadCurrentLevel(secret)
                 end
             end
             if i == 16 then
+                Levels:changeColor("red")
                 DataHandler:saveGame(4)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -256,6 +261,7 @@ function LevelHandler:loadCurrentLevel(secret)
                 end
             end
             if i == 21 then
+                Levels:changeColor("blue")
                 DataHandler:saveGame(5)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -263,6 +269,7 @@ function LevelHandler:loadCurrentLevel(secret)
                 end
             end
             if i == 26 then
+                Levels:changeColor("lightYellow")
                 DataHandler:saveGame(6)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -270,57 +277,63 @@ function LevelHandler:loadCurrentLevel(secret)
                 end
             end
             if i == 31 then
+                Levels:changeColor("lightPurple")
                 DataHandler:saveGame(7)
-                --posterize:send("num_bands", 3)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
                     newLevelUnlock = true
                 end
             end
             if i == 36 then
+                Levels:changeColor("lightOrange")
                 DataHandler:saveGame(8)
-                --posterize:send("num_bands", 3)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
                     newLevelUnlock = true
                 end
             end
             if i == 41 then
+                Levels:changeColor("lightPink")
                 DataHandler:saveGame(9)
-                --posterize:send("num_bands", 3.5)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
                     newLevelUnlock = true
                 end
             end
-            if i == 44 then
+            if i == 45 then
+                Levels:changeColor("orange")
                 DataHandler:saveGame(10)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
                     newLevelUnlock = true
                 end
             end
-            if i == 47 then
+            if i == 49 then
+                Levels:changeColor("otherRed")
                 DataHandler:saveGame(11)
-                --posterize:send("num_bands", 5.8)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
                     newLevelUnlock = true
                 end
             end
-            if i == 51 then
+            if i == 53 then
+                Levels:changeColor("veryLightPink")
                 DataHandler:saveGame(12)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
                     newLevelUnlock = true
                 end
             end
-            if i == 55 then
+            if i == 57 then
+                Levels:changeColor("purple")
                 DataHandler:saveGame(13)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
                     newLevelUnlock = true
                 end
+            end
+            if i == 61 then
+                Levels:changeColor("pink")
             end
 
             if secret ~= nil then
@@ -344,30 +357,35 @@ function LevelHandler:loadCurrentLevel(secret)
         end
     end
     if States.menu ~= true then
-        Text:moveTo(LevelHandler:textboxLocation())
+        Text:moveUp()
     end
     if isPlaying == false then
         Player:init(LevelHandler:playerSpawnLocation())
     end
 end
+
 --Draws the level
 function LevelHandler:drawLevel()
     g.setColor(LevelHandler:colors(2))
+    
     g.rectangle("fill", -3000, -1200, 9180, 9020)
+    
     g.setColor(LevelHandler:colors(1))
+
     for i = 1, #blocks, 1 do
         if blocks[i].b ~= nil then
             if blocks[i].f:getUserData() ~= nil then
                 if blocks[i].f:getUserData() == "goal" or blocks[i].f:getUserData() == "secret" then
                     g.setColor(1.0, 1.0, 1.0, 0.0)
                 end
-                 
+
                 for v = 0, 13, 1 do
                     if blocks[i].f:getUserData() == "goal"..tostring(v) then
                         g.setColor(1.0, 1.0, 1.0, 0.0)
                     end
                 end
             end
+
             g.polygon("fill", blocks[i].b:getWorldPoints(blocks[i].s:getPoints()))
             g.setColor(LevelHandler:colors(1))
         else
@@ -376,11 +394,11 @@ function LevelHandler:drawLevel()
     end
     for i = 1, 4, 1 do
         if levelType == "long" then
-            g.rectangle("fill", Levels.borders2[i][1], Levels.borders2[i][2], Levels.borders2[i][3], Levels.borders2[i][4])
+            g.rectangle("fill", Stages.borders2[i][1], Stages.borders2[i][2], Stages.borders2[i][3], Stages.borders2[i][4])
         elseif levelType == "high" then
-            g.rectangle("fill", Levels.borders1[i][1], Levels.borders1[i][2], Levels.borders1[i][3], Levels.borders1[i][4])
+            g.rectangle("fill", Stages.borders1[i][1], Stages.borders1[i][2], Stages.borders1[i][3], Stages.borders1[i][4])
         elseif levelType == "normal" then
-            g.rectangle("fill", Levels.borders[i][1], Levels.borders[i][2], Levels.borders[i][3], Levels.borders[i][4])
+            g.rectangle("fill", Stages.borders[i][1], Stages.borders[i][2], Stages.borders[i][3], Stages.borders[i][4])
         end
     end
     if LevelHandler:getCurrentLevel() == 62 then
@@ -427,15 +445,13 @@ function LevelHandler:textboxLocation()
 end
 
 function LevelHandler:colors(colorChoice)
-    local color, bgColor
-    if leveldata ~= nil then
-        color = leveldata.color
-        bgColor = leveldata.bgcolor
-        if colorChoice == 1 then
-            return color
-        elseif colorChoice == 2 then
-            return bgColor
-        end
+    local colorBg = Levels:getBackgroundColor()
+    local color = Levels:getColour()
+    
+    if colorChoice == 1 then
+        return color.r, color.g, color.b
+    elseif colorChoice == 2 then
+        return colorBg.r, colorBg.g, colorBg.b
     end
 end
 

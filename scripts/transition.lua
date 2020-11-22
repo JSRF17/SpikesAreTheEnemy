@@ -43,21 +43,21 @@ function Transition:activate(choice, quicker)
     end
 
     if quicker then
-        handle1 = Timer.tween(0.82, curtain1[1], {y = 0}, 'in-out-quad')
+        handle1 = Timer.tween(0.8, curtain1[1], {y = 0}, 'in-out-quad')
     else
-        handle1 = Timer.tween(1.3, curtain1[1], {y = 0}, 'in-out-quad')
+        handle1 = Timer.tween(1.1, curtain1[1], {y = 0}, 'in-out-quad')
     end
 end
 
 function Transition:down(quicker)
     if quicker then
-        handle = Timer.tween(1, curtain1[1], {y = 1200}, 'in-out-quad')
+        handle = Timer.tween(0.9, curtain1[1], {y = 1200}, 'in-out-quad')
     else
-        handle = Timer.tween(1.3, curtain1[1], {y = 1200}, 'in-out-quad')
+        handle = Timer.tween(1.1, curtain1[1], {y = 1200}, 'in-out-quad')
     end
 
     Timer.script(function(wait)
-        wait(1.32)
+        wait(1.22)
         transitioning = false
     end)
 end

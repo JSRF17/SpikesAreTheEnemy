@@ -9,49 +9,33 @@ function Text:init(x, y)
     self.x = x
     self.y = y
     textbox = {}
-    textbox[1] = {width = 330, height = 230, x = self.x, y = self.y}
+    textbox[1] = {width = 1280, height = 60, x = self.x, y = self.y}
 end
 
-function Text:destroy()
-     textbox = nil 
+function Text:getStatus()
+    return textbox 
 end
 
 function Text:draw()
-    g.setColor(0.3,0.3,0.3, 0.8)
+    g.setColor(0,0,0, 1)
     g.rectangle("fill", textbox[1].x, textbox[1].y, textbox[1].width, textbox[1].height)
-    g.setColor(0.5,0.5,0.5, 0.8)
+    g.setColor(0,0,0, 1)
+end
+
+function Text:moveUp()
+    TextTimer1 = Timer.tween(1, textbox[1], {y = 660}, 'in-out-quad')
 end
 
 function Text:moveDown()
-    function move()
-        Timer.tween(2, textbox[1], {y = 900}, 'in-out-quad')
-    end
-    move()
+    TextTimer2 = Timer.tween(0.8, textbox[1], {y = 800}, 'in-out-quad')
 end
 
-function Text:moveTo(x, y)
-    local X = x
-    local Y = y
-    function move()
-        Timer.tween(2, textbox[1], {y = Y}, 'in-out-quad')
+function Text:initMove()
+    if TextTimer1 ~= nil then
+        Timer.cancel(TextTimer1)
+    elseif TextTimer2 ~= nil then
+        Timer.cancel(TextTimer2)
     end
-    move()
-    function move2()
-        Timer.tween(2, textbox[1], {x = X}, 'in-out-quad')
-    end
-    move2()
-end
-
-function Text:moveAway()
-    function move()
-        --Timer.tween(0, textbox[1], {y = 2000}, 'in-out-quad')
-        textbox[1].y = 2000
-    end
-    move()
-    function move2()
-        Timer.tween(2, textbox[1], {x = 100}, 'in-out-quad')
-    end
-    move2()
 end
 
 function Text:reset()
@@ -81,7 +65,7 @@ end
 function Text:dialogUpdate(dt)
     if levelstart == true then
         Timer.script(function(wait)
-            wait(2.5)
+            wait(1.5)
             levelstart = false
         end)
     end
@@ -125,9 +109,9 @@ function Text:dialogDraw()
     g.setFont(font)
     g.setColor(LevelHandler:colors(1))
     if message1 ~= nil then
-        g.printf(message1:sub(1, letters1), textbox[1].x + 5, textbox[1].y + 200, 300)
+        g.printf(message1:sub(1, letters1), textbox[1].x + 1150, textbox[1].y , 800)
     end
-    g.printf(message:sub(1, letters), textbox[1].x + 5, textbox[1].y + 5, 300)
+    g.printf(message:sub(1, letters), textbox[1].x + 20, textbox[1].y, 2500)
 end
 
 --Takes input value depending on active level then returns the message relevant to that level--
@@ -139,7 +123,7 @@ function Text:storyline(select)
         LivesInit = ""
     end
     texts = {
-        "1-1: Can't die here, literally impossible. "..LivesInit,
+        "1-1: Can't die here, literally impossible."..LivesInit,
         "1-2: Could die here, if you're no good.",
         "1-3: The walljump.",
         "1-4: Two pillars two spikes.",

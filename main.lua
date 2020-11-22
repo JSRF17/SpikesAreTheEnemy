@@ -11,6 +11,9 @@ jit.off()
 font = g.newFont("resources/jackeyfont.ttf", 64)
 g.setFont(font)
 
+pattern = love.graphics.newImage("resources/pattern.png")
+
+
 --Global variables--
 SpeedRun = false
 mouseMoved = false
@@ -29,7 +32,7 @@ chromasep = love.graphics.newShader("shaders/chromasep.shader")
 math.randomseed(os.time())
 randomColour = math.random(1,5)
 SessionColour = ""
-randomColour = 5
+randomColour = 1
 if randomColour == 1 then
     SessionColour = "pink"
     posterize:send("num_bands", 2.2)
@@ -144,10 +147,10 @@ function love.update(dt)
     State:stateChanger(dt)
     camera:update(dt)
 
-    if phase < 2.5 and complete == false then
+    if phase < 2.2 and complete == false then
         phase = phase + 0.1
     end
-    if phase > 0.8 and complete then
+    if phase > 1.4 and complete then
         phase = phase - 0.1
     end
     if phase < 0.9 then
@@ -190,15 +193,21 @@ function love.draw()
                 MiniGameVVVVV:draw()
                 TouchControls:draw()
             end
+            if Transition:getState() then
+                Transition:draw()
+                if Text:getStatus() ~= nil and States.game then
+                    Text:draw()
+                    Text:dialogDraw()
+                end
+            end
             if States.game and Game:isLevelChange() == false or States.menu and MenuSystem:StartedMenuGame() then
                 TouchControls:draw()
                 if States.game then
+                    Text:draw()
+                    Text:dialogDraw()
                     Diamonds:drawCount()
                 end
             end
-        end
-        if Transition:getState() then
-            Transition:draw()
         end
     push:apply("end")
 end
