@@ -35,10 +35,7 @@ function Menu:update(dt)
         if initCamera then
             camera.follow_style = 'LOCKON'
             initCamera = false
-            Timer.script(function(wait)
-                wait(0.5)
-                camera.follow_style = 'PLATFORMER'
-            end)
+            camera.follow_style = 'PLATFORMER'
         end
         if CollisionHandler:getType() == "bounceRight" then
             Player:bounce(4200, -120, "right")
@@ -47,7 +44,7 @@ function Menu:update(dt)
             Player:bounce(-4200, -120, "left")
         end
         if CollisionHandler:getType() == "bounceUp" then
-            Player:bounce(0, -5800, nil)
+            Player:bounce(0, -5200, nil)
         end
     end
     if alive == false and levelChange == false then
@@ -124,7 +121,7 @@ function Menu:update(dt)
             test = true
         end)
         Timer.script(function(wait)
-            wait(2.8)
+            wait(3)
             levelChangeDone = true
         end)
         SoundHandler:PlaySound("next")
@@ -148,7 +145,7 @@ function Menu:update(dt)
             test = true
         end)
         Timer.script(function(wait)
-            wait(2.8)
+            wait(3)
             levelChangeDone = true
         end)
         SoundHandler:PlaySound("next")

@@ -52,8 +52,8 @@ function TouchControls:init(controlScheme)
     if controlScheme == 1 then
         button[1] = {width = 130, height = 130, x = 20, y = 450, id = "left", axis = "x", text = "<-"}
         button[2] = {width = 130, height = 130, x = 200, y = 450, id = "right", axis = "x", text = "->"}
-        button[3] = {width = 130, height = 130, x = 1100, y = 500, id = "down", axis = "y", text = "down"}
-        button[4] = {width = 130, height = 130, x = 1100, y = 350, id = "up", axis = "y", text = "up"}
+        button[3] = {width = 130, height = 130, x = 1100, y = 450, id = "down", axis = "y", text = "down"}
+        button[4] = {width = 130, height = 130, x = 1100, y = 300, id = "up", axis = "y", text = "up"}
         button[5] = {width = 130, height = 130, x = 900, y = 400, id = "invert", axis = "i", text = "inv"}
         dPad = true
     end
@@ -153,7 +153,7 @@ function TouchControls:update()
                             if button[i].x ~= nil then                           
                                 if directionX == "left" then
                                     if id == idTouchX then 
-                                        if globalX < 29 or globalX > 155 or globalY < 455 or globalY > 570 then
+                                        if globalX < 29 or globalX > 156 or globalY < 455 or globalY > 570 then
                                             if button[i].axis == "x" then
                                                 directionX = ""
                                             end
@@ -162,7 +162,7 @@ function TouchControls:update()
                                 end
                                 if directionX == "right" then
                                     if id == idTouchX then
-                                        if globalX < 208 or globalX > 333 or globalY < 455 or globalY > 570 then
+                                        if globalX < 208 or globalX > 337 or globalY < 455 or globalY > 570 then
                                             if button[i].axis == "x" then
                                                 directionX = ""
                                             end
@@ -171,7 +171,7 @@ function TouchControls:update()
                                 end
                                 if directionY == "down" then
                                     if id == idTouchY then
-                                        if globalX < 1100 or globalX > 1213 or globalY < 510 or globalY > 620 then
+                                        if globalX < 1100 or globalX > 1213 or globalY < 460 or globalY > 570 then
                                             if button[i].axis == "y" then
                                                 directionY = ""
                                             end
@@ -180,7 +180,7 @@ function TouchControls:update()
                                 end
                                 if directionY == "up" then
                                     if id == idTouchY then
-                                        if globalX < 1104 or globalX > 1228 or globalY < 358 or globalY > 470 then
+                                        if globalX < 1104 or globalX > 1228 or globalY < 308 or globalY > 420 then
                                             if button[i].axis == "y" then
                                                 directionY = ""
                                             end
@@ -210,7 +210,7 @@ function TouchControls:update()
 end
 
 function TouchControls:draw()
-    if osString == "Android" or osString == "iOS" then
+    if mobile then
         if Vissible then
             for i = 1, #button, 1 do
                 if dPad == true then

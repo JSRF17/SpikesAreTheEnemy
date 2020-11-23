@@ -9,7 +9,11 @@ function Text:init(x, y)
     self.x = x
     self.y = y
     textbox = {}
-    textbox[1] = {width = 1280, height = 60, x = self.x, y = self.y}
+    if mobile then
+        textbox[1] = {width = 1280, height = 115, x = self.x, y = self.y}
+    else
+        textbox[1] = {width = 1280, height = 85, x = self.x, y = self.y}
+    end
 end
 
 function Text:getStatus()
@@ -23,11 +27,15 @@ function Text:draw()
 end
 
 function Text:moveUp()
-    TextTimer1 = Timer.tween(1, textbox[1], {y = 660}, 'in-out-quad')
+    if mobile then
+        TextTimer1 = Timer.tween(1, textbox[1], {y = 600}, 'in-out-quad')
+    else
+        TextTimer1 = Timer.tween(1, textbox[1], {y = 645}, 'in-out-quad')
+    end
 end
 
 function Text:moveDown()
-    TextTimer2 = Timer.tween(0.8, textbox[1], {y = 800}, 'in-out-quad')
+    TextTimer2 = Timer.tween(1.2, textbox[1], {y = 1400}, 'in-out-quad')
 end
 
 function Text:initMove()
@@ -65,7 +73,7 @@ end
 function Text:dialogUpdate(dt)
     if levelstart == true then
         Timer.script(function(wait)
-            wait(1.5)
+            wait(1)
             levelstart = false
         end)
     end
@@ -149,7 +157,7 @@ function Text:storyline(select)
         "5-4: Narrow dive.",
         "5-5: 3 pillars with one spike each.",
         "6-1: The gravity switch. "..LivesInit,
-        "6-2: Ahhh! There's spikes on the roof.",
+        "6-2: Ahhh! There are spikes on the roof.",
         "6-3: Do it upside down.",
         "6-4: Doing it upside down again.",
         "6-5: Collecting diamonds?",
@@ -170,12 +178,12 @@ function Text:storyline(select)
         "10-1: The frustration."..LivesInit,
         "10-2: Above the spikes.",
         "10-3: Climb high. ",
-        "10-4: The one with a secret.", 
+        "10-4: Nine then switch", 
         "11-1: No room for error, but more difficult."..LivesInit, 
         "11-2: Easy to the top.", 
-        "11-3: Overdimensioned",
+        "11-3: Overdimensioned.",
         "11-4: The Cave.",
-        "12-1: The filler."..LivesInit,
+        "12-1: Staircase."..LivesInit,
         "12-2: Narrow corridor, dive, but more difficult.",
         "12-3: Trampoline!",
         "12-4: Three trampolines.",

@@ -20,7 +20,7 @@ level[1] = {
     {1210, 200, 100, 20}, {"goal", 1280, 70, 20, 100}
 }
 level[1].spawn = {50, 610}
-level[1].textboxLocation = {-310, 420}
+level[1].direction = "right"
 level[1].diamondLocations = {{185, 350},{985, 450},{785, 350},{485, 350},{35, 230},{285, 120},{585, 100},{885, 100},{1195, 100}}
 level[1].grassLocations = {
     {190, 450},{975, 550},{785, 450},
@@ -58,7 +58,7 @@ level[2] = {
     { 1270, 40, 20, 60},
 }
 level[2].spawn = {50, 460}
-level[2].textboxLocation = {-310, 420}
+level[2].direction = "right"
 level[2].diamondLocations = {{500, 400},{600, 400}}
 level[2].grassLocations = {
     {400, 550},{745, 550},{915, 560},
@@ -74,7 +74,7 @@ level[2].s = {
     { 1270, 40, 20, 60},
 }
 level[2].s.spawn = {50, 460}
-level[2].s.textboxLocation = {-310, 420}
+level[2].s.direction = "right"
 level[2].s.num = 1
 level[2].s.diamondLocations = {{500, 620},{600, 620},{700, 620},{400, 620},{800, 620}}
 level[2].s.grassLocations = {
@@ -89,7 +89,7 @@ level[3] = {
     { 1270, 40, 20, 60},
 }
 level[3].spawn = {50, 610}
-level[3].textboxLocation = {-310, 420}
+level[3].direction = "right"
 level[3].diamondLocations = {{585, 250}, {710, 100}}
 level[3].grassLocations = {
     {200, 660},{270, 660},{705, 210},
@@ -105,7 +105,7 @@ level[4] = {
     {"goal", 1285, 600, 20, 100},{510, 610, 150, 300},{640, 610, 150, 650},    
 }
 level[4].spawn = {50, 610}
-level[4].textboxLocation = {-310, 420}
+level[4].direction = "right"
 level[4].diamondLocations = {{200, 300}}
 level[4].grassLocations = {
     {200, 660},{270, 660},{685, 295, "single"},
@@ -129,6 +129,7 @@ level[5] = {
     {"goal", 1285, 50, 20, 100}
 }
 level[5].spawn = {50, 610}
+level[5].direction = "right"
 level[5].textboxLocation = {-310, 420}
 level[5].diamondLocations = {{500, 300},{1180, 620}}
 level[5].grassLocations = {
@@ -155,7 +156,7 @@ level[6] = {
     {"goal", 1285, 50, 20, 100},
 }
 level[6].spawn = {50, 610}
-level[6].textboxLocation = {-310, 420}
+level[6].direction = "right"
 level[6].diamondLocations = {{640, 350},{1100, 250}}
 level[6].grassLocations = {
     {85, 450},{135, 450},
@@ -203,7 +204,7 @@ level[7] = {
     {"goal", 1285, 600, 20, 100},
 }
 level[7].spawn = {50, 610}
-level[7].textboxLocation = {-310, 420}
+level[7].direction = "right"
 level[7].diamondLocations = {{495, 480},{770, 480}, {950, 480}}
 level[7].grassLocations = {
     {225, 362},{275, 362},{350, 550},
@@ -215,7 +216,7 @@ level[8] = {
     {1220, 550, 100, 20},{1050, 450, 100, 20},{640, 10, 1280, 20},
     {1010, 555, 20, 200},{975, 500, 50, 20},{710, 540, 50, 20},
     {200, 450, 100, 20},{400, 540, 600, 20},{250, 300, 470, 320},
-    {650, 350, 100, 380},{1000, 150, 800, 20},
+    {650, 350, 100, 380},{1000, 150, 810, 20},
     {"spike", 950, 700,{-50, -50, -100, -50, -75, -100}},
     {"spike", 450, 700, {-50, -50, -100, -50, -75, -100}},
     {"spike", 650, 700, {-50, -50, -100, -50, -75, -100}},
@@ -226,7 +227,7 @@ level[8] = {
     {"goal", 1285, 600, 20, 100},
 }
 level[8].spawn = {1230, 110}
-level[8].textboxLocation = {1260, 20}
+level[8].direction = "left"
 level[8].diamondLocations = {{50, 110},{100, 110}, {150, 110}, {200, 110}, {960, 620}}
 level[8].grassLocations = {
     {245, 150},{295, 150},{350, 540},
@@ -278,7 +279,7 @@ level[9] = {
     {"goal", 350, 710, 100, 20},
 }
 level[9].spawn = {50, 610}
-level[9].textboxLocation = {-310, 420}
+level[9].direction = "right"
 level[9].diamondLocations = {{50, 50},{50, 100}, {100, 50}, {100, 100}}
 level[9].grassLocations = {
     {245, 280},{295, 280},{645, 280},
@@ -306,8 +307,8 @@ level[10] = {
     {"goal", 1285, 50, 20, 100},
 }
 level[10].spawn = {50, 610}
-level[10].textboxLocation = {-310, 420}
-level[10].diamondLocations = {{1150, 620},{1200, 620}, {800, 280}}
+level[10].direction = "right"
+level[10].diamondLocations = {{1150, 620},{1200, 620}, {805, 260}}
 level[10].grassLocations = {
     {700, 400},{945, 400},{1225, 660},
     {1100, 660},{1145, 660},{1185, 660},
@@ -339,7 +340,7 @@ level[11] = {
     {"goal", 1285, 50, 20, 100},
 }
 level[11].spawn = {50, 610}
-level[11].textboxLocation = {-310, 420}
+level[11].direction = "right"
 level[11].diamondLocations = {{80, 360},{1200, 580}}
 level[11].grassLocations = {
     {700, 400},{945, 400},{1225, 300},
@@ -352,7 +353,7 @@ level[12] = {
     {1270, 210, 20, 700},{640, 10, 1280, 20},{975, 500, 20, 20},
     {710, 540, 50, 20},{305, 450, 50, 20},{385, 350, 50, 20},
     {305, 250, 50, 20},{400, 540, 600, 20},{435, 200, 100, 520},
-    {200, 335, 200, 400},{650, 350, 100, 380},{1000, 150, 800, 20},
+    {200, 335, 200, 400},{650, 350, 100, 380},{1000, 150, 820, 20},
     {"spike", 950, 700,{-50, -50, -100, -50, -75, -100}},
     {"spike", 450, 700,{-50, -50, -100, -50, -75, -100}},
     {"spike", 650, 700,{-50, -50, -100, -50, -75, -100}},
@@ -369,7 +370,7 @@ level[12] = {
     {"goal", 1285, 600, 20, 100},
 }
 level[12].spawn = {1230, 110}
-level[12].textboxLocation = {1260, 20}
+level[12].direction = "left"
 level[12].diamondLocations = {{710, 200},{500, 450}}
 level[12].grassLocations = {
     {700, 660},{745, 660},{765, 150},
@@ -393,7 +394,7 @@ level[13] = {
     {1050, 550, 100, 20},{900, 450, 100, 20},{740, 10, 50, 500},
 }
 level[13].spawn = {50, 610}
-level[13].textboxLocation = {-310, 420}
+level[13].direction = "right"
 level[13].diamondLocations = {{500, 340},{550, 340}}
 level[13].grassLocations = {
     {950, 660},{1000, 660},
@@ -417,7 +418,7 @@ level[14] = {
     {"spike", 835, 700,{-50, -50, -100, -50, -75, -100}},   
 }
 level[14].spawn = {50, 610}
-level[14].textboxLocation = {-310, 420}
+level[14].direction = "right"
 level[14].diamondLocations = {{400, 540},{740, 540}}
 level[14].grassLocations = {
     {1150, 660},{1100, 660},
@@ -466,7 +467,7 @@ level[15] = {
     {870, 585, 20, 20}, 
 }
 level[15].spawn = {50, 400}
-level[15].textboxLocation = {-310, 320}
+level[15].direction = "right"
 level[15].diamondLocations = {{400, 540},{750, 540},{985, 350}}
 level[15].grassLocations = {
     {1180, 660},{1130, 660},
@@ -492,7 +493,7 @@ level[16] = {
     {"spike", 555, 395, {-0, -0, -50, -25, -0, -50}},
 }
 level[16].spawn = {50, 610}
-level[16].textboxLocation = {-310, 420}
+level[16].direction = "right"
 level[16].diamondLocations = {{50, 400},{615, 50},{1200, 435}}
 level[16].grassLocations = {
     {1180, 490},{1130, 490},
@@ -517,7 +518,7 @@ level[17] = {
     {920, 110, 850, 20},{"secret", 1265, 40, 20, 60},
 }
 level[17].spawn = {50, 610}
-level[17].textboxLocation = {-310, 420}
+level[17].direction = "right"
 level[17].diamondLocations = {{800, 55},{650, 55},{700, 55},{750, 55}}
 level[17].grassLocations = {
     {1150, 110},{1100, 110},
@@ -532,7 +533,7 @@ level[17].s = {
     {920, 280, 40, 160},{920, 400, 40, 30},{"goal", 1285, 600, 20, 100},
 }
 level[17].s.spawn = {50, 610}
-level[17].s.textboxLocation = {-310, 420}
+level[17].s.direction = "right"
 level[17].s.num = 2
 level[17].s.diamondLocations = {{450, 50},{500, 50},{550, 50},{600, 50},{800, 50},{650, 50},{700, 50},{750, 50},{750, 50},{950, 50},{900, 50},{850, 50}}
 level[17].s.grassLocations = {
@@ -557,7 +558,7 @@ level[18] = {
     { 1270, 40, 20, 60},
 }
 level[18].spawn = {50, 610}
-level[18].textboxLocation = {-310, 420}
+level[18].direction = "right"
 level[18].diamondLocations = {{185, 304},{485, 304},{785, 304},{1085, 304}}
 level[18].grassLocations = {
     {352, 660},{402, 660},{492, 360},
@@ -583,7 +584,7 @@ level[19] = {
     {"spike", 730, 700,{-50, -50, -100, -50, -75, -100}},
 }
 level[19].spawn = {50, 610}
-level[19].textboxLocation = {-310, 420}
+level[19].direction = "right"
 level[19].diamondLocations = {{240, 550}}
 level[19].grassLocations = {
     {100, 660},{1000, 660},{1050, 660},
@@ -604,7 +605,7 @@ level[20] = {
     { 1270, 40, 20, 60},
 }
 level[20].spawn = {50, 610}
-level[20].textboxLocation = {-310, 420}
+level[20].direction = "right"
 level[20].diamondLocations = {{100, 50},{50, 50}}
 level[20].grassLocations = {
     {150, 660},{200, 660},{250, 660},
@@ -632,7 +633,7 @@ level[21] = {
     {"spike", 950, 700,{-50, -50, -100, -50, -75, -100}},
 }
 level[21].spawn = {50, 460}
-level[21].textboxLocation = {-310, 420}
+level[21].direction = "right"
 level[21].diamondLocations = {{605, 500},{605, 550}}
 level[21].grassLocations = {
     {1000, 610},{950, 610}, {1050, 610}
@@ -656,10 +657,10 @@ level[22] = {
     {"spike", 800, 550,{-50, -50, -100, -50, -75, -100}},
     {"spike", 1050, 450,{-50, -50, -100, -50, -75, -100}},
     {"spike", 1000, 450,{-50, -50, -100, -50, -75, -100}},
-    {"spike", 1150, 450,{-50, -50, -100, -50, -75, -100}},
+    --{"spike", 1150, 450,{-50, -50, -100, -50, -75, -100}},
 }
 level[22].spawn = {1200, 100}
-level[22].textboxLocation = {1260, 20}
+level[22].direction = "left"
 level[22].diamondLocations = {{825, 200},{560, 600}}
 level[22].grassLocations = {
     {1130, 160},{1170, 160},{130, 560},
@@ -691,7 +692,7 @@ level[23] = {
     {"spike", 1125, 700,{-50, -50, -100, -50, -75, -100}},
 }
 level[23].spawn = {1175, 560}
-level[23].textboxLocation = {1260, 420}
+level[23].direction = "left"
 level[23].diamondLocations = {{825, 550},{500, 550}}
 level[23].grassLocations = {
     {130, 560},{180, 560},{80, 560}
@@ -710,7 +711,7 @@ level[24] = {
     { 1270, 40, 20, 60},
 }
 level[24].spawn = {50, 610}
-level[24].textboxLocation = {-310, 420}
+level[24].direction = "right"
 level[24].diamondLocations = {{825, 50},{540, 84}}
 level[24].grassLocations = {
     {150, 660},{200, 660},{250, 660},
@@ -742,7 +743,7 @@ level[25] = {
     {"spike", 1142, 250,{-50, -50, -100, -50, -75, -100}},
 }
 level[25].spawn = {50, 610}
-level[25].textboxLocation = {-310, 420}
+level[25].direction = "right"
 level[25].diamondLocations = {{715, 170},{635, 170}}
 level[25].grassLocations = {
     {120, 660},{170, 660},{1150, 660},
@@ -772,7 +773,7 @@ level[26] = {
 }
 level[26].spawn = {50, 610}
 level[26].gravityChange = true
-level[26].textboxLocation = {-310, 420}
+level[26].direction = "right"
 level[26].diamondLocations = {{700, 150},{600, 150},{500, 150}}
 level[26].grassLocations = {
     {1200, 660},{1100, 660},{1150, 660},
@@ -816,7 +817,7 @@ level[27] = {
 }
 level[27].spawn = {50, 610}
 level[27].gravityChange = true
-level[27].textboxLocation = {-310, 420}
+level[27].direction = "right"
 level[27].diamondLocations = {{500, 300},{780, 300}}
 level[27].grassLocations = {
     {1220, 660},{650, 660},{1180, 660},
@@ -867,7 +868,7 @@ level[28] = {
 }
 level[28].spawn = {1200, 610}
 level[28].gravityChange = true
-level[28].textboxLocation = {1260, 420}
+level[28].direction = "left"
 level[28].diamondLocations = {{100, 500},{100, 450}}
 level[28].grassLocations = {
     {1220, 660},{100, 550},{1180, 660},
@@ -916,7 +917,7 @@ level[29] = {
 }
 level[29].spawn = {50, 610}
 level[29].gravityChange = true
-level[29].textboxLocation = {-310, 420}
+level[29].direction = "right"
 level[29].diamondLocations = {{50, 200},{100, 200}}
 level[29].grassLocations = {
     {1220, 660},{100, 250},{1180, 660},
@@ -968,7 +969,7 @@ level[30] = {
 }
 level[30].spawn = {50, 610}
 level[30].gravityChange = true
-level[30].textboxLocation = {-310, 420}
+level[30].direction = "right"
 level[30].diamondLocations = {{530, 100},{385, 100},{785, 100},{635, 100},{885, 100},{990, 100}}
 level[30].grassLocations = {
     {1220, 660},{1180, 660},
@@ -1016,7 +1017,7 @@ level[31] = {
     {"spike", 1150, -30,{50, 50, 100, 50, 75, 100}},
 }
 level[31].spawn = {50, 610}
-level[31].textboxLocation = {-310, 420}
+level[31].direction = "right"
 level[31].diamondLocations = {{635, 100},{990, 100}}
 level[31].grassLocations = {
     {350, 260},{1180, 660},{850, 260},
@@ -1067,7 +1068,7 @@ level[32] = {
 }
 level[32].spawn = {50, 610}
 level[32].gravityChange = true
-level[32].textboxLocation = {-310, 420}
+level[32].direction = "right"
 level[32].diamondLocations = {{590, 150},{790, 250},{990, 350}}
 level[32].grassLocations = {
     {600, 200},{1180, 660},{800, 300},
@@ -1116,8 +1117,8 @@ level[33] = {
     {"spike", 1150, -30,{50, 50, 100, 50, 75, 100}},
 }
 level[33].spawn = {50, 610}
-level[33].textboxLocation = {-310, 420}
-level[33].diamondLocations = {{700, 220},{1010, 620}}
+level[33].direction = "right"
+level[33].diamondLocations = {{700, 225},{1010, 620}}
 level[33].grassLocations = {
     {770, 175},{700, 380},{700, 280},
     {700, 175},
@@ -1160,7 +1161,7 @@ level[34] = {
 }
 level[34].spawn = {50, 610}
 level[34].gravityChange = true
-level[34].textboxLocation = {-310, 420}
+level[34].direction = "right"
 level[34].diamondLocations = {{600, 620},{870, 620}}
 level[34].grassLocations = {
     {830, 660},{780, 660},{720, 660},
@@ -1177,7 +1178,7 @@ level[34].s = {
     {900, 300, 40, 200},{"goal", 1285, 600, 20, 100},
 }
 level[34].s.spawn = {50, 610}
-level[34].s.textboxLocation = {-310, 420}
+level[34].s.direction = "right"
 level[34].s.num = 3
 level[34].s.diamondLocations = {{200, 620},{300, 620},{400, 620},{500, 620},{600, 620},{700, 620},{800, 620},{900, 620},
 {560, 320}, {720, 320}}
@@ -1213,7 +1214,7 @@ level[35] = {
     {"spike", 900, -30,{50, 50, 100, 50, 75, 100}},
 }
 level[35].spawn = {50, 610}
-level[35].textboxLocation = {-310, 420}
+level[35].direction = "right"
 level[35].diamondLocations = {{600, 620},{870, 620}}
 level[35].grassLocations = {
     {420, 660},{780, 660},{720, 660},
@@ -1319,7 +1320,7 @@ level[36] = {
 }
 level[36].spawn = {50, 610}
 level[36].gravityChange = true
-level[36].textboxLocation = {-310, 420}
+level[36].direction = "right"
 level[36].diamondLocations = {{120, 120},{1220, 620}}
 level[36].grassLocations = {
     {1125, 400},{1230, 660},
@@ -1357,7 +1358,7 @@ level[37] = {
     {"spike", 1200, 600,{0, 0, -50, -25, 0, -50}},
 }
 level[37].spawn = {50, 610}
-level[37].textboxLocation = {-310, 420}
+level[37].direction = "right"
 level[37].diamondLocations = {{220, 540},{1210, 210}}
 level[37].grassLocations = {
     {100, 660},{1230, 270}, {150, 660}
@@ -1413,7 +1414,7 @@ level[38] = {
 }
 level[38].spawn = {1220, 610}
 level[38].gravityChange = true
-level[38].textboxLocation = {1260, 420}
+level[38].direction = "left"
 level[38].diamondLocations = {{50, 620},{1050, 210}}
 level[38].grassLocations = {
     {60, 660},
@@ -1436,7 +1437,7 @@ level[39] = {
     {"spike", 200, 700,{-50, -50, -100, -50, -75, -100}},
 }
 level[39].spawn = {50, 610}
-level[39].textboxLocation = {-310, 420}
+level[39].direction = "right"
 level[39].diamondLocations = {{255, 620},{555, 620},{655, 620},{755, 620},{855, 620}}
 level[39].grassLocations = {
     {175, 660},{275, 660},{375, 660},
@@ -1450,7 +1451,7 @@ level[40] = {
     {640, 10, 1280, 20},{"goal", 1285, 600, 20, 100},
 }
 level[40].spawn = {50, 610}
-level[40].textboxLocation = {-310, 420}
+level[40].direction = "right"
 level[40].diamondLocations = {{355, 620},{455, 620},{555, 620},{655, 620},{755, 620},{855, 620}}
 level[40].grassLocations = {
     {100, 660},
@@ -1527,7 +1528,7 @@ level[41] = {
     {"goal", -10, -990, 20, 100},
 }
 level[41].spawn = {1220, 610}
-level[41].textboxLocation = {1260, 420}
+level[41].direction = "left"
 level[41].levelType = "high"
 level[41].diamondLocations = {{355, 150},{455, 150},{555, 150},{655, 150},{755, 150},{855, 150}}
 level[41].grassLocations = {
@@ -1616,7 +1617,7 @@ level[42] = {
     {"goal", -2995, 600, 20, 100},
 }
 level[42].spawn = {1210, 610}
-level[42].textboxLocation = {1260, 420}
+level[42].direction = "left"
 level[42].levelType = "long"
 level[42].diamondLocations = {{-475, 500},{-1055, 500},{-1560, 500}}
 level[42].grassLocations = {
@@ -1684,7 +1685,7 @@ level[43] = {
     {"goal", -3000, 600, 20, 100},
 }
 level[43].spawn = {1210, 610}
-level[43].textboxLocation = {1260, 420}
+level[43].direction = "left"
 level[43].levelType = "long"
 level[43].diamondLocations = {{-390, 500},{-1310, 500},{-1480, 500}}
 level[43].grassLocations = {
@@ -1825,7 +1826,7 @@ level[44] = {
     {"goal", -10, -990, 20, 100},
 }
 level[44].spawn = {1160, 610}
-level[44].textboxLocation = {1260, 420}
+level[44].direction = "left"
 level[44].gravityChange = true
 level[44].levelType = "high"
 level[44].diamondLocations = {{790, -150},{180, 250},{650, 620},{650, -405},{640, -750}}
@@ -1843,7 +1844,7 @@ level[44].s = {
     {"goal", 1285, 600, 20, 100},
 }
 level[44].s.spawn = {50, 610}
-level[44].s.textboxLocation = {-310, 420}
+level[44].s.direction = "right"
 level[44].s.num = 4
 level[44].s.levelType = "high"
 level[44].s.diamondLocations = {{200, 620},{300, 620},{400, 620},{500, 620},{600, 620},{900, 620},
@@ -1897,7 +1898,7 @@ level[45] = {
     {"goal", -10, -1000, 20, 100},
 }
 level[45].spawn = {1170, 610}
-level[45].textboxLocation = {1260, 420}
+level[45].direction = "left"
 level[45].levelType = "high"
 level[45].diamondLocations = {{190, -250},{150, 350},{750, 350},{1090, -250},{630, -680}}
 level[45].grassLocations = {
@@ -1985,7 +1986,7 @@ level[46] = {
     {"goal", -3000, 600, 20, 100},
 }
 level[46].spawn = {1210, 610}
-level[46].textboxLocation = {1260, 420}
+level[46].direction = "left"
 level[46].levelType = "long"
 level[46].diamondLocations = {{-410, 350},{-550, 350},{-1550, 500}}
 level[46].grassLocations = {
@@ -2018,7 +2019,7 @@ level[47] = {
     {"goal", -10, -1000, 20, 100},
 }
 level[47].spawn = {640, 610}
-level[47].textboxLocation = {700, 420}
+level[47].direction = "left"
 level[47].levelType = "high"
 level[47].diamondLocations = {{1150, -990},{1050, -990},{950, -990},{850, -990},{750, -990}}
 level[47].grassLocations = {
@@ -2165,7 +2166,7 @@ level[48] = {
 }
 level[48].spawn = {1210, 610}
 level[48].gravityChange = true
-level[48].textboxLocation = {1260, 420}
+level[48].direction = "left"
 level[48].levelType = "long"
 level[48].diamondLocations = {{-1080, 500},{-1080, 400},{-1080, 300},{-1080, 200},{-1080, 100}}
 level[48].grassLocations = {
@@ -2186,7 +2187,7 @@ level[48].s = {
 }
 level[48].s.spawn = {70, 610}
 level[48].s.gravityChange = true
-level[48].s.textboxLocation = {-310, 420}
+level[48].s.direction = "right"
 level[48].s.num = 5
 level[48].s.levelType = "high"
 level[48].s.diamondLocations = {{300, 610},{350, 610},{400, 610},{200, 210},{250, 210},{300, 210},{400, 310},{600, 210},{650, 210},{700, 210}}
@@ -2240,7 +2241,7 @@ level[49] = {
     {"goal", -3000, 600, 20, 100},
 }
 level[49].spawn = {1210, 610}
-level[49].textboxLocation = {1260, 420}
+level[49].direction = "left"
 level[49].levelType = "long"
 level[49].diamondLocations = {{115, 620},{215, 620},{315, 620},{415, 620}}
 level[49].grassLocations = {
@@ -2328,7 +2329,7 @@ level[50] = {
     {"goal", -10, -1000, 20, 100},
 }
 level[50].spawn = {1170, 610}
-level[50].textboxLocation = {1260, 420}
+level[50].direction = "left"
 level[50].levelType = "high"
 level[50].diamondLocations = {{190, -1020}}
 level[50].grassLocations = {
@@ -2340,7 +2341,7 @@ level[50].grassLocations = {
 level[51] = {
     {640, 700, 1280, 100},{10, 290, 20, 2500},{1270, 290, 20, 2700},
     {640, -1050, 1280, 20},{700, -500, 100, 1920},{1000, 0, 100, 1900},
-    {100, 0, 300, 1900},{450, 250, 10, 10},{450, 100, 10, 10},
+    {100, 0, 300, 1910},{450, 250, 10, 10},{450, 100, 10, 10},
     {450, 400, 10, 10},{450, -50, 10, 10},{450, 550, 10, 10},
     {450, -200, 10, 10},{450, -350, 10, 10},{450, -500, 10, 10},
     {450, -650, 10, 10},{450, -800, 10, 10},{350, -900, 10, 10},
@@ -2418,7 +2419,7 @@ level[51] = {
     {"goal", -10, -1000, 20, 100},
 }
 level[51].spawn = {1140, 610}
-level[51].textboxLocation = {1260, 420}
+level[51].direction = "left"
 level[51].levelType = "high"
 level[51].diamondLocations = {{550, 610},{600, 610},{650, 610},{700, 610},{750, 610}}
 level[51].grassLocations = {
@@ -2457,7 +2458,7 @@ level[52] = {
     {"goal", -10, 605, 20, 100},
 }
 level[52].spawn = {1210, -1005}
-level[52].textboxLocation = {1260, -1040}
+level[52].direction = "left"
 level[52].levelType = "high"
 level[52].diamondLocations = {{520, 610},{560, 610},{600, 610},{640, 610},{680, 610},
 {520, 580},{560, 580},{600, 580},{640, 580},{680, 580}}
@@ -2509,7 +2510,7 @@ level[53] = {
     {"goal", -10, -800, 20, 100},
 }
 level[53].spawn = {1210, 600}
-level[53].textboxLocation = {1260, 420}
+level[53].direction = "left"
 level[53].levelType = "high"
 level[53].diamondLocations = {{760, 610},{810, 610},{760, 560},{810, 560}}
 level[53].grassLocations = {
@@ -2661,7 +2662,7 @@ level[54] = {
     {"goal", -3000, 600, 20, 100},
 }
 level[54].spawn = {1210, 610}
-level[54].textboxLocation = {1260, 420}
+level[54].direction = "left"
 level[54].levelType = "long"
 level[54].diamondLocations = {{-70, 500},{-470, 500},{-1470, 500}}
 level[54].grassLocations = {
@@ -2689,7 +2690,7 @@ level[55] = {
     {"goal", 15, -950, 20, 100},
 }
 level[55].spawn = {1190, 600}
-level[55].textboxLocation = {1260, 420}
+level[55].direction = "left"
 level[55].levelType = "high"
 level[55].diamondLocations = {{760, -5610}}
 level[55].grassLocations = {
@@ -2894,7 +2895,7 @@ level[56] = {
     {"goal", 15, -950, 20, 100},
 }
 level[56].spawn = {1190, 600}
-level[56].textboxLocation = {1260, 420}
+level[56].direction = "left"
 level[56].levelType = "high"
 level[56].diamondLocations = {{760, 610},{810, 610},{560, 610},{610, 610},
 {360, 610},{410, 610}, {160, 610},{210, 610}}
@@ -3108,7 +3109,7 @@ level[57] = {
     {"goal", 15, -950, 20, 100},
 }
 level[57].spawn = {1190, 600}
-level[57].textboxLocation = {1260, 420}
+level[57].direction = "left"
 level[57].levelType = "high"
 level[57].diamondLocations = {{760, 610},{810, 610},{560, 610},{610, 610},
 {360, 610},{410, 610}, {160, 610},{210, 610}}
@@ -3163,8 +3164,8 @@ level[58] = {
     {"spike", -2550, 700,{-50, -50, -100, -50, -75, -100}},
     {"goal", -2995, 600, 20, 100},
 }
-level[58].spawn = {1210, 610}
-level[58].textboxLocation = {1260, 420}
+level[58].spawn = {1200, 610}
+level[58].direction = "left"
 level[58].levelType = "long"
 level[58].diamondLocations = {{-700, 620},{-780, 620},{-880, 620},{-980, 620},{-1050, 620}}
 level[58].grassLocations = {
@@ -3227,7 +3228,7 @@ level[59] = {
     {"goal", -2995, 600, 20, 100},
 }
 level[59].spawn = {1210, 610}
-level[59].textboxLocation = {1260, 420}
+level[59].direction = "left"
 level[59].levelType = "long"
 level[59].diamondLocations = {{-700, 620},{-780, 620}}
 level[59].grassLocations = {
@@ -3312,7 +3313,7 @@ level[60] = {
     {"goal", 1285, 600, 20, 100},
 }
 level[60].spawn = {140, 460}
-level[60].textboxLocation = {-310, 420}
+level[60].direction = "right"
 level[60].diamondLocations = {{500, -1400}}
 level[60].grassLocations = {
     {400, -1550}
@@ -3390,7 +3391,7 @@ level[61] = {
     {"spike", 1260, 450,{0, 0, -50, -25, 0, -50}},
 }
 level[61].spawn = {140, 460}
-level[61].textboxLocation = {-310, 420}
+level[61].direction = "right"
 level[61].diamondLocations = {{500, -1400}}
 level[61].grassLocations = {
     {400, -1550}

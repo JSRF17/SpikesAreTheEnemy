@@ -22,6 +22,7 @@ mouseY = 0
 mouseDown = false
 width = g.getWidth()
 osString = love.system.getOS()
+mobile = false
 
 --Shaders loaded--
 crtShader = love.graphics.newShader("shaders/crt.shader")
@@ -30,35 +31,12 @@ scanlines = love.graphics.newShader("shaders/scanlines.shader")
 chromasep = love.graphics.newShader("shaders/chromasep.shader")
 ----------------
 math.randomseed(os.time())
-randomColour = math.random(1,5)
-SessionColour = ""
-randomColour = 1
-if randomColour == 1 then
-    SessionColour = "pink"
-    posterize:send("num_bands", 2.2)
-    chromasep:send("direction", {0.002, 0.0015})
-elseif randomColour == 2 then
-    SessionColour = "yellow"
-    posterize:send("num_bands", 2.5)
-    chromasep:send("direction", {0.0035, 0.0015})
-elseif randomColour == 3 then
-    SessionColour = "greenish"
-    posterize:send("num_bands", 2.5)
-    chromasep:send("direction", {0.0045, 0.0015})
-elseif randomColour == 4 then
-    SessionColour = "blueish"
-    posterize:send("num_bands", 2.2)
-    chromasep:send("direction", {0.0035, 0.0015})
-elseif randomColour == 5 then
-    SessionColour = "orange"
-    posterize:send("num_bands", 2.5)
-    chromasep:send("direction", {0.0025, 0.0015})
-end
+
 
 --Local variables--
 local screenChangeValue = 1
 local rw, rh, rf = love.window.getMode()
-local mobile 
+
 if osString == "Android" or osString == "iOS" then
     mobile = true
 end
@@ -70,7 +48,7 @@ local gameWidth, gameHeight = 1280, 720
 local screenWidth, screenHeight = love.window.getDesktopDimensions()
 local dpi_scale = love.window.getDPIScale()
 if mobile then
-    screenWidth, screenHeight = screenWidth*1, screenHeight*1.12
+    screenWidth, screenHeight = screenWidth*1, screenHeight*1.11
     screenWidth = screenWidth/dpi_scale
     screenHeight = screenHeight/dpi_scale
     screenHeight = screenHeight
@@ -147,7 +125,7 @@ function love.update(dt)
     State:stateChanger(dt)
     camera:update(dt)
 
-    if phase < 2.2 and complete == false then
+    --[[if phase < 2.2 and complete == false then
         phase = phase + 0.1
     end
     if phase > 1.4 and complete then
@@ -159,15 +137,15 @@ function love.update(dt)
     if phase > 2.4 then
         complete = true
     end
-    scanlines:send("time", phase)
+    scanlines:send("time", phase)]]--
 
     if mobile then
         if Player:getPositionX() ~= nil then
-            camera:follow(Player:getPositionX() - 200, Player:getPositionY() - 160)
+            camera:follow(Player:getPositionX() - 200, Player:getPositionY() - 140)
         end
     else
         if Player:getPositionX() ~= nil then
-            camera:follow(Player:getPositionX() - 10, Player:getPositionY() - 10)
+            camera:follow(Player:getPositionX() - 10, Player:getPositionY())
         end
     end
     love.window.setTitle(tostring(love.timer.getFPS()))
@@ -193,19 +171,19 @@ function love.draw()
                 MiniGameVVVVV:draw()
                 TouchControls:draw()
             end
-            if Transition:getState() then
-                Transition:draw()
-                if Text:getStatus() ~= nil and States.game then
-                    Text:draw()
-                    Text:dialogDraw()
-                end
-            end
             if States.game and Game:isLevelChange() == false or States.menu and MenuSystem:StartedMenuGame() then
                 TouchControls:draw()
                 if States.game then
                     Text:draw()
                     Text:dialogDraw()
                     Diamonds:drawCount()
+                end
+            end
+            if Transition:getState() then
+                Transition:draw()
+                if Text:getStatus() ~= nil and States.game then
+                    Text:draw()
+                    Text:dialogDraw()
                 end
             end
         end
@@ -226,6 +204,5 @@ function love.keyreleased(key)
             love.window.setFullscreen(true, "desktop")
         end
         screenChangeValue = screenChangeValue + 1
-        push:resize(rw, rh)
     end
 end

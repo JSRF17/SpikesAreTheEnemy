@@ -30,6 +30,7 @@ function Game:load()
     gravityChange = true
     gravityChangeKeyPress = true
     paused = false
+    pauseText = false
     Text:init(0, 1500)
     LevelHandler:loadCurrentLevel()
     Player:pushPlayer("justUp")
@@ -98,7 +99,7 @@ function Game:update(dt)
     end
 
     if Alive == false and LevelChange == false and Player:checkLives() ~= 0 then
-        Player:init(LevelHandler:playerSpawnLocation())
+        Player:init(LevelHandler:playerSpawnLocation("x"),LevelHandler:playerSpawnLocation("y"),LevelHandler:getSpawnDirection())
         Alive = true
     end
 

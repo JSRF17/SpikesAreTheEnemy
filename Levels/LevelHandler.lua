@@ -360,7 +360,7 @@ function LevelHandler:loadCurrentLevel(secret)
         Text:moveUp()
     end
     if isPlaying == false then
-        Player:init(LevelHandler:playerSpawnLocation())
+        Player:init(LevelHandler:playerSpawnLocation("x"),LevelHandler:playerSpawnLocation("y"),LevelHandler:getSpawnDirection())
     end
 end
 
@@ -419,11 +419,18 @@ function LevelHandler:drawLevel()
     --g.printf(tostring(testNum - 1), -2444, 500, 400, "center", 0, 1)
 end
 --Returns spawn location depending on which level is active
-function LevelHandler:playerSpawnLocation()
+function LevelHandler:playerSpawnLocation(choice)
     local x, y
     x = leveldata.spawn[1]
     y = leveldata.spawn[2]
-    return x, y
+    if choice == "x" then  
+        return x
+    elseif choice == "y" then
+        return y
+    else
+        return x, y
+    end
+
 end
 
 function LevelHandler:playerReturnSpawnLocation()
@@ -498,6 +505,12 @@ end
 function LevelHandler:getSecretLevel()
     if secretLevel then
         return true
+    end
+end
+
+function LevelHandler:getSpawnDirection()
+    if leveldata ~= nil then
+        return leveldata.direction
     end
 end
 

@@ -59,7 +59,7 @@ function Player:initLives(speedrun)
 end
 
 --Used to spawn player. creates shape, physics object and so on--
-function Player:init(x, y, tutorial)
+function Player:init(x, y, direction)
     runing = false
     runingFast = false
     idle = true 
@@ -92,6 +92,21 @@ function Player:init(x, y, tutorial)
 
         player.b:setBullet( true )
         test = false
+    end
+    if direction == "left" then
+        offsetx = -26
+        offsety = 10
+        directiony = 2.2
+        directionx = -2.5
+        offsetx2 = 26
+        directionx2 = 2.5
+    elseif direction == "right" then
+        offsetx = 10
+        offsety = 10
+        directiony = 2.2
+        directionx = 2.5
+        offsetx2 = -8
+        directionx2 = -2.5
     end
 end
 
@@ -231,7 +246,6 @@ function Player:animation(dt)
         directionx = 2.5
         offsetx2 = -8
         directionx2 = -2.5
-        
     end
 end
 
