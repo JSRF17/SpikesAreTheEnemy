@@ -213,6 +213,7 @@ function Game:update(dt)
             LevelChange = false
             Transition:down()
         end)
+        SoundHandler:PlaySound("next")
     end
 end
 

@@ -285,6 +285,7 @@ end
 
 function Player:bonusLives()
     lives = lives + 5
+    SoundHandler:PlaySound("5up")
 end
 
 function Player:checkLives()
@@ -386,6 +387,7 @@ end
 --Handles user input for player controls***Fix walljump issue***--
 local JumpKeyUp = true
 local jump = true
+local wallJump = true
 local test1 = false
 local test2 = false
 function Player:controls(dt, miniGame)
@@ -415,6 +417,7 @@ function Player:controls(dt, miniGame)
             end
             if type == "right" then
                 if love.keyboard.isDown("up") and JumpKeyUp == true or TouchControls:getEvent("Y")== "up" and JumpKeyUp == true then
+                    wallJump = false
                     if CollisionHandler:checkIfPlayerTouchGround() == false then
                         if orientation == 0 then
                             player.b:setLinearVelocity( -210, -500 )
@@ -435,6 +438,7 @@ function Player:controls(dt, miniGame)
             end
             if type == "left" then
                 if love.keyboard.isDown("up") and JumpKeyUp == true or TouchControls:getEvent("Y")== "up" and JumpKeyUp == true then
+                    wallJump = false
                     if CollisionHandler:checkIfPlayerTouchGround() == false then
                         if orientation == 0 then
                             player.b:setLinearVelocity( 210, -500 )
@@ -525,9 +529,14 @@ function Player:controls(dt, miniGame)
                 runing = false
                 idle = true
             end
+            if jump == false or wallJump == false then
+                SoundHandler:PlaySound("jump")
+            end
+
             CollisionHandler:resetCollision()
             if type == "none" or isColliding == false or CollisionHandler:checkIfPlayerTouchGround() == false then
                 jump = true
+                wallJump = true
             end
         end
     end
@@ -549,6 +558,14 @@ function Player:getStatus(get)
     elseif player.b ~= nil then
         return true
     end
+end
+
+function Player:getJump()
+    return jump
+end
+
+function Player:getWallJump()
+    return wallJump
 end
 
 function Player:pushPlayer(direction, first)

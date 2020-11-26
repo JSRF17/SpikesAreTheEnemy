@@ -22,6 +22,9 @@ function Menu:loadMenu()
     camerScaleGoal = 0.8
     levelChange = false
     levelChangeDone = true
+    fromMenu = true
+    startedPlay = false
+    SoundHandler:backgroundMusic("menu")
 end
 
 function Menu:update(dt)
@@ -109,6 +112,11 @@ function Menu:update(dt)
         Transition:activate(true)
         levelChangeDone = false
         alive = false
+        if fromMenu then
+            fromMenu = false
+            SoundHandler:StopSound("all1")
+        end
+
         if test then
             Player:destroy()
         end
@@ -168,6 +176,7 @@ function Menu:update(dt)
                 Diamonds:countReset()
                 Transition:down()
             end)
+            SoundHandler:PlaySound("next")
             break
         end
     end
@@ -175,6 +184,11 @@ function Menu:update(dt)
         Grass:animate(dt)
         Grass:update()
         TouchControls:update()
+        if startedPlay == false then
+            startedPlay = true
+            SoundHandler:backgroundMusic("levelSelect")
+            SoundHandler:FadeOutFadeInSound("menu")
+        end
         if levelChangeDone then
             Player:controls(dt)
         end
@@ -202,7 +216,6 @@ function Menu:draw()
     if MenuSystem:StartedMenuGame() then
         camera:attach()
             LevelHandler:drawLevel()
-            --MenuSystem:draw()
             if alive then
                 Player:draw()
             end

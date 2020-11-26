@@ -11,9 +11,9 @@ States = {game = false, change = false, menu = false, game2 = false, paused = fa
 local pausedMenu
 
 local function changeState(state)
-    SoundHandler:StopSound("all1")
-   local bool = false
-   for i,v in pairs(States) do
+    --SoundHandler:StopSound("all1")
+    local bool = false
+    for i,v in pairs(States) do
         States[i] = false
     end
 end
@@ -28,6 +28,7 @@ function State:gameStart()
     States.game = true
     States.change = true
     States.isPlaying = true
+    SoundHandler:FadeOutFadeInSound("levelSelect")
     SoundHandler:backgroundMusic("game")
 end
 
@@ -59,13 +60,14 @@ function State:pause(state)
     end
     States.change = true
     States.paused = true
-    SoundHandler:backgroundMusic("menu")
+    SoundHandler:FadeOutFadeInSound("all")
 end
 
 function State:resume(state)
     changeState()
     if state == "menu" then
         States.menu = true
+        SoundHandler:backgroundMusic("levelSelect")
     else
         States.game = true
         SoundHandler:backgroundMusic("game")

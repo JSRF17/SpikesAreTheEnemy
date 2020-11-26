@@ -124,21 +124,7 @@ function love.update(dt)
     Timer.update(dt)
     State:stateChanger(dt)
     camera:update(dt)
-
-    --[[if phase < 2.2 and complete == false then
-        phase = phase + 0.1
-    end
-    if phase > 1.4 and complete then
-        phase = phase - 0.1
-    end
-    if phase < 0.9 then
-        complete = false
-    end
-    if phase > 2.4 then
-        complete = true
-    end
-    scanlines:send("time", phase)]]--
-
+    SoundHandler:updateVolumes()
     if mobile then
         if Player:getPositionX() ~= nil then
             camera:follow(Player:getPositionX() - 200, Player:getPositionY() - 140)
