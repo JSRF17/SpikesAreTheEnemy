@@ -8,18 +8,11 @@ Transition = {}
 local color = ""
 local transitioning = false
 
+local transitionComplete = true
+
 local curtain1 = {}
 curtain1[1] = {x = 0, y = 1200} 
 
-
-function Transition:init()
-    if handle ~= nil then
-        Timer.cancel(handle)
-        Timer.cancel(handle1)
-    end
-
-    curtain1[1] = {x = 0, y = 1200, alpha = 0} 
-end
 
 function Transition:draw()
     g.setColor(1, 1, 1)
@@ -33,41 +26,39 @@ function Transition:draw()
     g.rectangle("fill", curtain1[1].x, curtain1[1].y, 1280, 720)
 end
 
-function Transition:activate(choice, quicker)
-    transitioning = true
-
+function Transition:activate(choice, death)
     if choice then
         color = "asLevel"
     else
         color = ""
     end
+    function move_down()
+        Timer.tween(0.8, curtain1[1], {y = 1200}, 'in-out-quad')
+    end
 
-    if quicker then
-        handle1 = Timer.tween(0.8, curtain1[1], {y = 0}, 'in-out-quad')
+    if death then
+        Timer.tween(0.8, curtain1[1], {y = 0}, 'in-out-quad', move_down)
     else
-        handle1 = Timer.tween(1.1, curtain1[1], {y = 0}, 'in-out-quad')
+        transitioning = true
+        Timer.tween(0.8, curtain1[1], {y = 0}, 'in-out-quad')
     end
 end
 
-function Transition:down(quicker)
-    if quicker then
-        handle = Timer.tween(0.9, curtain1[1], {y = 1200}, 'in-out-quad')
-    else
-        handle = Timer.tween(1.1, curtain1[1], {y = 1200}, 'in-out-quad')
-    end
+function Transition:down()
+   
+    Timer.tween(0.8, curtain1[1], {y = 1200}, 'in-out-quad')
 
     Timer.script(function(wait)
-        wait(1.22)
+        wait(0.9)
         transitioning = false
     end)
 end
 
 function Transition:deathTransition()
     Transition:activate(true, true)
-    
     Timer.script(function(wait)
-        wait(1)
-        Transition:down(true)
+        wait(1.4)
+        transitionComplete = true
     end)
 end
 

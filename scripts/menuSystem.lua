@@ -145,9 +145,9 @@ function MenuSystem:update(dt)
                                     end
                                     MenuSystem:menuStateChange()
                                 end
-                            elseif activeMenu == 2 and clicked == false then
+                            elseif activeMenu == 2 and clicked == false and Transition:getState() == false then
                                 if i == 1 then
-                                    Transition:init()
+                                    
                                     Transition:activate()
                                     clicked = true
                                     Timer.script(function(wait)
@@ -161,7 +161,7 @@ function MenuSystem:update(dt)
                                     end)
                                 elseif i == 2 then
                                     clicked = true
-                                    Transition:init()
+                                  
                                     Transition:activate()
                                     Timer.script(function(wait)
                                         wait(2.3)
@@ -175,12 +175,12 @@ function MenuSystem:update(dt)
                                         Transition:down()
                                     end)
                                 end
-                            elseif activeMenu == 3 and clicked == false then
+                            elseif activeMenu == 3 and clicked == false and Transition:getState() == false then
                                 if i == 1 then
                                     clicked = true
                                     Game:dispose()
                                     LevelHandler:dispose()
-                                    Transition:init()
+                                   
                                     Transition:activate()
                                     State:allFalse()
                                     Timer.script(function(wait)

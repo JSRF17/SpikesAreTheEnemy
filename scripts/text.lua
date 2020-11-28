@@ -20,6 +20,10 @@ function Text:getStatus()
     return textbox 
 end
 
+function Text:getPosition()
+    return textbox[1].x, textbox[1].y
+end
+
 function Text:draw()
     g.setColor(0,0,0, 1)
     g.rectangle("fill", textbox[1].x, textbox[1].y, textbox[1].width, textbox[1].height)

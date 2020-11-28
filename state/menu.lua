@@ -24,6 +24,7 @@ function Menu:loadMenu()
     levelChangeDone = true
     fromMenu = true
     startedPlay = false
+    canPauseM = true
     SoundHandler:backgroundMusic("menu")
 end
 
@@ -52,23 +53,20 @@ function Menu:update(dt)
     end
     if alive == false and levelChange == false then
         died = false
-        Timer.script(function(wait)
-            wait(0.4)
-            alive = true
-        end)
         if LevelHandler:playerReturnSpawnLocation() ~= nil and returned then
             Player:init(LevelHandler:playerReturnSpawnLocation())
             returned = false
         else
             Player:init(LevelHandler:playerSpawnLocation())
         end
+        alive = true
     end
 
-    if k.isDown( "escape" ) and levelChange == false and Transition:getState() == false 
-    or TouchControls:getEvent("P") == "pause" and levelChange == false and Transition:getState() == false then
+    if k.isDown( "escape" ) and levelChange == false and Transition:getState() == false and canPauseM
+    or TouchControls:getEvent("P") == "pause" and levelChange == false and Transition:getState() == false and canPauseM then
         if paused == false then
             SoundHandler:PlaySound("pause")
-            Transition:init()
+          
             Transition:activate()
             Timer.script(function(wait)
                 wait(1.5)
@@ -81,6 +79,7 @@ function Menu:update(dt)
     end   
     if died == false and CollisionHandler:getSpikeTouch() then
         CollisionHandler:reset()
+        canPauseM = false
         Hit = true
         alive = false
         died = true
@@ -88,27 +87,30 @@ function Menu:update(dt)
         if test then
             Transition:deathTransition()
             Player:destroy("justPhysicsBody")
+            SoundHandler:PlaySound("dead")
         end
         test = false
         Timer.script(function(wait)
             wait(0.8)
             Hit = false
             alive = false
-            
         end)
         Timer.script(function(wait)
             wait(0.2)
             died = false
             test = true
         end)
-        SoundHandler:PlaySound("dead")
+        Timer.script(function(wait)
+            wait(1.7)
+            canPauseM = true
+        end)
     end
 
     if levelChange == false and CollisionHandler:getGoalTouch() then
         --SoundHandler:StopSound("all1")
         levelChange = true
         initCamera = true
-        Transition:init()
+      
         Transition:activate(true)
         levelChangeDone = false
         alive = false
@@ -136,7 +138,7 @@ function Menu:update(dt)
     elseif levelChange == false and CollisionHandler:getReturnTouch() then
         levelChange = true
         initCamera = true
-        Transition:init()
+       
         Transition:activate(true)
         levelChangeDone = false
         alive = false
@@ -167,7 +169,7 @@ function Menu:update(dt)
                 Player:destroy()
             end
             test = false
-            Transition:init()
+          
             Transition:activate(true)   
             Timer.script(function(wait)
                 wait(2.3)

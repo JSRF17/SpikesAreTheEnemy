@@ -159,19 +159,15 @@ function love.draw()
             end
             if States.game and Game:isLevelChange() == false or States.menu and MenuSystem:StartedMenuGame() then
                 TouchControls:draw()
-                if States.game then
-                    Text:draw()
-                    Text:dialogDraw()
-                    Diamonds:drawCount()
-                end
             end
-            if Transition:getState() then
-                Transition:draw()
-                if Text:getStatus() ~= nil and States.game then
-                    Text:draw()
-                    Text:dialogDraw()
-                end
+            
+            Transition:draw()
+            if Text:getStatus() ~= nil and States.game then
+                Text:draw()
+                Text:dialogDraw()
+                Diamonds:drawCount()
             end
+            
         end
     push:apply("end")
 end

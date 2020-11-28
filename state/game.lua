@@ -31,6 +31,9 @@ function Game:load()
     gravityChangeKeyPress = true
     paused = false
     pauseText = false
+
+    canPause = true
+
     Text:init(0, 1500)
     LevelHandler:loadCurrentLevel()
     Player:pushPlayer("justUp")
@@ -57,7 +60,10 @@ function Game:update(dt)
         firstGravityChange = false
     end
 
-    w:update(dt)
+    if paused ~= true then
+        w:update(dt)
+    end
+
     Diamonds:update(dt)
     Diamonds:animate(dt)
     Grass:animate(dt)
@@ -67,6 +73,7 @@ function Game:update(dt)
         Text:moveUp()
         pauseText = false
     end
+    
     if Alive then
         Player:controls(dt)
         Player:track(dt)
@@ -103,12 +110,11 @@ function Game:update(dt)
         Alive = true
     end
 
-    if k.isDown( "escape" ) and LevelChange == false and Transition:getState() == false 
-    or TouchControls:getEvent("P") == "pause" and LevelChange == false and Transition:getState() == false then
+    if k.isDown( "escape" ) and LevelChange == false and Transition:getState() == false and canPause
+    or TouchControls:getEvent("P") == "pause" and LevelChange == false and Transition:getState() == false and canPause then
         if paused == false then
             Text:moveDown()
             SoundHandler:PlaySound("pause")
-            Transition:init()
             Transition:activate()
             Timer.script(function(wait)
                 wait(1.5)
@@ -159,6 +165,7 @@ function Game:update(dt)
             Transition:deathTransition()
         end
         CollisionHandler:reset()
+        canPause = false
         Hit = true
         Alive = false
         died = true
@@ -182,15 +189,19 @@ function Game:update(dt)
             wait(1)
             camera.follow_style = 'PLATFORMER'
         end)
+        Timer.script(function(wait)
+            wait(1.7)
+            canPause = true
+        end)
         SoundHandler:PlaySound("dead")
     elseif LevelChange == false and CollisionHandler:getGoalTouch() then
-        --SoundHandler:StopSound("all1")
         Text:initMove()
         Text:moveDown()
         Transition:activate(true)
         Alive = false
         LevelChange = true
         Player:destroy()
+        initCamera = true
         Timer.script(function(wait)
             wait(2.0)
             Text:reset()

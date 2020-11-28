@@ -158,17 +158,20 @@ end
 function Diamonds:drawCount()
     g.setColor(LevelHandler:colors(1))
     love.graphics.setFont(font)
+    local x, y = Text:getPosition()
     if mobile then
         if livesText ~= "" then
-            g.printf("\n"..livesText, 978, 605, 400, "center", 0, 1)
+            g.printf("\n"..livesText, 980, y - 38, 400, "center", 0, 1)
         else
-            g.printf("\n".."D:"..count, 970, 605, 400, "center", 0, 1)
+            g.printf("\n".."D:"..count, 970, y - 38, 400, "center", 0, 1)
         end
     else
         if livesText ~= "" then
-            g.printf("\n"..livesText, 978, 643, 400, "center", 0, 1)
+            g.printf("\n"..livesText, x + 980, y, 400, "center", 0, 1)
         else
-            g.printf("\n".."D:"..count, 970, 643, 400, "center", 0, 1)
+            g.printf("\n".."D:"..count, x + 970, y, 400, "center", 0, 1)
         end
     end
 end
+--605
+--643

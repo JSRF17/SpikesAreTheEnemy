@@ -46,6 +46,8 @@ local bouncedX = false
 local fixedSpeed = true
 local wallTouch = false
 
+local controlsAvailable = true
+
 --Used when spawing bubbles as the self.x and self.y will be nill once the player is destroyed--
 storedX = -500
 storedY = -500
@@ -150,6 +152,12 @@ function Player:destroy(choice)
     runingFast = false
     idle = true 
     jumping = false
+
+    controlsAvailable = false
+    Timer.script(function(wait)
+        wait(1.4)
+        controlsAvailable = true
+    end)
 end
 
 function Player:animation(dt)
@@ -393,150 +401,151 @@ local test2 = false
 function Player:controls(dt, miniGame)
     if player ~= nil then
         if player.b ~= nil then
+            if controlsAvailable then
+                local type = CollisionHandler:getType()
+                local isColliding = CollisionHandler:getStatus()
+                local x, y = player.b:getLinearVelocity()
 
-            local type = CollisionHandler:getType()
-            local isColliding = CollisionHandler:getStatus()
-            local x, y = player.b:getLinearVelocity()
+                if CollisionHandler:checkIfPlayerTouchGround() == true or type ~= "right" then
+                    test1 = true
+                end
+                if CollisionHandler:checkIfPlayerTouchGround() == true or type ~= "left" then
+                    test2 = true
+                end
+                if type == "right" then
+                    wallTouchRight = true
+                end
+                if type == "left" then
+                    wallTouchLeft = true
+                end
 
-            if CollisionHandler:checkIfPlayerTouchGround() == true or type ~= "right" then
-                test1 = true
-            end
-            if CollisionHandler:checkIfPlayerTouchGround() == true or type ~= "left" then
-                test2 = true
-            end
-            if type == "right" then
-                wallTouchRight = true
-            end
-            if type == "left" then
-                wallTouchLeft = true
-            end
-
-            if x > 1 or x < -1 or CollisionHandler:checkIfPlayerTouchGround() or CollisionHandler:getWallCol() == false then
-                wallTouchRight = false
-                wallTouchLeft = false
-            end
-            if type == "right" then
-                if love.keyboard.isDown("up") and JumpKeyUp == true or TouchControls:getEvent("Y")== "up" and JumpKeyUp == true then
-                    wallJump = false
-                    if CollisionHandler:checkIfPlayerTouchGround() == false then
-                        if orientation == 0 then
-                            player.b:setLinearVelocity( -210, -500 )
-                        elseif orientation ~= 0 then
-                            player.b:setLinearVelocity( -210, 500 )
-                        end
-                        test1 = false
-                    else
-                        if orientation == 0 then
-                            player.b:setLinearVelocity( x, -550 )
-                        elseif orientation ~= 0 then
-                            player.b:setLinearVelocity( x, 550 )
-                        end
-                    end
+                if x > 1 or x < -1 or CollisionHandler:checkIfPlayerTouchGround() or CollisionHandler:getWallCol() == false then
                     wallTouchRight = false
-                    JumpKeyUp = false
-                end
-            end
-            if type == "left" then
-                if love.keyboard.isDown("up") and JumpKeyUp == true or TouchControls:getEvent("Y")== "up" and JumpKeyUp == true then
-                    wallJump = false
-                    if CollisionHandler:checkIfPlayerTouchGround() == false then
-                        if orientation == 0 then
-                            player.b:setLinearVelocity( 210, -500 )
-                        elseif orientation ~= 0 then
-                            player.b:setLinearVelocity( 210, 500 )
-                        end
-                        test2 = false                   
-                    else
-                        if orientation == 0 then
-                            player.b:setLinearVelocity( x, -550 )
-                        elseif orientation ~= 0 then
-                            player.b:setLinearVelocity( x, 550 )
-                        end
-                    end
                     wallTouchLeft = false
-                    JumpKeyUp = false
-                end   
-            end         
-            if love.keyboard.isDown("right") and bouncedX == false and wallTouchLeft == false or TouchControls:getEvent("X") == "right" and bouncedX == false and wallTouchLeft == false then
-                if wallTouchRight ~= true then
-                    offsetx = 10
-                    offsety = 10
-                    directiony = 2.2
-                    directionx = 2.5
-                    offsetx2 = -8
-                    directionx2 = -2.5
                 end
-                runing = true
-                idle = false
-                if miniGame then
-                    player.b:applyForce(150, 0)
-                elseif x < 400 then
-                    player.b:applyForce(50, 0)
-                end
-            elseif love.keyboard.isDown("left") and bouncedX == false and wallTouchRight == false or TouchControls:getEvent("X") == "left" and bouncedX == false and wallTouchRight == false then
-                if wallTouchLeft ~= true then
-                    offsetx = -26
-                    offsety = 10
-                    directiony = 2.2
-                    directionx = -2.5
-                    offsetx2 = 26
-                    directionx2 = 2.5
-                end
-                runing = true
-                idle = false
-                if miniGame then
-                    player.b:applyForce(-150, 0)
-                elseif x > -400 then
-                    player.b:applyForce(-50, 0)
-                end
-            end
-            if love.keyboard.isDown("up") == false and TouchControls:getEvent("Y") == "" then
-                JumpKeyUp = true
-            end
-            
-            if isColliding or CollisionHandler:checkIfPlayerTouchGround() then
-                if jump == true then
-                    if love.keyboard.isDown("up") and JumpKeyUp == true or TouchControls:getEvent("Y") == "up" and JumpKeyUp == true then
-                        jump = false
-                        runing = false
-                        idle = false
-                        jumping = true
-                        JumpKeyUp = false
-                        if orientation == 0 then
-                            player.b:setLinearVelocity( x, -600 )
-                        elseif orientation ~= 0 then
-                            player.b:setLinearVelocity( x, 600 )
+                if type == "right" then
+                    if love.keyboard.isDown("up") and JumpKeyUp == true or TouchControls:getEvent("Y")== "up" and JumpKeyUp == true then
+                        wallJump = false
+                        if CollisionHandler:checkIfPlayerTouchGround() == false then
+                            if orientation == 0 then
+                                player.b:setLinearVelocity( -210, -500 )
+                            elseif orientation ~= 0 then
+                                player.b:setLinearVelocity( -210, 500 )
+                            end
+                            test1 = false
+                        else
+                            if orientation == 0 then
+                                player.b:setLinearVelocity( x, -550 )
+                            elseif orientation ~= 0 then
+                                player.b:setLinearVelocity( x, 550 )
+                            end
                         end
-                        wallTouch = false
+                        wallTouchRight = false
+                        JumpKeyUp = false
                     end
-                    jumping = false
                 end
-            end
-            
-            if love.keyboard.isDown("down") or TouchControls:getEvent("Y") == "down" then
-                if orientation == 0 then
-                    player.b:applyForce(0, 300)
-                elseif orientation ~= 0 then
-                    player.b:applyForce(0, -300)
+                if type == "left" then
+                    if love.keyboard.isDown("up") and JumpKeyUp == true or TouchControls:getEvent("Y")== "up" and JumpKeyUp == true then
+                        wallJump = false
+                        if CollisionHandler:checkIfPlayerTouchGround() == false then
+                            if orientation == 0 then
+                                player.b:setLinearVelocity( 210, -500 )
+                            elseif orientation ~= 0 then
+                                player.b:setLinearVelocity( 210, 500 )
+                            end
+                            test2 = false                   
+                        else
+                            if orientation == 0 then
+                                player.b:setLinearVelocity( x, -550 )
+                            elseif orientation ~= 0 then
+                                player.b:setLinearVelocity( x, 550 )
+                            end
+                        end
+                        wallTouchLeft = false
+                        JumpKeyUp = false
+                    end   
+                end         
+                if love.keyboard.isDown("right") and bouncedX == false and wallTouchLeft == false or TouchControls:getEvent("X") == "right" and bouncedX == false and wallTouchLeft == false then
+                    if wallTouchRight ~= true then
+                        offsetx = 10
+                        offsety = 10
+                        directiony = 2.2
+                        directionx = 2.5
+                        offsetx2 = -8
+                        directionx2 = -2.5
+                    end
+                    runing = true
+                    idle = false
+                    if miniGame then
+                        player.b:applyForce(150, 0)
+                    elseif x < 400 then
+                        player.b:applyForce(50, 0)
+                    end
+                elseif love.keyboard.isDown("left") and bouncedX == false and wallTouchRight == false or TouchControls:getEvent("X") == "left" and bouncedX == false and wallTouchRight == false then
+                    if wallTouchLeft ~= true then
+                        offsetx = -26
+                        offsety = 10
+                        directiony = 2.2
+                        directionx = -2.5
+                        offsetx2 = 26
+                        directionx2 = 2.5
+                    end
+                    runing = true
+                    idle = false
+                    if miniGame then
+                        player.b:applyForce(-150, 0)
+                    elseif x > -400 then
+                        player.b:applyForce(-50, 0)
+                    end
                 end
-            end
-            if x > 300 or x < -300 then
-                runingFast = true 
-            elseif x < 300 and x > 0 or x > -300 and x < 0 then
-                runingFast = false
-            end 
-            if x == 0 and y == 0 then
-                runing = false
-                idle = true
-            end
-            if jump == false or wallJump == false then
-                SoundHandler:PlaySound("jump")
-            end
+                if love.keyboard.isDown("up") == false and TouchControls:getEvent("Y") == "" then
+                    JumpKeyUp = true
+                end
+                
+                if isColliding or CollisionHandler:checkIfPlayerTouchGround() then
+                    if jump == true then
+                        if love.keyboard.isDown("up") and JumpKeyUp == true or TouchControls:getEvent("Y") == "up" and JumpKeyUp == true then
+                            jump = false
+                            runing = false
+                            idle = false
+                            jumping = true
+                            JumpKeyUp = false
+                            if orientation == 0 then
+                                player.b:setLinearVelocity( x, -600 )
+                            elseif orientation ~= 0 then
+                                player.b:setLinearVelocity( x, 600 )
+                            end
+                            wallTouch = false
+                        end
+                        jumping = false
+                    end
+                end
+                
+                if love.keyboard.isDown("down") or TouchControls:getEvent("Y") == "down" then
+                    if orientation == 0 then
+                        player.b:applyForce(0, 300)
+                    elseif orientation ~= 0 then
+                        player.b:applyForce(0, -300)
+                    end
+                end
+                if x > 300 or x < -300 then
+                    runingFast = true 
+                elseif x < 300 and x > 0 or x > -300 and x < 0 then
+                    runingFast = false
+                end 
+                if x == 0 and y == 0 then
+                    runing = false
+                    idle = true
+                end
+                if jump == false or wallJump == false then
+                    SoundHandler:PlaySound("jump")
+                end
 
-            CollisionHandler:resetCollision()
-            if type == "none" or isColliding == false or CollisionHandler:checkIfPlayerTouchGround() == false then
-                jump = true
-                wallJump = true
+                CollisionHandler:resetCollision()
+                if type == "none" or isColliding == false or CollisionHandler:checkIfPlayerTouchGround() == false then
+                    jump = true
+                    wallJump = true
+                end
             end
         end
     end
