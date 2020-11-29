@@ -163,7 +163,17 @@ function Menu:update(dt)
     for i = 0, 13, 1 do
         if levelChange == false and CollisionHandler:getType() == "goal"..tostring(i) then
             levelChange = true
-            World = i
+            if LevelHandler:getCurrentLevel() == 74 then
+                if i == 1 then 
+                    World = 14
+                elseif i == 2 then
+                    World = 15
+                elseif i == 3 then
+                    World = 16
+                end
+            else
+                World = i
+            end
             alive = false
             if test then
                 Player:destroy()

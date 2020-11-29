@@ -89,19 +89,28 @@ function LevelHandler:loadLevels()
         LevelList[41] = true
     end
     if World == 10 then
-        LevelList[45] = true
+        LevelList[46] = true
     end
     if World == 11 then
-        LevelList[49] = true
+        LevelList[50] = true
     end
     if World == 12 then
-        LevelList[53] = true
+        LevelList[54] = true
     end
     if World == 13 then
-        LevelList[57] = true
+        LevelList[58] = true
+    end
+    if World == 14 then
+        LevelList[62] = true
+    end
+    if World == 15 then
+        LevelList[66] = true
+    end
+    if World == 16 then
+        LevelList[71] = true
     end
     if World == 0 then
-        LevelList[61] = true
+        LevelList[72] = true
     end
     return LevelList
 end
@@ -300,7 +309,7 @@ function LevelHandler:loadCurrentLevel(secret)
                     newLevelUnlock = true
                 end
             end
-            if i == 45 then
+            if i == 46 then
                 Levels:changeColor("orange")
                 DataHandler:saveGame(10)
                 if Player:checkLives() <= 9 then
@@ -308,7 +317,7 @@ function LevelHandler:loadCurrentLevel(secret)
                     newLevelUnlock = true
                 end
             end
-            if i == 49 then
+            if i == 50 then
                 Levels:changeColor("otherRed")
                 DataHandler:saveGame(11)
                 if Player:checkLives() <= 9 then
@@ -316,7 +325,7 @@ function LevelHandler:loadCurrentLevel(secret)
                     newLevelUnlock = true
                 end
             end
-            if i == 53 then
+            if i == 54 then
                 Levels:changeColor("veryLightPink")
                 DataHandler:saveGame(12)
                 if Player:checkLives() <= 9 then
@@ -324,7 +333,7 @@ function LevelHandler:loadCurrentLevel(secret)
                     newLevelUnlock = true
                 end
             end
-            if i == 57 then
+            if i == 58 then
                 Levels:changeColor("purple")
                 DataHandler:saveGame(13)
                 if Player:checkLives() <= 9 then
@@ -332,10 +341,33 @@ function LevelHandler:loadCurrentLevel(secret)
                     newLevelUnlock = true
                 end
             end
-            if i == 61 then
+            if i == 62 then
+                Levels:changeColor("purple")
+                DataHandler:saveGame(14)
+                if Player:checkLives() <= 9 then
+                    Player:initLives()
+                    newLevelUnlock = true
+                end
+            end
+            if i == 66 then
+                Levels:changeColor("purple")
+                DataHandler:saveGame(15)
+                if Player:checkLives() <= 9 then
+                    Player:initLives()
+                    newLevelUnlock = true
+                end
+            end
+            if i == 71 then
+                Levels:changeColor("purple")
+                DataHandler:saveGame(15)
+                if Player:checkLives() <= 9 then
+                    Player:initLives()
+                    newLevelUnlock = true
+                end
+            end
+            if i == 71 then
                 Levels:changeColor("pink")
             end
-
             if secret ~= nil then
                 secretLevel = true
                 leveldata = Levelinit[i].s
@@ -401,7 +433,7 @@ function LevelHandler:drawLevel()
             g.rectangle("fill", Stages.borders[i][1], Stages.borders[i][2], Stages.borders[i][3], Stages.borders[i][4])
         end
     end
-    if LevelHandler:getCurrentLevel() == 62 then
+    if LevelHandler:getCurrentLevel() == 73 then
         g.printf("1", -2895, 560, 400, "center", 0, 1)
         g.printf("2", -2595, 560, 400, "center", 0, 1)
         g.printf("3", -2295, 560, 400, "center", 0, 1)
@@ -415,6 +447,11 @@ function LevelHandler:drawLevel()
         g.printf("11", 100, 560, 400, "center", 0, 1)
         g.printf("12", 400, 560, 400, "center", 0, 1)
         g.printf("13", 700, 560, 400, "center", 0, 1)
+    end
+    if LevelHandler:getCurrentLevel() == 74 then
+        g.printf("14", 105, 560, 400, "center", 0, 1)
+        g.printf("15", 305, 560, 400, "center", 0, 1)
+        g.printf("16", 505, 560, 400, "center", 0, 1)
     end
     --g.printf(tostring(testNum - 1), -2444, 500, 400, "center", 0, 1)
 end
