@@ -110,7 +110,7 @@ function LevelHandler:loadLevels()
         LevelList[71] = true
     end
     if World == 0 then
-        LevelList[72] = true
+        LevelList[80] = true
     end
     return LevelList
 end
@@ -358,14 +358,14 @@ function LevelHandler:loadCurrentLevel(secret)
                 end
             end
             if i == 71 then
-                Levels:changeColor("purple")
-                DataHandler:saveGame(15)
+                Levels:changeColor("pink")
+                DataHandler:saveGame(16)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
                     newLevelUnlock = true
                 end
             end
-            if i == 71 then
+            if i == 80 then
                 Levels:changeColor("pink")
             end
             if secret ~= nil then
@@ -433,7 +433,7 @@ function LevelHandler:drawLevel()
             g.rectangle("fill", Stages.borders[i][1], Stages.borders[i][2], Stages.borders[i][3], Stages.borders[i][4])
         end
     end
-    if LevelHandler:getCurrentLevel() == 73 then
+    if LevelHandler:getCurrentLevel() == 81 then
         g.printf("1", -2895, 560, 400, "center", 0, 1)
         g.printf("2", -2595, 560, 400, "center", 0, 1)
         g.printf("3", -2295, 560, 400, "center", 0, 1)
@@ -448,7 +448,7 @@ function LevelHandler:drawLevel()
         g.printf("12", 400, 560, 400, "center", 0, 1)
         g.printf("13", 700, 560, 400, "center", 0, 1)
     end
-    if LevelHandler:getCurrentLevel() == 74 then
+    if LevelHandler:getCurrentLevel() == 82 then
         g.printf("14", 105, 560, 400, "center", 0, 1)
         g.printf("15", 305, 560, 400, "center", 0, 1)
         g.printf("16", 505, 560, 400, "center", 0, 1)
@@ -497,6 +497,11 @@ function LevelHandler:colors(colorChoice)
     elseif colorChoice == 2 then
         return colorBg.r, colorBg.g, colorBg.b
     end
+end
+
+function LevelHandler:randomColor()
+    local rand = math.random(1,14)
+    Levels:randomColor(rand)
 end
 
 function LevelHandler:getDiamondsLocation()

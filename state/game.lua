@@ -34,6 +34,8 @@ function Game:load()
 
     canPause = true
 
+    colorSwitchTime = 0
+
     Text:init(0, 1500)
     LevelHandler:loadCurrentLevel()
     Player:pushPlayer("justUp")
@@ -47,7 +49,7 @@ function Game:dispose()
     died = nil
     LevelChange = nil
     debug = nil
-    if Player:checkLives() ~= 0 then
+    if Player:checkLives() ~= 0 and Player:getStatus() then
         Player:destroy()
     end
 end
@@ -62,6 +64,14 @@ function Game:update(dt)
 
     if paused ~= true then
         w:update(dt)
+    end
+
+    if LevelHandler:getCurrentLevel() > 75 and LevelHandler:getCurrentLevel() < 80 then
+        colorSwitchTime = colorSwitchTime + dt
+        if colorSwitchTime > 1.3 then
+            LevelHandler:randomColor()
+            colorSwitchTime = 0
+        end
     end
 
     Diamonds:update(dt)
@@ -202,13 +212,23 @@ function Game:update(dt)
         LevelChange = true
         Player:destroy()
         initCamera = true
-        Timer.script(function(wait)
-            wait(2.0)
-            Text:reset()
-            LevelHandler:next()
-            LevelChange = false
-            Transition:down()
-        end)
+        if LevelHandler:getCurrentLevel() == 79 then
+            Timer.script(function(wait)
+                wait(2.0)
+                Game:dispose()
+                LevelHandler:dispose()
+                State:menuStart()
+                Transition:down()
+            end)
+        else
+            Timer.script(function(wait)
+                wait(2.0)
+                Text:reset()
+                LevelHandler:next()
+                LevelChange = false
+                Transition:down()
+            end)
+        end
         SoundHandler:PlaySound("next")
     elseif LevelChange == false and CollisionHandler:getSecretTouch() then
         Text:moveDown()

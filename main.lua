@@ -127,11 +127,11 @@ function love.update(dt)
     SoundHandler:updateVolumes()
     if mobile then
         if Player:getPositionX() ~= nil then
-            camera:follow(Player:getPositionX() - 200, Player:getPositionY() - 140)
+            camera:follow(Player:getPositionX() - 200, Player:getPositionY() - 120)
         end
     else
         if Player:getPositionX() ~= nil then
-            camera:follow(Player:getPositionX() - 10, Player:getPositionY())
+            camera:follow(Player:getPositionX() - 10, Player:getPositionY() + 50)
         end
     end
     love.window.setTitle(tostring(love.timer.getFPS()))

@@ -163,7 +163,7 @@ function Menu:update(dt)
     for i = 0, 13, 1 do
         if levelChange == false and CollisionHandler:getType() == "goal"..tostring(i) then
             levelChange = true
-            if LevelHandler:getCurrentLevel() == 74 then
+            if LevelHandler:getCurrentLevel() == 82 then
                 if i == 1 then 
                     World = 14
                 elseif i == 2 then

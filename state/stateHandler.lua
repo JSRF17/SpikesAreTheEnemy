@@ -36,6 +36,7 @@ function State:menuStart()
     changeState()
     States.menu = true
     States.change = true
+    SoundHandler:FadeOutFadeInSound("all")
     SoundHandler:backgroundMusic("menu")
 end
 
@@ -78,6 +79,7 @@ function State:gameover()
     changeState()
     States.change = true
     States.gameOver = true
+    SoundHandler:FadeOutFadeInSound("all")
 end
 --Different states run depending on the value of before mentioned booleans--
 function State:stateChanger(dt)

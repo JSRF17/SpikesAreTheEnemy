@@ -209,10 +209,11 @@ function Text:storyline(select)
         "16-2: No really, it is The End.",
         "16-3: You have reached the last level.",
         "16-4: Okay then.",
-        "16-5: One last challenge.",
-        "16-6: Just for you.",
-        "16-7: Impossible.",
-        "The end.",
+        "16-5: One last challenge, just for you.",
+        "16-6: This should suffice.",
+        "16-7: Still here huh.",
+        "16-8: One last easy level.",
+        "16-9: Thanks for playing!",
     }
     for i = 1, #texts, 1 do
         if select == i then
