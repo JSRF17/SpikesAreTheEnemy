@@ -342,7 +342,7 @@ function LevelHandler:loadCurrentLevel(secret)
                 end
             end
             if i == 62 then
-                Levels:changeColor("purple")
+                Levels:changeColor("skyBlue")
                 DataHandler:saveGame(14)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -350,7 +350,7 @@ function LevelHandler:loadCurrentLevel(secret)
                 end
             end
             if i == 66 then
-                Levels:changeColor("purple")
+                Levels:changeColor("grey")
                 DataHandler:saveGame(15)
                 if Player:checkLives() <= 9 then
                     Player:initLives()

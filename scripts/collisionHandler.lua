@@ -208,7 +208,7 @@ end
 
 function CollisionHandler:reset()
     persisting = 0 
-    isColliding = true
+    isColliding = false
     collisionType = "none"
     playerTouchGround = true
 end

@@ -22,8 +22,7 @@ function Transition:draw()
     else
         g.setColor(LevelHandler:colors(1))
     end
-
-    g.rectangle("fill", curtain1[1].x, curtain1[1].y, 1280, 720)
+    g.rectangle("fill", curtain1[1].x, curtain1[1].y, 1780, 720)
 end
 
 function Transition:activate(choice, death)

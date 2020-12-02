@@ -3,16 +3,25 @@
 
 Text = {}
 
-local font = love.graphics.newFont("resources/jackeyfont.ttf", 23)
+local font = love.graphics.newFont("resources/jackeyfont.ttf", 25.5)
+
+if gameWidth > 1280 then
+    textBoxWidth = 1480
+    TextOffsetX = 1350
+else
+    textBoxWidth = 1280
+    TextOffsetX = 1150
+end
 --Initilize the textbox--
 function Text:init(x, y)
     self.x = x
     self.y = y
     textbox = {}
+   
     if mobile then
-        textbox[1] = {width = 1280, height = 115, x = self.x, y = self.y}
+        textbox[1] = {width = textBoxWidth, height = 119, x = self.x, y = self.y}
     else
-        textbox[1] = {width = 1280, height = 85, x = self.x, y = self.y}
+        textbox[1] = {width = textBoxWidth, height = 85, x = self.x, y = self.y}
     end
 end
 
@@ -121,7 +130,7 @@ function Text:dialogDraw()
     g.setFont(font)
     g.setColor(LevelHandler:colors(1))
     if message1 ~= nil then
-        g.printf(message1:sub(1, letters1), textbox[1].x + 1150, textbox[1].y , 800)
+        g.printf(message1:sub(1, letters1), textbox[1].x + TextOffsetX, textbox[1].y , 800)
     end
     g.printf(message:sub(1, letters), textbox[1].x + 20, textbox[1].y, 2500)
 end

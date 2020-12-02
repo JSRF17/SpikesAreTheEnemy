@@ -333,7 +333,7 @@ function Player:limitSpeed()
     end
 end
 
-function Player:bounce(forceX, forceY, dir)
+function Player:bounce(forceX, forceY, dir, small)
     if dir ~= nil then
         bouncedX = true
     end
@@ -361,7 +361,15 @@ function Player:bounce(forceX, forceY, dir)
         runing = true
         idle = false
     end
-    player.b:applyForce(forceX, forceY)
+    if dir ~= "right" and dir ~= "left" then
+        if small then
+            player.b:setLinearVelocity( x, -1200 )
+        else
+            player.b:setLinearVelocity( x, -2100 )
+        end
+    else
+        player.b:applyForce(forceX, forceY)
+    end
 end
 
 function Player:teleport(x, y)
@@ -547,6 +555,10 @@ function Player:controls(dt, miniGame)
                     wallJump = true
                 end
             end
+        end
+        if player.b == nil then
+            jump = true
+            wallJump = true
         end
     end
 end

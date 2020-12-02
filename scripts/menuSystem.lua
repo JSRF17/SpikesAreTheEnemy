@@ -193,7 +193,13 @@ function MenuSystem:update(dt)
                                     clicked = true
                                     Game:dispose()
                                     LevelHandler:dispose()
-                                    State:menuStart()
+                                    Transition:activate()
+                                    State:allFalse()
+                                    Timer.script(function(wait)
+                                        wait(2.3)
+                                        State:menuStart()
+                                        Transition:down()
+                                    end)
                                 end
                             end
                         end

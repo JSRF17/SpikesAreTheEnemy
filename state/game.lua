@@ -107,7 +107,7 @@ function Game:update(dt)
             Player:bounce(0, -6200, nil)
         end
         if CollisionHandler:getType() == "bounceUpSmall" then
-            Player:bounce(0, -3720, nil)
+            Player:bounce(0, -3720, nil, true)
         end
     end
 

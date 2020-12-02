@@ -5,7 +5,15 @@
 
 Diamonds = {}
 
-local font = love.graphics.newFont("resources/jackeyfont.ttf", 25)
+local font = love.graphics.newFont("resources/jackeyfont.ttf", 25.5)
+
+if gameWidth > 1280 then
+    xOffsetText = 1180
+    xOffsetCount = 1170
+else
+    xOffsetText = 980
+    xOffsetCount = 970
+end
 
 local diamond = g.newImage("resources/diamondAnim2.png")
 local frameCoordinates = {
@@ -159,19 +167,12 @@ function Diamonds:drawCount()
     g.setColor(LevelHandler:colors(1))
     love.graphics.setFont(font)
     local x, y = Text:getPosition()
-    if mobile then
-        if livesText ~= "" then
-            g.printf("\n"..livesText, 980, y - 38, 400, "center", 0, 1)
-        else
-            g.printf("\n".."D:"..count, 970, y - 38, 400, "center", 0, 1)
-        end
+   
+    if livesText ~= "" then
+        g.printf("\n"..livesText, x + xOffsetText, y, 400, "center", 0, 1)
     else
-        if livesText ~= "" then
-            g.printf("\n"..livesText, x + 980, y, 400, "center", 0, 1)
-        else
-            g.printf("\n".."D:"..count, x + 970, y, 400, "center", 0, 1)
-        end
-    end
+        g.printf("\n".."D:"..count, x + xOffsetCount, y, 400, "center", 0, 1)
+    end    
 end
 --605
 --643

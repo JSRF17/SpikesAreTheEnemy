@@ -13,7 +13,6 @@ g.setFont(font)
 
 pattern = love.graphics.newImage("resources/pattern.png")
 
-
 --Global variables--
 SpeedRun = false
 mouseMoved = false
@@ -23,6 +22,7 @@ mouseDown = false
 width = g.getWidth()
 osString = love.system.getOS()
 mobile = false
+gameWidth, gameHeight = 1280, 720
 
 --Shaders loaded--
 crtShader = love.graphics.newShader("shaders/crt.shader")
@@ -44,14 +44,21 @@ end
 --Great library for handling scaling for different screen sizes (desktop, mobile and so on)
 push = require "push"
 -----------------Push setup------------------------------------------------------
-local gameWidth, gameHeight = 1280, 720
+
+deviceWidth, deviceHeight = love.window.getDesktopDimensions()
+iOSwidth = love.graphics.getWidth()
+
+if deviceWidth > 2020 or iOSwidth > 850 then
+    gameWidth, gameHeight = 1480, 720
+end
+
 local screenWidth, screenHeight = love.window.getDesktopDimensions()
 local dpi_scale = love.window.getDPIScale()
 if mobile then
-    screenWidth, screenHeight = screenWidth*1, screenHeight*1.11
+    screenWidth, screenHeight = screenWidth, screenHeight
     screenWidth = screenWidth/dpi_scale
     screenHeight = screenHeight/dpi_scale
-    screenHeight = screenHeight
+    screenHeight = screenHeight/dpi_scale
 else
     screenWidth, screenHeight = screenWidth*0.7, screenHeight*0.7
     screenWidth = screenWidth/dpi_scale
@@ -167,7 +174,7 @@ function love.draw()
                 Text:dialogDraw()
                 Diamonds:drawCount()
             end
-            
+            --g.printf(tostring(deviceWidth), 200, 200, 2500)
         end
     push:apply("end")
 end
