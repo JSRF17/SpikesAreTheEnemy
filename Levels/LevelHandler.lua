@@ -36,6 +36,7 @@ local dLocations
 local newLevelUnlock = false
 local secretLevel = false
 local changing = false
+local locks = nil
 
 function LevelHandler:initDiamonds()
     dLocations = {}
@@ -47,8 +48,12 @@ end
 --Initializes all "blocks" (where each level stores data such as physics bodies, fixtures and shapes)--
 function LevelHandler:initBlocks()
     blocks = {}
+    lockBlocks = {}
     for i = 0, 250, 1 do
         blocks[i] = {}
+    end
+    for i = 0, 20, 1 do
+        lockBlocks[i] = {}
     end
 end
 
@@ -116,6 +121,7 @@ function LevelHandler:loadLevels()
 end
 --Disposes of all the physics bodies, shapes and fixtures and destroys the physics world--
 function LevelHandler:dispose()
+    locks = nil
     for i = 1, #blocks, 1 do
         if blocks[i].b ~= nil then
             blocks[i].b:destroy()
@@ -207,6 +213,14 @@ function LevelHandler:loadLevelData(leveldata)
                     blocks[i].f = p.newFixture(blocks[i].b, blocks[i].s)
                     blocks[i].f:setUserData("goal"..tostring(v))
                     testNum = tostring(v)
+                end
+            end
+            if locks ~= nil then
+                for i = 1, #locks, 1 do
+                    lockBlocks[i].b = p.newBody(w, locks[i][1], locks[i][2], "static")
+                    lockBlocks[i].s = p.newRectangleShape(locks[i][3], locks[i][4])
+                    lockBlocks[i].f = p.newFixture(lockBlocks[i].b, lockBlocks[i].s)
+                    lockBlocks[i].f:setUserData("normal")
                 end
             end
         end
@@ -390,6 +404,13 @@ function LevelHandler:loadCurrentLevel(secret)
                 secretLevel = false
                 leveldata = Levelinit[i]
             end
+            if i == 81 then
+                locks = Levels:getUnlocks(1)
+            elseif i == 82 then
+                locks = Levels:getUnlocks(2)
+            elseif i == 83 then
+                locks = Levels:getUnlocks(3)
+            end
             LevelHandler:loadLevelData(leveldata)
             if States.menu ~= true then
                 Text:reset()
@@ -439,6 +460,11 @@ function LevelHandler:drawLevel()
             break
         end
     end
+    for i = 1, #lockBlocks, 1 do
+        if lockBlocks[i].b ~= nil then
+            g.polygon("fill", lockBlocks[i].b:getWorldPoints(lockBlocks[i].s:getPoints()))
+        end
+    end
     for i = 1, 4, 1 do
         if levelType == "long" then
             g.rectangle("fill", Stages.borders2[i][1], Stages.borders2[i][2], Stages.borders2[i][3], Stages.borders2[i][4])
@@ -471,8 +497,8 @@ function LevelHandler:drawLevel()
     if LevelHandler:getCurrentLevel() == 83 then
         g.printf("Deaths:", 85, 400, 400, "center", 0, 1)
         g.printf(DataHandler:getDeathCount(), 85, 450, 400, "center", 0, 1)
-        g.printf("Diamonds:", 405, 400, 400, "center", 0, 1)
-        g.printf(DataHandler:getDiamondCount(), 405, 450, 400, "center", 0, 1)
+        g.printf("Diamonds:", 415, 400, 400, "center", 0, 1)
+        g.printf(DataHandler:getDiamondCount(), 415, 450, 400, "center", 0, 1)
         g.printf("SpeedRun:", 785, 400, 400, "center", 0, 1)
         g.printf(DataHandler:getScore(), 785, 450, 400, "center", 0, 1)
         g.setColor(LevelHandler:colors(2))

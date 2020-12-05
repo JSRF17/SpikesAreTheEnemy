@@ -24,7 +24,7 @@ function Menu:loadMenu()
     levelChangeDone = true
     fromMenu = true
     startedPlay = false
-    canPauseM = true
+    canPauseM = false
     SpeedRun = false
     SoundHandler:backgroundMusic("menu")
 end
@@ -69,6 +69,7 @@ function Menu:update(dt)
                 wait(1.5)
                 State:pause("menu")
                 paused = false
+                canPauseM = true
                 Transition:down()
             end)
         end
@@ -206,6 +207,7 @@ function Menu:update(dt)
         Grass:update()
         TouchControls:update()
         if startedPlay == false then
+            canPauseM = true
             startedPlay = true
             SoundHandler:backgroundMusic("levelSelect")
             SoundHandler:FadeOutFadeInSound("menu")

@@ -21,7 +21,7 @@ local pauseText = false
 --Initilize game values--
 function Game:load()
     LevelHandler:loadLevels()
-    --Player:initLives(SpeedRun)
+    Player:initLives()
     Alive = true
     initCamera = true
     died = false

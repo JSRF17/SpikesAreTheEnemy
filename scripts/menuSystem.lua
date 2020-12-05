@@ -17,7 +17,6 @@ local music = SettingsChanger:getSettings("music")
 function MenuSystem:init(selectedMenu,state)
     ForegroundColor = {0.8, 0.8, 0.8}
     colourChangeTime = 0
-    SpeedRun = false
     activeMenu = selectedMenu
     pausedMenu = state
     menuState = 1
@@ -28,7 +27,6 @@ function MenuSystem:init(selectedMenu,state)
     unlockedWorld = tonumber(DataHandler:loadGame())
     worldtable = {}
     rectangleFill = "line"
-    SpeedRun = false
     buttons = {}
     buttonBack = {}
     buttonNext = {}
@@ -38,23 +36,21 @@ function MenuSystem:init(selectedMenu,state)
     MenuSystem:menuStateChange()
     --Tables that contain number of buttons and their text
     if activeMenu == 1 then
-        --if osString == "Android" or osString == "iOS" then
+        if osString == "Android" or osString == "iOS" then
             menu = {
                 {{"start game", "settings", "about", "quit"}},
                 {{"sound", "music", "vissible controls"}},
                 {{"Use the on screen controls to control Dave and complete the levels.\nWatch out for spikes and don't waste those lives\n\nA game by Oliver Kjellen 2020\nSpecial thanks to SpeckyYT for support and testing"}},
                 {{"DaVVVVVe", "Pixel", "Race"}}
             }
-        --else
-          --  menu = {
-              --  {{"start game", "settings", "about", "quit"}},
-            --    {{"Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7", "Level 8"}},
-                --{{"sound", "music"}},
-               -- {{"Use the arrow keys to control Dave and complete the levels.\nWatch out for spikes and don't waste those lives\n\nA game by Oliver Kjellen 2020\nSpecial thanks to SpeckyYT for support and testing"}},
-               -- {{"Level 9", "Level 10", "Level 11", "Level 12"}},
-               -- {{"DaVVVVVe", "Pixel", "Race"}}
-           -- }
-        --end
+        else
+            menu = {
+                {{"start game", "settings", "about", "quit"}},
+                {{"sound", "music"}},
+                {{"Use the arrow keys to control Dave and complete the levels.\nWatch out for spikes and don't waste those lives\n\nA game by Oliver Kjellen 2020\nSpecial thanks to SpeckyYT for support and testing"}},
+                {{"DaVVVVVe", "Pixel", "Race"}}
+            }
+        end
         menu.header = {"Spikes Are the Enemy"}
         menu.header1 = {"Spikes Are the Enemy"}
     elseif activeMenu == 2 then

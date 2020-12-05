@@ -140,7 +140,7 @@ function love.update(dt)
     else
         if Player:getPositionX() ~= nil then
             if deviceWidth > 1300 then
-                camera:follow(Player:getPositionX() + 100, Player:getPositionY() + 50)
+                camera:follow(Player:getPositionX() + 105, Player:getPositionY() + 50)
             else
                 camera:follow(Player:getPositionX(), Player:getPositionY() + 50)
             end
@@ -182,7 +182,7 @@ function love.draw()
                     SpeedRunTimer:draw()
                 end
             end
-            g.printf(tostring(deviceWidth), 200, 200, 2500)
+            --g.printf(tostring(DataHandler:loadGame()), 200, 200, 2500)
         end
     push:apply("end")
 end

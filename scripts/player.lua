@@ -371,9 +371,9 @@ function Player:bounce(forceX, forceY, dir, small)
             player.b:setLinearVelocity( x, -2100 )
         end
     elseif dir == "right" then
-        player.b:applyForce(2000, -20)
+        player.b:setLinearVelocity( 2100, y )
     else
-        player.b:applyForce(-2000, -20)
+        player.b:setLinearVelocity( -2100, y )
     end
     SoundHandler:PlaySound("bounce")
 end
