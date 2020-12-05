@@ -178,7 +178,7 @@ function love.draw()
                     SpeedRunTimer:draw()
                 end
             end
-            --g.printf(tostring(deviceWidth), 200, 200, 2500)
+            g.printf(tostring(deviceWidth), 200, 200, 2500)
         end
     push:apply("end")
 end
