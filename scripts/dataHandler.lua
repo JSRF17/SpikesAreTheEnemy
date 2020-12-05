@@ -132,6 +132,14 @@ function DataHandler:getScore()
     return currentScore
 end
 
+function DataHandler:getScoreInit()
+    speedRunScore:open("r")
+    local currentScore = speedRunScore:read()
+    speedRunScore:close()
+
+    return currentScore
+end
+
 function DataHandler:add_death()
     deathCount:open("r")
     local currentCount = tostring(deathCount:read())

@@ -97,7 +97,7 @@ Camera = require "gamera"
 
 
 --If playing for the first time init a save file--
-if DataHandler:loadGame() == nil or DataHandler:getScore() == nil then
+if DataHandler:loadGame() == nil or DataHandler:getScoreInit() == nil then
     DataHandler:init()
     DataHandler:initVVVVV()
     DataHandler:initSettings()
@@ -139,7 +139,11 @@ function love.update(dt)
         end
     else
         if Player:getPositionX() ~= nil then
-            camera:follow(Player:getPositionX(), Player:getPositionY() + 50)
+            if deviceWidth > 1300 then
+                camera:follow(Player:getPositionX() + 100, Player:getPositionY() + 50)
+            else
+                camera:follow(Player:getPositionX(), Player:getPositionY() + 50)
+            end
         end
     end
     love.window.setTitle(tostring(love.timer.getFPS()))
