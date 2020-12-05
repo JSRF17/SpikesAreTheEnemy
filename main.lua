@@ -97,7 +97,7 @@ Camera = require "gamera"
 
 
 --If playing for the first time init a save file--
-if DataHandler:loadGame() == nil then
+if DataHandler:loadGame() == nil or DataHandler:getScore() == nil then
     DataHandler:init()
     DataHandler:initVVVVV()
     DataHandler:initSettings()
@@ -110,7 +110,7 @@ State:menuStart()
 --Loading various things at startup--
 function love.load()
     camera = Camera()
-    camera.scale = 0.8
+    camera.scale = 0.78
     camera:setFollowStyle('PLATFORMER')
     push:setShader({ crtShader, chromasep, scanlines })
 
@@ -139,7 +139,7 @@ function love.update(dt)
         end
     else
         if Player:getPositionX() ~= nil then
-            camera:follow(Player:getPositionX() - 10, Player:getPositionY() + 50)
+            camera:follow(Player:getPositionX(), Player:getPositionY() + 50)
         end
     end
     love.window.setTitle(tostring(love.timer.getFPS()))
