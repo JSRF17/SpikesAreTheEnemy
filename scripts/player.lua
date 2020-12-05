@@ -54,7 +54,7 @@ storedY = -500
 
 function Player:initLives(speedrun)
     if speedrun then
-        lives = 1000 
+        lives = 10000 
     else
         lives = 10
     end
@@ -142,6 +142,7 @@ function Player:destroy(choice)
             orientation = 0
             test = true
             died = false
+            DataHandler:add_death()
         end)
     else
         player = nil
@@ -288,7 +289,9 @@ function Player:draw(minigame)
 end
 
 function Player:lostLife()
-    lives = lives - 1
+    if SpeedRun == false then
+        lives = lives - 1
+    end
 end
 
 function Player:bonusLives()
@@ -367,9 +370,12 @@ function Player:bounce(forceX, forceY, dir, small)
         else
             player.b:setLinearVelocity( x, -2100 )
         end
+    elseif dir == "right" then
+        player.b:applyForce(2000, -20)
     else
-        player.b:applyForce(forceX, forceY)
+        player.b:applyForce(-2000, -20)
     end
+    SoundHandler:PlaySound("bounce")
 end
 
 function Player:teleport(x, y)

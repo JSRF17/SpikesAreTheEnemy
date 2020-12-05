@@ -247,6 +247,7 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 6 then
                 Levels:changeColor("greenish")
+                World = 2
                 DataHandler:saveGame(2)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -255,6 +256,7 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 11 then
                 Levels:changeColor("blueish")
+                World = 3
                 DataHandler:saveGame(3)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -263,6 +265,7 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 16 then
                 Levels:changeColor("red")
+                World = 4
                 DataHandler:saveGame(4)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -271,6 +274,7 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 21 then
                 Levels:changeColor("blue")
+                World = 5
                 DataHandler:saveGame(5)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -279,6 +283,7 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 26 then
                 Levels:changeColor("lightYellow")
+                World = 6
                 DataHandler:saveGame(6)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -287,6 +292,7 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 31 then
                 Levels:changeColor("lightPurple")
+                World = 7
                 DataHandler:saveGame(7)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -295,6 +301,7 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 36 then
                 Levels:changeColor("lightOrange")
+                World = 8
                 DataHandler:saveGame(8)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -303,6 +310,7 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 41 then
                 Levels:changeColor("lightPink")
+                World = 9
                 DataHandler:saveGame(9)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -311,6 +319,7 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 46 then
                 Levels:changeColor("orange")
+                World = 10
                 DataHandler:saveGame(10)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -319,6 +328,7 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 50 then
                 Levels:changeColor("otherRed")
+                World = 11
                 DataHandler:saveGame(11)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -327,6 +337,7 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 54 then
                 Levels:changeColor("veryLightPink")
+                World = 12
                 DataHandler:saveGame(12)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -335,6 +346,7 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 58 then
                 Levels:changeColor("purple")
+                World = 13
                 DataHandler:saveGame(13)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -343,6 +355,7 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 62 then
                 Levels:changeColor("skyBlue")
+                World = 14
                 DataHandler:saveGame(14)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -351,6 +364,7 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 66 then
                 Levels:changeColor("grey")
+                World = 15
                 DataHandler:saveGame(15)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -359,6 +373,7 @@ function LevelHandler:loadCurrentLevel(secret)
             end
             if i == 71 then
                 Levels:changeColor("pink")
+                World = 16
                 DataHandler:saveGame(16)
                 if Player:checkLives() <= 9 then
                     Player:initLives()
@@ -453,7 +468,17 @@ function LevelHandler:drawLevel()
         g.printf("15", 305, 560, 400, "center", 0, 1)
         g.printf("16", 505, 560, 400, "center", 0, 1)
     end
-    --g.printf(tostring(testNum - 1), -2444, 500, 400, "center", 0, 1)
+    if LevelHandler:getCurrentLevel() == 83 then
+        g.printf("Deaths:", 85, 400, 400, "center", 0, 1)
+        g.printf(DataHandler:getDeathCount(), 85, 450, 400, "center", 0, 1)
+        g.printf("Diamonds:", 405, 400, 400, "center", 0, 1)
+        g.printf(DataHandler:getDiamondCount(), 405, 450, 400, "center", 0, 1)
+        g.printf("SpeedRun:", 785, 400, 400, "center", 0, 1)
+        g.printf(DataHandler:getScore(), 785, 450, 400, "center", 0, 1)
+        g.setColor(LevelHandler:colors(2))
+        g.printf("SpeedRun ->", 840, 645, 400, "center", 0, 1)
+        g.setColor(LevelHandler:colors(1))
+    end
 end
 --Returns spawn location depending on which level is active
 function LevelHandler:playerSpawnLocation(choice)

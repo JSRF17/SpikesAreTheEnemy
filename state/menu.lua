@@ -25,6 +25,7 @@ function Menu:loadMenu()
     fromMenu = true
     startedPlay = false
     canPauseM = true
+    SpeedRun = false
     SoundHandler:backgroundMusic("menu")
 end
 
@@ -36,11 +37,7 @@ function Menu:update(dt)
         Player:track(dt)
         Player:animation(dt)
         Player:limitSpeed()
-        if initCamera then
-            camera.follow_style = 'LOCKON'
-            initCamera = false
-            camera.follow_style = 'PLATFORMER'
-        end
+        
         if CollisionHandler:getType() == "bounceRight" then
             Player:bounce(4200, -120, "right")
         end
@@ -110,31 +107,47 @@ function Menu:update(dt)
         --SoundHandler:StopSound("all1")
         levelChange = true
         initCamera = true
-      
+        Timer.script(function(wait)
+            wait(0.8)
+            camera.follow_style = 'LOCKON'
+        end)
+        Timer.script(function(wait)
+            wait(1)
+            camera.follow_style = 'PLATFORMER'
+        end)
         Transition:activate(true)
-        levelChangeDone = false
         alive = false
         if fromMenu then
             fromMenu = false
             SoundHandler:StopSound("all1")
         end
-
         if test then
             Player:destroy()
         end
         test = false
-        Timer.script(function(wait)
-            wait(2.3)
-            LevelHandler:next()
-            Transition:down()
-            levelChange = false
-            test = true
-        end)
-        Timer.script(function(wait)
-            wait(3)
-            levelChangeDone = true
-        end)
-        SoundHandler:PlaySound("next")
+        if LevelHandler:getCurrentLevel() == 83 then
+            World = 1
+            Player:initLives()
+            SpeedRun = true
+            Timer.script(function(wait)
+                wait(2.3)
+                State:allFalse()
+                State:gameStart()
+                Diamonds:countReset()
+                Transition:down()
+            end)
+            SoundHandler:PlaySound("next")
+        else
+            Timer.script(function(wait)
+                wait(2.3)
+                LevelHandler:next()
+                Transition:down()
+                levelChange = false
+                test = true
+            end)
+            
+            SoundHandler:PlaySound("next")
+        end
     elseif levelChange == false and CollisionHandler:getReturnTouch() then
         levelChange = true
         initCamera = true
@@ -153,10 +166,6 @@ function Menu:update(dt)
             Transition:down()
             levelChange = false
             test = true
-        end)
-        Timer.script(function(wait)
-            wait(3)
-            levelChangeDone = true
         end)
         SoundHandler:PlaySound("next")
     end
@@ -201,9 +210,9 @@ function Menu:update(dt)
             SoundHandler:backgroundMusic("levelSelect")
             SoundHandler:FadeOutFadeInSound("menu")
         end
-        if levelChangeDone then
-            Player:controls(dt)
-        end
+        
+        Player:controls(dt)
+      
         if Player:getPositionX() ~= nil and camerScaleGoal < 1.18 then
             if mobile then
                 camera.x = Player:getPositionX() - 160

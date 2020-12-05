@@ -44,6 +44,7 @@ local animateActive = true
 
 function Diamonds:count()
    count = count + 1
+   DataHandler:add_diamond()
 end
 
 function Diamonds:init()

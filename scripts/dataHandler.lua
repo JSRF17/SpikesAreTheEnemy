@@ -10,6 +10,9 @@ local fileSetttingMusic = love.filesystem.newFile("settingMusic.sav")
 local fileSetttingControl = love.filesystem.newFile("settingControl.sav")
 local fileSetttingControlV = love.filesystem.newFile("settingControlV.sav")
 local VVVVVHigh = love.filesystem.newFile("VVVVV.sav")
+local deathCount = love.filesystem.newFile("deathCount.sav")
+local diamonds = love.filesystem.newFile("diamonds.sav")
+local speedRunScore = love.filesystem.newFile("speedRun.sav")
 
 function DataHandler:initVVVVV()
     local number = 0
@@ -98,6 +101,72 @@ function DataHandler:init()
     file:open("w")
     file:write(number)
     file:close()
+    deathCount:open("w")
+    deathCount:write(number)
+    deathCount:close()
+    diamonds:open("w")
+    diamonds:write(number)
+    diamonds:close()
+
+    local score = "none"
+    speedRunScore:open("w")
+    speedRunScore:write(score)
+    speedRunScore:close()
+end
+
+function DataHandler:addScore(inputScore)
+    speedRunScore:open("r")
+    local speedRunScore = tostring(speedRunScore:read())
+    speedRunScore:close()
+    local newCount = inputScore
+    speedRunScore:open("w")
+    speedRunScore:write(newCount)
+    deathCount:close()
+end
+
+function DataHandler:getScore()
+    speedRunScore:open("r")
+    local currentScore = tostring(speedRunScore:read())
+    speedRunScore:close()
+
+    return currentScore
+end
+
+function DataHandler:add_death()
+    deathCount:open("r")
+    local currentCount = tostring(deathCount:read())
+    deathCount:close()
+    local newCount = currentCount + 1
+    deathCount:open("w")
+    deathCount:write(newCount)
+    deathCount:close()
+end
+
+function DataHandler:getDeathCount()
+    deathCount:open("r")
+    local currentCount = tostring(deathCount:read())
+    deathCount:close()
+
+    return currentCount
+end
+
+
+function DataHandler:getDiamondCount()
+    diamonds:open("r")
+    local currentCount = tostring(diamonds:read())
+    diamonds:close()
+
+    return currentCount
+end
+
+function DataHandler:add_diamond()
+    diamonds:open("r")
+    local currentCount = tostring(diamonds:read())
+    diamonds:close()
+    local newCount = currentCount + 1
+    diamonds:open("w")
+    diamonds:write(newCount)
+    diamonds:close()
 end
 
 function DataHandler:initSettings()

@@ -36,7 +36,6 @@ function State:menuStart()
     changeState()
     States.menu = true
     States.change = true
-    SoundHandler:FadeOutFadeInSound("all")
     SoundHandler:backgroundMusic("menu")
 end
 

@@ -21,6 +21,7 @@ dieSound = love.audio.newSource("resources/soundEffects/dead.wav", "static")
 diveSound = love.audio.newSource("resources/soundEffects/dive.wav", "static")
 pauseSound = love.audio.newSource("resources/soundEffects/pause.wav", "static")
 fiveUp = love.audio.newSource("resources/soundEffects/5up.mp3", "static")
+bounce = love.audio.newSource("resources/soundEffects/bounce.mp3", "static")
 
 jumpSound:setVolume(0.2)
 jumpSound:setPitch(0.8)
@@ -37,6 +38,7 @@ coinSound:setVolume(0.5)
 selectSound:setPitch(0.7)
 selectSound:setVolume(0.3)
 
+menuMusic:setVolume( sound.volMenu )
 menuMusic:setLooping( true )
 levelSelect:setLooping( true )
 level:setLooping( true )
@@ -87,6 +89,9 @@ function SoundHandler:PlaySound(type)
         if type == "5up" then
             fiveUp:play()
         end
+        if type == "bounce" then
+            bounce:play()
+        end
     end
 end
 --Same as above but for music
@@ -94,7 +99,7 @@ function SoundHandler:backgroundMusic(type)
     if soundChoiceMusic == true then
         if type == "game" and level:isPlaying() == false then
             level:play()
-            Timer.tween(2.5, sound, {volLevel = 0.5}, 'in-out-quad')
+            Timer.tween(2.5, sound, {volLevel = 0.4}, 'in-out-quad')
         end
         if type == "menu" and menuMusic:isPlaying() == false then
             menuMusic:play()

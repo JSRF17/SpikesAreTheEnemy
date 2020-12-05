@@ -88,6 +88,7 @@ require("scripts.grass")
 require("state.miniGameVVVVV")
 require("scripts.collisionHandler")
 require("scripts.artGallery")
+require("scripts.speedRunTimer")
 --Great library, using it for timers and tweening--
 Timer = require("hump.timer")
 --Great library to handle camera emulation--
@@ -173,6 +174,9 @@ function love.draw()
                 Text:draw()
                 Text:dialogDraw()
                 Diamonds:drawCount()
+                if SpeedRun then 
+                    SpeedRunTimer:draw()
+                end
             end
             --g.printf(tostring(deviceWidth), 200, 200, 2500)
         end

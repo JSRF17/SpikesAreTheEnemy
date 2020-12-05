@@ -180,7 +180,6 @@ function MenuSystem:update(dt)
                                     clicked = true
                                     Game:dispose()
                                     LevelHandler:dispose()
-                                   
                                     Transition:activate()
                                     State:allFalse()
                                     Timer.script(function(wait)

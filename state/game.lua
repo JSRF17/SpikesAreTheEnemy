@@ -21,7 +21,7 @@ local pauseText = false
 --Initilize game values--
 function Game:load()
     LevelHandler:loadLevels()
-    Player:initLives(SpeedRun)
+    --Player:initLives(SpeedRun)
     Alive = true
     initCamera = true
     died = false
@@ -40,6 +40,10 @@ function Game:load()
     LevelHandler:loadCurrentLevel()
     Player:pushPlayer("justUp")
     Grass:init()
+
+    if SpeedRun then
+        SpeedRunTimer:init()
+    end
 end
 
 --Disposes of certain values and resets them--
@@ -72,6 +76,10 @@ function Game:update(dt)
             LevelHandler:randomColor()
             colorSwitchTime = 0
         end
+    end
+
+    if SpeedRun then
+        SpeedRunTimer:update(dt)
     end
 
     Diamonds:update(dt)
@@ -213,6 +221,9 @@ function Game:update(dt)
         Player:destroy()
         initCamera = true
         if LevelHandler:getCurrentLevel() == 79 then
+            if SpeedRun then
+                DataHandler:addScore(SpeedRunTimer:stopAndGetScore())
+            end
             Timer.script(function(wait)
                 wait(2.0)
                 Game:dispose()

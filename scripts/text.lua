@@ -234,10 +234,10 @@ end
 function Text:storylineSecret(select)
     texts = {
         "1-S: The art gallery.",
-        "4-S: You had me at Hi!",
-        "7-S: You had me at HELLO.",
-        "9-S: Get som gems dude.",
-        "10-S: You had me at HEJ.",
+        "4-S: Hi there.",
+        "7-S: HELLO person playing this game.",
+        "9-S: Get some gems dude.",
+        "10-S: HEJ pa dig!.",
         "11-S: The OJOJ! room.",
     }
     for i = 1, #texts, 1 do
