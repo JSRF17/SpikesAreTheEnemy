@@ -40,14 +40,14 @@ function MenuSystem:init(selectedMenu,state)
             menu = {
                 {{"start game", "settings", "about", "quit"}},
                 {{"sound", "music", "vissible controls"}},
-                {{"Use the on screen controls to control Dave and complete the levels.\nWatch out for spikes and don't waste those lives\n\nA game by Oliver Kjellen 2020\nSpecial thanks to SpeckyYT for support and testing"}},
+                {{"Complete the levels and collect diamonds!\nWatch out for spikes and don't waste those lives\n\nA game by Oliver Kjellen 2020. Music by Komiku\nSpecial thanks to SpeckyYT for support and testing"}},
                 {{"DaVVVVVe", "Pixel", "Race"}}
             }
         else
             menu = {
                 {{"start game", "settings", "about", "quit"}},
                 {{"sound", "music"}},
-                {{"Use the arrow keys to control Dave and complete the levels.\nWatch out for spikes and don't waste those lives\n\nA game by Oliver Kjellen 2020\nSpecial thanks to SpeckyYT for support and testing"}},
+                {{"Complete the levels and collect diamonds!\nWatch out for spikes and don't waste those lives\n\nA game by Oliver Kjellen 2020. Music by Komiku\nSpecial thanks to SpeckyYT for support and testing"}},
                 {{"DaVVVVVe", "Pixel", "Race"}}
             }
         end
@@ -311,7 +311,7 @@ function MenuSystem:menuStateChange()
     headerTweenedAnim = false
     for i = 1, 8, 1 do
         if menuState == 3 then
-            buttonsToTween[i] = {x = -300, y = -210, width = 620, height = 350}
+            buttonsToTween[i] = {x = -400, y = -310, width = 620, height = 350}
         else
             buttonsToTween[i] = {x = -300, y = -210, width = 300, height = 100}
         end
@@ -340,6 +340,9 @@ function MenuSystem:Animate()
             baseY = baseY + 110
         end
         if allTweened == false then
+            if menuState == 3 then
+                baseY = baseY - 80
+            end
             Timer.tween(2, buttonsToTween[i], {x = baseX}, 'in-out-quad')
             Timer.tween(2, buttonsToTween[i], {y = baseY}, 'in-out-quad')
         end

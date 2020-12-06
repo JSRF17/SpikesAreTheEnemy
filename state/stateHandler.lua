@@ -6,7 +6,7 @@
 ]]--
 
 State = {}
-States = {game = false, change = false, menu = false, game2 = false, paused = false, gameOver = false, isPlaying = false, intro = false, miniGame1 = false}
+States = {game = false, change = false, menu = false, game2 = false, paused = false, gameOver = false, isPlaying = false, intro = false, miniGame1 = false, splash = false}
 
 local pausedMenu
 
@@ -37,6 +37,12 @@ function State:menuStart()
     States.menu = true
     States.change = true
     SoundHandler:backgroundMusic("menu")
+end
+
+function State:splashStart()
+    changeState()
+    States.splash = true
+    States.change = true
 end
 
 function State:introStart()
@@ -117,6 +123,8 @@ function State:stateChanger(dt)
         elseif States.miniGame1 == true then
             TouchControls:update()
             MiniGameVVVVV:update(dt)
+        elseif States.splash == true then
+            SplashScreen:update(dt)
         end
 	end
 end

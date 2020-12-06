@@ -89,6 +89,7 @@ require("state.miniGameVVVVV")
 require("scripts.collisionHandler")
 require("scripts.artGallery")
 require("scripts.speedRunTimer")
+require("state.splashScreen")
 --Great library, using it for timers and tweening--
 Timer = require("hump.timer")
 --Great library to handle camera emulation--
@@ -103,9 +104,9 @@ if DataHandler:loadGame() == nil or DataHandler:getScoreInit() == nil then
     DataHandler:initSettings()
 end
 --DataHandler:initSettings()
---Start at the menu state--
-States.menu = true
-State:menuStart()
+--Start at the splash state--
+States.splash = true
+--State:menuStart()
 
 --Loading various things at startup--
 function love.load()
@@ -168,6 +169,8 @@ function love.draw()
             elseif States.miniGame1 == true then
                 MiniGameVVVVV:draw()
                 TouchControls:draw()
+            elseif States.splash == true then
+                SplashScreen:draw()
             end
             if States.game and Game:isLevelChange() == false or States.menu and MenuSystem:StartedMenuGame() then
                 TouchControls:draw()

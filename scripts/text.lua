@@ -143,6 +143,12 @@ function Text:storyline(select)
     else
         LivesInit = ""
     end
+
+    if mobile then
+        GravityChange = ""
+    else
+        GravityChange = " GravityChange active."
+    end
     texts = {
         "1-1: Stairway to the start."..LivesInit,
         "1-2: The walljump.",
@@ -173,30 +179,30 @@ function Text:storyline(select)
         "6-2: The floor is spikes.",
         "6-3: Narrow dive.",
         "6-4: 3 pillars with one spike each.",
-        "6-5: The gravity switch. ",
-        "7-1: Ahhh! There are spikes on the roof."..LivesInit,
-        "7-2: Do it upside down.",
-        "7-3: Doing it upside down again.",
-        "7-4: Collecting diamonds?",
-        "7-5: The easy one nr:2. ",
-        "8-1: 3 platforms."..LivesInit,
+        "6-5: The gravity switch. "..GravityChange,
+        "7-1: Ahhh! There are spikes on the roof."..GravityChange..LivesInit,
+        "7-2: Do it upside down."..GravityChange,
+        "7-3: Doing it upside down again."..GravityChange,
+        "7-4: Collecting diamonds?"..GravityChange,
+        "7-5: Keep right.",
+        "8-1: 3 platforms."..GravityChange..LivesInit,
         "8-2: The small tower ladder.",
-        "8-3: Narrow gravity change.",
+        "8-3: Narrow gravity change."..GravityChange,
         "8-4: The walljump with narrow dive.",
-        "8-5: Technically more than 1 spike. ",
+        "8-5: Technically more than 1 spike. "..GravityChange,
         "9-1: Can you even land on those?"..LivesInit,
-        "9-2: Can you even land on those? Upside down.",
+        "9-2: Can you even land on those? Upside down."..GravityChange,
         "9-3: No room for error.",
         "9-4: Do fall down again.",
         "9-5: Take a breather, and some diamonds.",
         "10-1: The climb. "..LivesInit,
         "10-2: Jumping skills.",
-        "10-3: 3 mountains with spikes.",
-        "10-4: Gravity switcher 2000. ",
+        "10-3: Three mountains with spikes.",
+        "10-4: Gravity switcher 2000."..GravityChange,
         "11-1: The frustration."..LivesInit,
         "11-2: Above the spikes.",
-        "11-3: Climb high. ",
-        "11-4: Nine then switch", 
+        "11-3: Climb high.",
+        "11-4: Nine then switch"..GravityChange, 
         "12-1: No room for error, but more difficult."..LivesInit, 
         "12-2: Easy to the top.", 
         "12-3: Overdimensioned.",
