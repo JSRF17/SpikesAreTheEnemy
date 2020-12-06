@@ -271,7 +271,7 @@ function Game:draw()
     
     LevelHandler:drawLevel()
 
-    if LevelHandler:getCurrentLevel() == 2 then
+    if LevelHandler:getCurrentLevel() == 3 then
         if LevelHandler:getSecretLevel() then
             ArtGallery:draw()
         end

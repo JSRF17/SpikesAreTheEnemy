@@ -50,13 +50,16 @@ function SettingsChanger:turnOnOffMusic()
     if musicToggle == "off" then
         SoundHandler:ChangeSoundChoiceMusic(false)
         SoundHandler:StopSound("all1")
+        SoundHandler:FadeOutFadeInSound("menu")
         DataHandler:saveSetting("deactivated", "music")
     elseif musicToggle == "on" then
         SoundHandler:ChangeSoundChoiceMusic(true)
         DataHandler:saveSetting("music", "music")
+        SoundHandler:backgroundMusic("menu")
     elseif musicToggle == "firstTime" then
         SoundHandler:ChangeSoundChoiceMusic(false)
         SoundHandler:StopSound("all1")
+        SoundHandler:FadeOutFadeInSound("menu")
         DataHandler:saveSetting("deactivated", "music")
     end
     SettingsChanger:updateMusicSettings()

@@ -96,7 +96,7 @@ function SoundHandler:PlaySound(type)
 end
 --Same as above but for music
 function SoundHandler:backgroundMusic(type)
-    if soundChoiceMusic == true then
+    if soundChoiceMusic then
         if type == "game" and level:isPlaying() == false then
             level:play()
             Timer.tween(2.5, sound, {volLevel = 0.4}, 'in-out-quad')

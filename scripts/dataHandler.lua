@@ -116,7 +116,7 @@ end
 
 function DataHandler:addScore(inputScore)
     speedRunScore:open("r")
-    local speedRunScore = tostring(speedRunScore:read())
+    local speedRunPoint = tostring(speedRunScore:read())
     speedRunScore:close()
     local newCount = inputScore
     speedRunScore:open("w")
