@@ -392,7 +392,18 @@ end
 function Player:getPositionX()
     if player ~= nil then
         local x = self.x
+        local playerInWorld = push:toGame(x, 100)
         return x 
+    else
+        return nil
+    end
+end
+
+function Player:getPositions()
+    if player ~= nil then
+        local x = self.x
+        local y = self.y
+        return self.x, self.y
     else
         return nil
     end

@@ -2,18 +2,13 @@
         Copyright Oliver Kjellén 2020
     ]]--
 
+--jit.off()
+math.randomseed(os.time())
+--Global variables--
 --Shortening some keywords--
 p = love.physics
 g = love.graphics
 k = love.keyboard
-jit.off()
---Setting font
-font = g.newFont("resources/jackeyfont.ttf", 64)
-g.setFont(font)
-
-pattern = love.graphics.newImage("resources/pattern.png")
-
---Global variables--
 SpeedRun = false
 mouseMoved = false
 mouseX = 0
@@ -23,28 +18,27 @@ width = g.getWidth()
 osString = love.system.getOS()
 mobile = false
 gameWidth, gameHeight = 1280, 720
-
---Shaders loaded--
-crtShader = love.graphics.newShader("shaders/crt.shader")
-posterize = love.graphics.newShader("shaders/posterize.shader")
-scanlines = love.graphics.newShader("shaders/scanlines.shader")
-chromasep = love.graphics.newShader("shaders/chromasep.shader")
-----------------
-math.randomseed(os.time())
-
-
+push = require "push"
+Timer = require("hump.timer")
+Camera = require "gamera"
+--Setting font
+font = g.newFont("resources/jackeyfont.ttf", 64)
+g.setFont(font)
 --Local variables--
 local screenChangeValue = 1
 local rw, rh, rf = love.window.getMode()
-
+local screenWidth, screenHeight = love.window.getDesktopDimensions()
+local dpi_scale = love.window.getDPIScale()
+local fullScreen = true
+--Shaders loaded--
+crtShader = love.graphics.newShader("shaders/crt.shader")
+scanlines = love.graphics.newShader("shaders/scanlines.shader")
+chromasep = love.graphics.newShader("shaders/chromasep.shader")
+----------------
 if osString == "Android" or osString == "iOS" then
     mobile = true
 end
-
---Great library for handling scaling for different screen sizes (desktop, mobile and so on)
-push = require "push"
------------------Push setup------------------------------------------------------
-
+--Push setup--
 deviceWidth, deviceHeight = love.window.getDesktopDimensions()
 iOSwidth = love.graphics.getWidth()
 
@@ -52,8 +46,6 @@ if deviceWidth > 2020 or iOSwidth > 850 then
     gameWidth, gameHeight = 1480, 720
 end
 
-local screenWidth, screenHeight = love.window.getDesktopDimensions()
-local dpi_scale = love.window.getDPIScale()
 if mobile then
     screenWidth, screenHeight = screenWidth, screenHeight
     screenWidth = screenWidth/dpi_scale
@@ -65,8 +57,7 @@ else
     screenHeight = screenHeight/dpi_scale
 end
 push:setupScreen(gameWidth, gameHeight, screenWidth, screenHeight, {fullscreen = true, resizable = true, canvas = true, pixelperfect = false, highdpi = true, stretched = false})
----------------Push setup end-----------------------------------------------------
-
+--Push setup end--
 --Requiring modules--
 require("scripts.player")
 require("scripts.transition")
@@ -90,31 +81,26 @@ require("scripts.collisionHandler")
 require("scripts.artGallery")
 require("scripts.speedRunTimer")
 require("state.splashScreen")
---Great library, using it for timers and tweening--
-Timer = require("hump.timer")
---Great library to handle camera emulation--
-Camera = require "gamera"
-
-
-
 --If playing for the first time init a save file--
 if DataHandler:loadGame() == nil or DataHandler:getScoreInit() == nil then
     DataHandler:init()
     DataHandler:initVVVVV()
     DataHandler:initSettings()
 end
---DataHandler:initSettings()
---Start at the splash state--
-States.splash = true
---State:menuStart()
-
 --Loading various things at startup--
 function love.load()
+    --Start at the splash state--
+    States.menu = true
+    State:menuStart()
+    --Camera stuff--
+    local winWidth, winHeight = love.graphics.getWidth(), love.graphics.getHeight()
+    camera_offset_x = (winWidth - gameWidth) / 2 
+    camera_offset_y = (winHeight - gameHeight) / 2
     camera = Camera()
     camera.scale = 0.78
     camera:setFollowStyle('PLATFORMER')
+    --Shader stuff--
     push:setShader({ crtShader, chromasep, scanlines })
-
     phase = 0
     complete = false
     angle = 0.005
@@ -125,7 +111,7 @@ function love.load()
     crtShader:send("feather", 0.02)
     crtShader:send("distortionFactor", {1.06, 1.065})
     crtShader:send("scaleFactor", 1)
-
+    --init Touchscreen controls--
     TouchControls:init(1)
 end
 --Main update function--
@@ -134,22 +120,11 @@ function love.update(dt)
     State:stateChanger(dt)
     camera:update(dt)
     SoundHandler:updateVolumes()
-    if mobile then
-        if Player:getPositionX() ~= nil then
-            camera:follow(Player:getPositionX() - 200, Player:getPositionY() - 120)
-        end
-    else
-        if Player:getPositionX() ~= nil then
-            if deviceWidth > 1300 then
-                camera:follow(Player:getPositionX() + 105, Player:getPositionY() + 50)
-            else
-                camera:follow(Player:getPositionX(), Player:getPositionY() + 50)
-            end
-        end
+    if Player:getPositionX() ~= nil then
+        camera:follow(Player:getPositionX() + camera_offset_x, Player:getPositionY() + camera_offset_y)    
     end
     love.window.setTitle(tostring(love.timer.getFPS()))
 end
-
 --Main draw function--
 function love.draw()
     push:apply("start")
@@ -175,7 +150,6 @@ function love.draw()
             if States.game and Game:isLevelChange() == false or States.menu and MenuSystem:StartedMenuGame() then
                 TouchControls:draw()
             end
-            
             Transition:draw()
             if Text:getStatus() ~= nil and States.game then
                 Text:draw()
@@ -185,22 +159,28 @@ function love.draw()
                     SpeedRunTimer:draw()
                 end
             end
-            --g.printf(tostring(DataHandler:loadGame()), 200, 200, 2500)
+            if Player:getPositionX() ~= nil then
+    
+            end
         end
     push:apply("end")
 end
-
 --This is used to resize the screen filters correctly
 function love.resize(rw, rh)
     push:resize(rw, rh)
+    if fullScreen then
+        camera_offset_x = (rw - gameWidth) / 2 
+        camera_offset_y = (rh - gameHeight) / 2
+    end
 end
-
 --Change from fullscreen to windowed mode on desktop--
 function love.keyreleased(key)
     if key == "f" then
         if screenChangeValue % 2 ~= 0 then
+            fullScreen = false
             love.window.setFullscreen(false, "desktop")
         else
+            fullScreen = true
             love.window.setFullscreen(true, "desktop")
         end
         screenChangeValue = screenChangeValue + 1

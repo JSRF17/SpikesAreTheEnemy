@@ -216,13 +216,13 @@ function Menu:update(dt)
         Player:controls(dt)
       
         if Player:getPositionX() ~= nil and camerScaleGoal < 1.18 then
-            if mobile then
-                camera.x = Player:getPositionX() - 160
-                camera.y = Player:getPositionY() - 10
-            else
+            --if mobile then
+                --camera.x = Player:getPositionX() - 160
+                --camera.y = Player:getPositionY() - 10
+            --else
                 camera.x = Player:getPositionX() + 20
                 camera.y = Player:getPositionY() - 10
-            end
+            --end
         end
         cameraScale = cameraScale + dt
         if cameraScale > 0.01 then
