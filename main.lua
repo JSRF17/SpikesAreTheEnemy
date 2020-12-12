@@ -121,7 +121,12 @@ function love.update(dt)
     camera:update(dt)
     SoundHandler:updateVolumes()
     if Player:getPositionX() ~= nil then
-        camera:follow(Player:getPositionX() + camera_offset_x, Player:getPositionY() + camera_offset_y)    
+        camera:follow(Player:getPositionX() + camera_offset_x, Player:getPositionY() + camera_offset_y)
+        local moveX = k.isDown("left")
+        local moveX2 = k.isDown("right")
+        if moveX == false and moveX2 == false and TouchControls:getEvent("X") ~= "right" and TouchControls:getEvent("X") ~= "left" then
+            Player:slowDown() 
+        end
     end
     love.window.setTitle(tostring(love.timer.getFPS()))
 end

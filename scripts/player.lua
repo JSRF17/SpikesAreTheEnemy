@@ -409,6 +409,24 @@ function Player:getPositions()
     end
 end
 
+function Player:slowDown()
+    if player ~= nil then
+        if player.b ~= nil then
+            x, y = player.b:getLinearVelocity()
+            if x > 0 then
+                if x ~= 0 then
+                    x = x - 3.5
+                end
+            elseif x < 0 then
+                if x ~= 0 then
+                    x = x + 3.5
+                end
+            end
+            player.b:setLinearVelocity(x, y)
+        end
+    end
+end
+
 function Player:getPositionY()
     if player ~= nil then
         local y = self.y
