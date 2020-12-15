@@ -14,13 +14,21 @@
 //OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 //PERFORMANCE OF THIS SOFTWARE.
 
-
-extern vec2 direction;
-vec4 effect(vec4 color, Image texture, vec2 tc, vec2 _)
+ 
+extern vec2 size;
+extern number feedback;
+vec4 effect(vec4 color, Image tex, vec2 tc, vec2 _)
   {
-    return color * vec4(
-    Texel(texture, tc - direction).r,
-    Texel(texture, tc).g,
-    Texel(texture, tc + direction).b,
-    1.0);
+    vec4 c = Texel(tex, tc);
+
+    // average pixel color over 5 samples
+    vec2 scale = love_ScreenSize.xy / size;
+    tc = floor(tc * scale + vec2(.5));
+    vec4 meanc = Texel(tex, tc/scale);
+    meanc += Texel(tex, (tc+vec2( 1.0,  .0))/scale);
+    meanc += Texel(tex, (tc+vec2(-1.0,  .0))/scale);
+    meanc += Texel(tex, (tc+vec2(  .0, 1.0))/scale);
+    meanc += Texel(tex, (tc+vec2(  .0,-1.0))/scale);
+
+    return color * mix(.2*meanc, c, feedback);
   }

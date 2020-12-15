@@ -11,7 +11,6 @@ States = {game = false, change = false, menu = false, game2 = false, paused = fa
 local pausedMenu
 
 local function changeState(state)
-    --SoundHandler:StopSound("all1")
     local bool = false
     for i,v in pairs(States) do
         States[i] = false
@@ -20,7 +19,6 @@ end
 
 function State:allFalse()
     changeState()
-    --Menu:dispose()
 end
 
 function State:gameStart()

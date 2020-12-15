@@ -32,8 +32,7 @@ local dpi_scale = love.window.getDPIScale()
 local fullScreen = true
 --Shaders loaded--
 crtShader = love.graphics.newShader("shaders/crt.shader")
-scanlines = love.graphics.newShader("shaders/scanlines.shader")
-chromasep = love.graphics.newShader("shaders/chromasep.shader")
+pixelate = love.graphics.newShader("shaders/pixelate.shader")
 ----------------
 if osString == "Android" or osString == "iOS" then
     mobile = true
@@ -100,17 +99,16 @@ function love.load()
     camera.scale = 0.78
     camera:setFollowStyle('PLATFORMER')
     --Shader stuff--
-    push:setShader({ crtShader, chromasep, scanlines })
+    push:setShader({ crtShader, pixelate })
     phase = 0
     complete = false
     angle = 0.005
     completeChroma = false
-    scanlines:send("time", 1)
-    scanlines:send("setting1", 640.0)
-    scanlines:send("setting2", 640.0)
     crtShader:send("feather", 0.02)
     crtShader:send("distortionFactor", {1.06, 1.065})
     crtShader:send("scaleFactor", 1)
+    pixelate:send("size", {2,2})
+    pixelate:send("feedback", 0.3)
     --init Touchscreen controls--
     TouchControls:init(1)
 end
@@ -163,9 +161,6 @@ function love.draw()
                 if SpeedRun then 
                     SpeedRunTimer:draw()
                 end
-            end
-            if Player:getPositionX() ~= nil then
-    
             end
         end
     push:apply("end")

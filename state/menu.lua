@@ -105,7 +105,6 @@ function Menu:update(dt)
     end
 
     if levelChange == false and CollisionHandler:getGoalTouch() then
-        --SoundHandler:StopSound("all1")
         levelChange = true
         initCamera = true
         Timer.script(function(wait)
