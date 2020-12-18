@@ -55,7 +55,7 @@ else
     screenWidth = screenWidth/dpi_scale
     screenHeight = screenHeight/dpi_scale
 end
-push:setupScreen(gameWidth, gameHeight, screenWidth, screenHeight, {fullscreen = true, resizable = true, canvas = true, pixelperfect = false, highdpi = true, stretched = false})
+push:setupScreen(gameWidth, gameHeight, screenWidth, screenHeight, {fullscreen = true, resizable = true, canvas = true, pixelperfect = false, highdpi = false, stretched = false})
 --Push setup end--
 --Requiring modules--
 require("scripts.player")
@@ -108,7 +108,7 @@ function love.load()
     crtShader:send("distortionFactor", {1.06, 1.065})
     crtShader:send("scaleFactor", 1)
     pixelate:send("size", {2,2})
-    pixelate:send("feedback", 0.3)
+    pixelate:send("feedback", 0.7)
     --init Touchscreen controls--
     TouchControls:init(1)
 end

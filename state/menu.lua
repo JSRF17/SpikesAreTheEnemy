@@ -125,7 +125,7 @@ function Menu:update(dt)
             Player:destroy()
         end
         test = false
-        if LevelHandler:getCurrentLevel() == 83 then
+        if LevelHandler:getCurrentLevel() == 85 then
             World = 1
             Player:initLives()
             SpeedRun = true
@@ -172,7 +172,7 @@ function Menu:update(dt)
     for i = 0, 13, 1 do
         if levelChange == false and CollisionHandler:getType() == "goal"..tostring(i) then
             levelChange = true
-            if LevelHandler:getCurrentLevel() == 82 then
+            if LevelHandler:getCurrentLevel() == 84 then
                 if i == 1 then 
                     World = 14
                 elseif i == 2 then
