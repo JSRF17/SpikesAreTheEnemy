@@ -25,7 +25,7 @@ end
 
 function SpeedRunTimer:draw()
     local x, y = Text:getPosition()
-    g.printf(tostring(string.format("(%.1f)",timer)), x + 650, y, 2500)
+    g.printf(tostring(string.format("(%.1f)",timer)), x + 950, y, 2500)
 end
 
 function SpeedRunTimer:stopAndGetScore()

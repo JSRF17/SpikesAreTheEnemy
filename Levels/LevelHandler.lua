@@ -12,7 +12,6 @@ LevelHandler = {}
 
 local Stages = Levels:getLevels()
 
-
 grassPositions = {}
 
 function LevelHandler:initGrassPositions()
@@ -500,7 +499,9 @@ function LevelHandler:drawLevel()
         g.printf("Diamonds:", 415, 400, 400, "center", 0, 1)
         g.printf(DataHandler:getDiamondCount(), 415, 450, 400, "center", 0, 1)
         g.printf("SpeedRun:", 785, 400, 400, "center", 0, 1)
-        g.printf(DataHandler:getScore(), 785, 450, 400, "center", 0, 1)
+        if type(DataHandler:getScore()) == number then
+            g.printf(tostring(string.format("%.1f",DataHandler:getScore())), 785, 450, 400, "center", 0, 1)
+        end
         g.setColor(LevelHandler:colors(2))
         g.printf("SpeedRun ->", 840, 645, 400, "center", 0, 1)
         g.setColor(LevelHandler:colors(1))

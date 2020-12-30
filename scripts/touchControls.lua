@@ -181,7 +181,7 @@ function TouchControls:update()
                             if button[i].x ~= nil then                           
                                 if directionX == "left" then
                                     if id == idTouchX then 
-                                        if globalX < 29 or globalX > 156 or globalY < 455 or globalY > 570 then
+                                        if globalX < 29 or globalX > 156 or globalY < 455 or globalY > 585 then
                                             if button[i].axis == "x" then
                                                 directionX = ""
                                             end
@@ -190,7 +190,7 @@ function TouchControls:update()
                                 end
                                 if directionX == "right" then
                                     if id == idTouchX then
-                                        if globalX < 208 or globalX > 337 or globalY < 455 or globalY > 570 then
+                                        if globalX < 208 or globalX > 337 or globalY < 455 or globalY > 585 then
                                             if button[i].axis == "x" then
                                                 directionX = ""
                                             end

@@ -40,8 +40,17 @@ end
 --Push setup--
 deviceWidth, deviceHeight = love.window.getDesktopDimensions()
 iOSwidth = love.graphics.getWidth()
-
-if deviceWidth > 2020 or iOSwidth > 850 then
+iOSHeight = love.graphics.getHeight()
+--Iphone 8 Width: 667 Height: 375
+--8 plus Width: 736 Height: 414
+--Iphone 11 Width: 896 Height: 414
+--Iphone 11 pro max Width: 896 Height: 414
+--12 mini Width: 812 Height: 375
+--Ipad air Width: 820 Height: 1180
+--Ipad Pro (9.7) Width: 1024  Height: 768
+--Ipad Pro (11) Width: 1194 Height: 834
+--Ipad Pro (12.9) Width: 1024 Height: 1366
+if deviceWidth > 2020 or iOSwidth > 800 and iOSHeight < 600 then
     gameWidth, gameHeight = 1480, 720
 end
 
@@ -89,8 +98,8 @@ end
 --Loading various things at startup--
 function love.load()
     --Start at the splash state--
-    States.menu = true
-    State:menuStart()
+    States.splash= true
+    --State:menuStart()
     --Camera stuff--
     local winWidth, winHeight = love.graphics.getWidth(), love.graphics.getHeight()
     camera_offset_x = (winWidth - gameWidth) / 2 
@@ -126,7 +135,7 @@ function love.update(dt)
             Player:slowDown() 
         end
     end
-    love.window.setTitle(tostring(love.timer.getFPS()))
+    --love.window.setTitle(tostring(love.timer.getFPS()))
 end
 --Main draw function--
 function love.draw()

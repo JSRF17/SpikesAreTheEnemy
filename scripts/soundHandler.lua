@@ -1,5 +1,8 @@
 --[[
     Handles sound files, loading, playing and stopping of said files.
+    Music by Komiku and Captive Portal.
+    Captive portal, Me As, used during gameplay. License https://creativecommons.org/licenses/by-sa/4.0/
+    Komiku, The weekly fair and Mall. Licence https://creativecommons.org/publicdomain/zero/1.0/
 ]]
 
 SoundHandler = {}

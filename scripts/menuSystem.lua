@@ -12,6 +12,11 @@ local vissibleControls = SettingsChanger:getSettings("vissibleControls")
 --------------------------------------------------
 local sound = SettingsChanger:getSettings("sound")
 local music = SettingsChanger:getSettings("music")
+if osString == "iOS" then
+    moreGamesLink = "https://apps.apple.com/se/developer/oliver-kjellen/id1364128983?l=en"
+elseif osString == "Android" then
+    moreGamesLink = "https://play.google.com/store/apps/developer?id=squiden&hl=en&gl=US"
+end
 
 
 function MenuSystem:init(selectedMenu,state)
@@ -38,16 +43,16 @@ function MenuSystem:init(selectedMenu,state)
     if activeMenu == 1 then
         if osString == "Android" or osString == "iOS" then
             menu = {
-                {{"start game", "settings", "about", "quit"}},
+                {{"start game", "settings", "about", "more games"}},
                 {{"sound", "music", "vissible controls"}},
-                {{"Complete the levels and collect diamonds!\nWatch out for spikes and don't waste those lives\n\nA game by Oliver Kjellen 2020. Music by Komiku\nSpecial thanks to SpeckyYT for support and testing"}},
+                {{"Complete the levels and collect diamonds!\nWatch out for spikes and don't waste those lives\n\nA game by Oliver Kjellen 2020. Music by Komiku and Captive Portal\nSpecial thanks to SpeckyYT for support and testing"}},
                 {{"DaVVVVVe", "Pixel", "Race"}}
             }
         else
             menu = {
                 {{"start game", "settings", "about", "quit"}},
                 {{"sound", "music"}},
-                {{"Complete the levels and collect diamonds!\nWatch out for spikes and don't waste those lives\n\nA game by Oliver Kjellen 2020. Music by Komiku\nSpecial thanks to SpeckyYT for support and testing"}},
+                {{"Complete the levels and collect diamonds!\nWatch out for spikes and don't waste those lives\n\nA game by Oliver Kjellen 2020. Music by Komiku and Captive Portal\nSpecial thanks to SpeckyYT for support and testing"}},
                 {{"DaVVVVVe", "Pixel", "Race"}}
             }
         end
@@ -124,7 +129,11 @@ function MenuSystem:update(dt)
                                         menuState = 3
                                         MenuSystem:menuStateChange()
                                     elseif i == 4 then
-                                       love.event.quit(0)
+                                        if mobile then
+                                            love.system.openURL( moreGamesLink )
+                                        else
+                                            love.event.quit(0)
+                                        end
                                     end
                                 elseif menuState == 2 then
                                     if i == 1 then
@@ -177,9 +186,9 @@ function MenuSystem:update(dt)
                                     Game:dispose()
                                     LevelHandler:dispose()
                                     Transition:activate()
-                                    State:allFalse()
                                     Timer.script(function(wait)
                                         wait(2.3)
+                                        State:allFalse()
                                         State:gameStart()
                                         Diamonds:countReset()
                                         Transition:down()
@@ -189,9 +198,9 @@ function MenuSystem:update(dt)
                                     Game:dispose()
                                     LevelHandler:dispose()
                                     Transition:activate()
-                                    State:allFalse()
                                     Timer.script(function(wait)
                                         wait(2.3)
+                                        State:allFalse()
                                         State:menuStart()
                                         Transition:down()
                                     end)

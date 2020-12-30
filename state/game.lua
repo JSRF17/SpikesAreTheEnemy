@@ -31,16 +31,12 @@ function Game:load()
     gravityChangeKeyPress = true
     paused = false
     pauseText = false
-
     canPause = true
-
     colorSwitchTime = 0
-
     Text:init(0, 1500)
     LevelHandler:loadCurrentLevel()
     Player:pushPlayer("justUp")
     Grass:init()
-
     if SpeedRun then
         SpeedRunTimer:init()
     end
@@ -220,7 +216,7 @@ function Game:update(dt)
         LevelChange = true
         Player:destroy()
         initCamera = true
-        if LevelHandler:getCurrentLevel() == 79 then
+        if LevelHandler:getCurrentLevel() == 81 then
             if SpeedRun then
                 DataHandler:addScore(SpeedRunTimer:stopAndGetScore())
             end
@@ -258,7 +254,6 @@ function Game:update(dt)
         SoundHandler:PlaySound("next")
     end
 end
-
 --Gives acces to the world w in case it's needed in the collisionhandler--
 --CollisionHandler:getWorld(w)
 --Draws everything relevant to the game, different levels get drawn depending on the LevelList value--
