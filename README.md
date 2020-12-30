@@ -13,8 +13,7 @@ To play the game on PC, Mac or Android download Love2d and run the .love file. T
 Feedback is appreciated!
 
 
-![Screenshot](https://github.com/OliverKjellen/10_5/blob/master/Screenshots/Screenshot%202020-11-08%20at%2021.17.21.png)
-![Screenshot](https://github.com/OliverKjellen/10_5/blob/master/Screenshots/Screenshot%202020-11-08%20at%2021.18.05.png)
-![Screenshot](https://github.com/OliverKjellen/10_5/blob/master/Screenshots/Screenshot%202020-11-08%20at%2021.18.46.png)
-![Screenshot](https://github.com/OliverKjellen/10_5/blob/master/Screenshots/Screenshot%202020-11-08%20at%2021.19.24.png)
+![Screenshot](https://github.com/OliverKjellen/SpikesAreTheEnemy/blob/master/Screenshots/icon_playstore.png)
+![Screenshot](https://github.com/OliverKjellen/SpikesAreTheEnemy/blob/master/Screenshots/Screenshot%202020-12-17%20at%2018.09.20.png)
+![Screenshot](https://github.com/OliverKjellen/SpikesAreTheEnemy/blob/master/Screenshots/Screenshot%202020-12-17%20at%2018.11.40.png)
 
